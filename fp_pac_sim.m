@@ -16,7 +16,7 @@ elseif params.ip == 3 ||  params.ip == 8
 else % run only fixed, 90% and 99% pipelines and baseline
     params.pips = 1:9;
 end
-
+ 
 
 if params.ip==7 % source localization is varied
     %reload data from ip1 to keep them constant and only vary the source
