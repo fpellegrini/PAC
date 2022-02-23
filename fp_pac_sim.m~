@@ -142,12 +142,10 @@ tic
 t.bispec = toc;
 
 %% Evaluate
-
 [pr_standard] = fp_mrr_hk_short(pac_standard,iroi_amplt,iroi_phase,0);
 [pr_ortho] = fp_mrr_hk_short(pac_ortho,iroi_amplt,iroi_phase,0);
 [pr_shabazi] = fp_mrr_hk_short(pac_shab,iroi_amplt,iroi_phase,0);
 [pr_bispec_o] = fp_mrr_hk_short(b_orig,iroi_amplt,iroi_phase,0);
-[pr_bispec_a] = fp_mrr_hk_short(b_anti,iroi_amplt,iroi_phase,0);
 
 %% Saving
 fprintf('Saving... \n')
@@ -158,6 +156,6 @@ save(outname,'-v7.3')
 %save only evaluation parameters
 outname1 = sprintf('%spr_%s.mat',DIROUT,params.logname);
 save(outname1,...
-    'pr_standard','pr_ortho','pr_shabazi','pr_bispec_o','pr_bispec_a','t',...
+    'pr_mic',...
     '-v7.3')
 
