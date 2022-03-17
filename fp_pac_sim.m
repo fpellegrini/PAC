@@ -50,6 +50,7 @@ L_backward = L(:, D.ind_cortex, :);
 % 
 % for ishuf = 1:params.nshuf    
 %     %shuffling
+%     fprintf(['Shuffle '  num2str(ishuf) '\n'])
 %     signal_shuf = fp_shuffle_shab(W,signal_unmixed);
 %     
 %     %lcmv
@@ -86,7 +87,7 @@ pac_ortho = fp_pac_standard(signal_ortho(a,:,:), filt.low, filt.high, fres);
 t.ortho = toc;
 
 %shabazi
-% pac_shabazi = (pac_standard-mean(pac_shuf))/std(pac_shuf);
+% pac_shabazi = (pac_standard-mean(pac_shuf,3))/std(pac_shuf,[],3);
 
 % bispectra 
 tic
