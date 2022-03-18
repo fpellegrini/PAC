@@ -1,6 +1,6 @@
 function fp_eval_pac_sim(ip)
 
-fp_addpath
+fp_addpath_pac
 
 DIRLOG ='/home/bbci/data/haufe/Franziska/log/pac_sim1/';
 if ~exist(DIRLOG); mkdir(DIRLOG); end

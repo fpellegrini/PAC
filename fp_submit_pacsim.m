@@ -1,5 +1,5 @@
-fp_addpath
-cd ~/matlab/fp/meg_lfp/
+fp_addpath_pac
+cd ~/matlab/fp/PAC/
 nit = 100;
 
 for ip = 1 %:5
