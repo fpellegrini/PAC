@@ -101,8 +101,10 @@ xh = real((1-cos(xlphase)).*exp(1i*xhphase));
 xh = xh./norm(xh,'fro');
 xl = xl./norm(xl,'fro');
 
-xl = fp_pinknorm(xl);
-xh = fp_pinknorm(xh);
+for ii = 1:size(xl,2)
+    xl(:,ii) = fp_pinknorm(xl(:,ii));
+    xh(:,ii) = fp_pinknorm(xh(:,ii));
+end
 
 %% generate interacting sources 
 
