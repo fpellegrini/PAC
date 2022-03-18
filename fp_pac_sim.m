@@ -76,14 +76,14 @@ signal_roi = fp_dimred(signal_sensor,D,A);
 
 %standard pac
 tic
-pac_standard = fp_pac_standard(signal_roi(a,:,:), filt.low, filt.high, fres);
+pac_standard = fp_pac_standard(signal_roi, filt.low, filt.high, fres);
 t.standard = toc;
 
 %ortho pac
 tic
 [signal_ortho, ~, ~, ~] = symmetric_orthogonalise(signal_roi(:,:)', 1);
 signal_ortho = reshape(signal_ortho',D.nroi,l_epoch,n_trials);
-pac_ortho = fp_pac_standard(signal_ortho(a,:,:), filt.low, filt.high, fres);
+pac_ortho = fp_pac_standard(signal_ortho, filt.low, filt.high, fres);
 t.ortho = toc;
 
 %shabazi
@@ -91,7 +91,7 @@ t.ortho = toc;
 
 % bispectra 
 tic
-[b_orig, b_anti] = fp_pac_bispec(signal_roi(a,:,:),fres,filt);
+[b_orig, b_anti] = fp_pac_bispec(signal_roi,fres,filt);
 t.bispec = toc;
 
 %% Evaluate
