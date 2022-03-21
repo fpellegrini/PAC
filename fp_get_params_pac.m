@@ -45,7 +45,7 @@ elseif ip == 4
     params.nshuf = 50;
     
 elseif ip == 5
-    params.case = 2; %bivariate
+    params.case = 1; %univariate
     params. iInt = 2;
     params.isnr=0.3;
     
