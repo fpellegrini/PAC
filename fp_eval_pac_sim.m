@@ -14,8 +14,13 @@ iit = str2num(getenv('SGE_TASK_ID'))
 params = fp_get_params_pac(ip);
 
 %create logfile for parallelization
-logname = sprintf('iInt%d_iReg%d_snr0%d_iss0%d_filt%s_iter%d'...
-    ,params.iInt,params.iReg,params.isnr*10,params.iss*10,params.ifilt,iit);
+if params.case == 1
+    logname = sprintf('univar_iInt%d_iReg%d_snr0%d_iss0%d_filt%s_iter%d'...
+        ,params.iInt,params.iReg,params.isnr*10,params.iss*10,params.ifilt,iit);
+elseif params.case == 2
+    logname = sprintf('bivar_iInt%d_iReg%d_snr0%d_iss0%d_filt%s_iter%d'...
+        ,params.iInt,params.iReg,params.isnr*10,params.iss*10,params.ifilt,iit);
+end
 
 if ~exist(sprintf('%s%s_work',DIRLOG,logname)) & ~exist(sprintf('%s%s_done',DIRLOG,logname))
     
