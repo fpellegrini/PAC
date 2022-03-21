@@ -1,3 +1,4 @@
+cd ~/matlab/fp/PAC/
 fp_addpath_pac
 cd ~/matlab/fp/PAC/
 nit = 100;
