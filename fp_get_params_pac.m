@@ -52,6 +52,59 @@ elseif ip == 4
     params.pips = 1;
     params.nshuf = 500;
     
+elseif ip==5 
+    %uni+bivariate case 
+    params.case = 3; 
+    params.iInt = [1 1];%one univariate and one bivariate interaction 
+    params.isnr=0.7;
+    params.t = 0; % pip1 
+    
+    params.iReg=1;
+    params.iss = 0.9;
+    params.ifilt = 'l';
+    params.pips = 1;
+    params.nshuf = 500;
+    
+elseif ip==5 
+    %uni+bivariate case 
+    params.case = 3; 
+    params.iInt = [1 1];%one univariate and one bivariate interaction 
+    params.isnr=0.7;
+    params.t = 1; % truevox pip
+    
+    params.iReg=1;
+    params.iss = 0.9;
+    params.ifilt = 'l';
+    params.pips = 1;
+    params.nshuf = 500;
+    
+elseif ip == 6 
+    %uni+bivariate case 
+    params.case = 3; 
+    params.iInt = [2 2];%two univariate and two bivariate interactions 
+    params.isnr=0.7;
+    params.t = 0; % pip1 
+    
+    params.iReg=1;
+    params.iss = 0.9;
+    params.ifilt = 'l';
+    params.pips = 1;
+    params.nshuf = 500;
+    
+elseif ip==7 
+    %uni+bivariate case 
+    params.case = 3; 
+    params.iInt = [2 2];%two univariate and two bivariate interactions 
+    params.isnr=0.7;
+    params.t = 1; % truevox
+    
+    params.iReg=1;
+    params.iss = 0.9;
+    params.ifilt = 'l';
+    params.pips = 1;
+    params.nshuf = 500;
+       
+    
 % elseif ip == 5
 %     params.case = 1; %univariate
 %     params.iInt = 2;
