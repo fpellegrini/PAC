@@ -1,9 +1,9 @@
 function fp_pac_sim(params)
 
 % define folders for saving results
-DIROUT = '/home/bbci/data/haufe/Franziska/data/pac_sim1/';
+DIROUT = '/home/bbci/data/haufe/Franziska/data/pac_sim2/';
 if ~exist(DIROUT);mkdir(DIROUT); end
-DIROUT1 = '/home/bbci/data/haufe/Franziska/data/pac_save1/';
+DIROUT1 = '/home/bbci/data/haufe/Franziska/data/pac_save2/';
 if ~exist(DIROUT1);mkdir(DIROUT1); end
 
 
