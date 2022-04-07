@@ -65,7 +65,7 @@ elseif ip==5
     params.pips = 1;
     params.nshuf = 500;
     
-elseif ip==5 
+elseif ip==6
     %uni+bivariate case 
     params.case = 3; 
     params.iInt = [1 1];%one univariate and one bivariate interaction 
@@ -78,7 +78,7 @@ elseif ip==5
     params.pips = 1;
     params.nshuf = 500;
     
-elseif ip == 6 
+elseif ip == 7 
     %uni+bivariate case 
     params.case = 3; 
     params.iInt = [2 2];%two univariate and two bivariate interactions 
@@ -91,7 +91,7 @@ elseif ip == 6
     params.pips = 1;
     params.nshuf = 500;
     
-elseif ip==7 
+elseif ip==8 
     %uni+bivariate case 
     params.case = 3; 
     params.iInt = [2 2];%two univariate and two bivariate interactions 
