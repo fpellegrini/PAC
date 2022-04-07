@@ -1,7 +1,8 @@
 
-params. iInt = 3; 
-params.case = 2; 
-params.isnr=0.3; 
+params. iInt = [2 2]; 
+params.case = 3; 
+params.isnr=0.7; 
+params.t=1;
 
 params.iReg=1; 
 params.iss = 0.9; 
