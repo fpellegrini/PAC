@@ -1,4 +1,4 @@
-function signal_roi = fp_dimred(signal_sensor,D,A)
+function signal_roi = fp_dimred(signal_sensor,D,A,t)
 
 ipip = 1;
 
@@ -12,7 +12,9 @@ for aroi = 1:D.nroi
     
     clear A_ signal_source    
     A_ = A(:, :,D.ind_roi_cortex{aroi},:);
-    A_ = A_(:,:,D.sub_ind_roi_region{aroi},:);
+    if t %truevox pipeline
+        A_ = A_(:,:,D.sub_ind_roi_region{aroi},:);
+    end
     
     %number of voxels at the current roi
     nvoxroi(aroi) = size(A_,3);
