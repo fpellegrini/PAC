@@ -4,7 +4,7 @@ function [sig,brain_noise,sensor_noise, L_save,iroi_phase,iroi_amplt,D, fres, n_
 %% set parameters
 
 %total number of samples 
-N = 1000000;
+N = 120000; %1000000;
 
 %Sampling frequency
 fs = 200;
@@ -12,8 +12,7 @@ fres = fs;
 frqs = sfreqs(fres, fs); % freqs in Hz
 
 %number of trails and epoch length
-n_trials = 500;
-Lepo = N/n_trials; 
+n_trials = 300;
 
 %interacting bands 
 low = [9 11];
@@ -112,9 +111,7 @@ end
 if params.case==1 %univariate case 
     %one region contains univariate pac 
     uni_pac = xh + xl;
-    uni_pac = uni_pac./norm(uni_pac,'fro');
-    %concatenate
-    s1 = uni_pac;
+    s1 = uni_pac./norm(uni_pac,'fro');
     
 elseif params.case==2 %bivariate case 
     %one region contains low signal, the other the modulated high signal 
