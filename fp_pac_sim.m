@@ -42,29 +42,29 @@ t.signal = toc;
 L_backward = L(:, D.ind_cortex, :);
 
 %% null distribution for shabazi method 
+tic
+[W,~] = runica(signal_sensor(:,:));
 
-% tic
-% [W] = jader(signal_sensor(:,:));
-% signal_unmixed = W*signal_sensor(:,:);
-% signal_unmixed = reshape(signal_unmixed,n_sensors, l_epoch, n_trials);
-% 
-% for ishuf = 1:params.nshuf    
-%     %shuffling
-%     fprintf(['Shuffle '  num2str(ishuf) '\n'])
-%     signal_shuf = fp_shuffle_shab(W,signal_unmixed);
-%     
-%     %lcmv
-%     A = fp_get_lcmv(signal_shuf,L_backward);
-%     
-%     %dimesionality reduction
-%     signal_roi_shuf = fp_dimred(signal_shuf,D,A);
-%     
-%     %pac calculation 
-%     pac_shuf(:,:,ishuf) = fp_pac_standard(signal_roi_shuf, filt.low, filt.high, fres);
-%     
-%     clear signal_shuf A signal_roi_shuf 
-% end
-% t.shab = toc;
+signal_unmixed = W*signal_sensor(:,:);
+signal_unmixed = reshape(signal_unmixed,n_sensors, l_epoch, n_trials);
+
+for ishuf = 1:params.nshuf    
+    %shuffling
+    fprintf(['Shuffle '  num2str(ishuf) '\n'])
+    signal_shuf = fp_shuffle_shab(W,signal_unmixed);
+    
+    %lcmv
+    A = fp_get_lcmv(signal_shuf,L_backward);
+    
+    %dimesionality reduction
+    signal_roi_shuf = fp_dimred(signal_shuf,D,A,params.t);
+    
+    %pac calculation 
+    pac_shuf(:,:,ishuf) = fp_pac_standard(signal_roi_shuf, filt.low, filt.high, fres);
+    
+    clear signal_shuf A signal_roi_shuf 
+end
+t.shab = toc;
 
 %% true pac scores 
 
@@ -72,7 +72,7 @@ L_backward = L(:, D.ind_cortex, :);
 A = fp_get_lcmv(signal_sensor,L_backward);
 
 %Dimensionality reduction 
-signal_roi = fp_dimred(signal_sensor,D,A);
+signal_roi = fp_dimred(signal_sensor,D,A,params.t);
 
 %standard pac
 tic
@@ -87,29 +87,23 @@ pac_ortho = fp_pac_standard(signal_ortho, filt.low, filt.high, fres);
 t.ortho = toc;
 
 %shabazi
-% pac_shabazi = (pac_standard-mean(pac_shuf,3))/std(pac_shuf,[],3);
+pac_shabazi = (pac_standard-mean(pac_shuf,3))/std(pac_shuf,[],3);
 
 % bispectra 
 tic
-[b_orig, b_anti] = fp_pac_bispec(signal_roi,fres,filt);
+[b_orig, b_anti, b_orig_norm,b_anti_norm] = fp_pac_bispec(signal_roi,fres,filt);
 t.bispec = toc;
 
 %% Evaluate
 
 [pr_standard] = fp_pr_pac(pac_standard,iroi_amplt,iroi_phase);
 [pr_ortho] = fp_pr_pac(pac_ortho,iroi_amplt,iroi_phase);
-% [pr_shabazi] = fp_pr_pac(pac_shab,iroi_amplt,iroi_phase);
+[pr_shabazi] = fp_pr_pac(pac_shabazi,iroi_amplt,iroi_phase);
 [pr_bispec_o] = fp_pr_pac(b_orig,iroi_amplt,iroi_phase);
 [pr_bispec_a] = fp_pr_pac(b_anti,iroi_amplt,iroi_phase);
-
-ratio_standard = fp_diag_ratio(pac_standard);
-ratio_ortho = fp_diag_ratio(pac_ortho);
-% ratio_shabazi = fp_diag_ratio(pac_shabazi);
-ratio_bispec_o = fp_diag_ratio(b_orig);
-ratio_bispec_a = fp_diag_ratio(b_anti);
-
-pr_shabazi = []; 
-ratio_shabazi = []; 
+[pr_bispec_o_norm] = fp_pr_pac(b_orig_norm,iroi_amplt,iroi_phase);
+[pr_bispec_a_norm] = fp_pr_pac(b_anti_norm,iroi_amplt,iroi_phase);
+ 
 %% Saving
 fprintf('Saving... \n')
 %save all
@@ -119,7 +113,7 @@ save(outname,'-v7.3')
 %save only evaluation parameters
 outname1 = sprintf('%spr_%s.mat',DIROUT,params.logname);
 save(outname1,...
-    'pr_standard','pr_ortho','pr_shabazi','pr_bispec_o','pr_bispec_a','t',...
-    'ratio_standard','ratio_ortho','ratio_shabazi','ratio_bispec_o','ratio_bispec_a',...
+    'pr_standard','pr_ortho','pr_shabazi','pr_bispec_o','pr_bispec_a',...
+    'pr_bispec_o_norm','pr_bispec_a_norm','t',...
     '-v7.3')
 
