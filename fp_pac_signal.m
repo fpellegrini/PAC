@@ -4,7 +4,8 @@ function [sig,brain_noise,sensor_noise, L_save,iroi_phase,iroi_amplt,D, fres, n_
 %% set parameters
 
 %total number of samples 
-N = 120000; %1000000;
+N = 120000; 
+% N = 1000000;
 
 %Sampling frequency
 fs = 200;
@@ -12,7 +13,7 @@ fres = fs;
 frqs = sfreqs(fres, fs); % freqs in Hz
 
 %number of trails and epoch length
-n_trials = 300;
+n_trials = 60;
 
 %interacting bands 
 low = [9 11];
@@ -44,10 +45,12 @@ filt.high = high;
  
 %% randomly select seed and in bivariate case also target 
 
-%set seed and target regions
-iroi_phase = randperm(D.nroi,params.iInt)';
-
-if params.case==2 % in bivariate case 
+if params.case==1 % in univariate case
+    iroi_phase = randperm(D.nroi,params.iInt)';
+    iroi_amplt = [];
+    
+elseif params.case==2 % in bivariate case 
+    iroi_phase = randperm(D.nroi,params.iInt)';
     iroi_amplt = randperm(D.nroi,params.iInt)';
 
     %be sure that no region is selected twice
@@ -56,8 +59,28 @@ if params.case==2 % in bivariate case
             iroi_amplt(ii) = randi(D.nroi,1,1);
         end
     end
-else 
-    iroi_amplt = []; 
+    
+elseif params.case==3 % uni + bivariate case 
+    assert(length(params.iInt)==2,...
+        'Indicate number of uni- and bivariate interactions in mixed case.')
+     
+    iroi_phase = randperm(D.nroi,sum(params.iInt))'; %select regions for both uni and bivariate interactions
+   
+    % first entries of iroi_amplt are copies of iroi_phase for uni interactions
+    iroi_amplt(1:params.iInt(1)) = iroi_phase(1:params.iInt(1));
+    
+    % last entries of iroi_amplt are regions for bivar interactions
+    bivar_a = randperm(D.nroi,params.iInt(2));
+
+    %be sure that no region is selected twice
+    for ii = 1:params.iInt(2)
+        while any(iroi_phase==bivar_a(ii))
+            bivar_a(ii) = randi(D.nroi,1,1);
+        end
+    end
+    
+    iroi_amplt = [iroi_amplt bivar_a]';
+    
 end
 
 %% indices of signal and noise 
@@ -67,8 +90,13 @@ for ii = 1:params.iReg
     if params.case==1 %univariate 
         sig_ind = [sig_ind; (iroi_phase.*params.iReg)-(ii-1)];
         iroi_amplt = iroi_phase; 
+        
     elseif params.case==2 %bivariate 
         sig_ind = [sig_ind; (iroi_phase.*params.iReg)-(ii-1), (iroi_amplt.*params.iReg)-(ii-1)];
+        
+    elseif params.case==3 %uni + bivariate 
+        sig_ind = [sig_ind; (iroi_phase.*params.iReg)-(ii-1), (iroi_amplt.*params.iReg)-(ii-1)];
+        
     end
 end
 
@@ -76,13 +104,13 @@ noise_ind = setdiff(1:params.iReg*D.nroi,sig_ind(:));
 
 %% generate signal low and high 
 
-xl = randn(N,  params.iInt*params.iReg);
-for ii = 1:  params.iInt*params.iReg
+xl = randn(N,  sum(params.iInt)*params.iReg);
+for ii = 1:  sum(params.iInt)*params.iReg
     xl(:,ii) = filtfilt(bband_low, aband_low, xl(:,ii));
 end
 
-xh = randn(N,  params.iInt*params.iReg);
-for ii = 1: params.iInt*params.iReg
+xh = randn(N,  sum(params.iInt)*params.iReg);
+for ii = 1: sum(params.iInt)*params.iReg
     xh(:,ii) = filtfilt(bband_high, aband_high, xh(:,ii));
 end
 
@@ -111,12 +139,30 @@ end
 if params.case==1 %univariate case 
     %one region contains univariate pac 
     uni_pac = xh + xl;
-    s1 = uni_pac./norm(uni_pac,'fro');
+    %s1 -> N x nInts*nReg
+    s1 = uni_pac./norm(uni_pac,'fro'); 
     
 elseif params.case==2 %bivariate case 
     %one region contains low signal, the other the modulated high signal 
+    %s1 -> N x nInts*2*nReg
     s1 = cat(2,xl,xh);
     s1 = s1./norm(s1(:),'fro');
+    
+elseif params.case==3 %uni + bivariate case 
+    
+    univar_inds = 1:params.iInt(1)*params.iReg;
+    bivar_inds = (params.iInt(1)*params.iReg)+1 : sum(params.iInt)*params.iReg;
+
+    %univariate interactions
+    uni_pac = xl(:,univar_inds) + xh(:,univar_inds);
+    s1_u = uni_pac./norm(uni_pac,'fro');    
+    
+    %bivariate interactions 
+    s1_b = cat(2,xl(:,bivar_inds),xh(:,bivar_inds));
+    s1_b = s1_b./norm(s1_b(:),'fro');
+    
+    %s1 -> N x (nInts(1)+(nInts(2)*2))*nReg
+    s1 = cat(2,s1_u,s1_b); 
 end
 
 % add pink background noise
@@ -143,8 +189,13 @@ for is = 1:numel(D.sub_ind_cortex)
 end
 
 %select signal L and noise L 
-L_sig = L_mix(:,sig_ind);
+if params.case==3
+    L_sig = L_mix(:,[sig_ind(univar_inds,1)' reshape(sig_ind(bivar_inds,:),[],1)']);
+else
+    L_sig = L_mix(:,sig_ind(:));
+end
 L_noise = L_mix(:,noise_ind);
+
 
 %% project to sensors and generate white noise 
 
