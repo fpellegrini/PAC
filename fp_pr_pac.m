@@ -6,23 +6,27 @@ nints = numel(iroi_phase);
 nroi = size(cc,1);
 
 %true labels 
-label= zeros(nroi,nroi);
+label=diag(ones(nroi,1));
 for iint = 1:numel(iroi_phase)
-    label(iroi_amplt(iint),iroi_phase(iint)) = 1;
+    label(iroi_amplt(iint),iroi_phase(iint)) = 2;
 end
-
 lab = label(:);
-tr = find(lab==1); %index of true label 
+cc = cc(:);
+
+%remove diagonal entries 
+cc(lab==1)=[];
+lab(lab==1)=[]; 
+
+%index of true label 
+tr = find(lab==2); 
 
 %estimated scores 
-[~, idx] = sort(cc(:),'descend');
+[~, idx] = sort(cc,'descend');
 
 %rank of estimated scores 
 for it = 1:numel(tr)
     r1(it) = find(idx==tr(it));
 end
-
-
 
 %% percentage rank
 
