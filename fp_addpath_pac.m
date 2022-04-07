@@ -4,7 +4,7 @@ function fp_addpath_pac
 % rehash toolboxcache
 
 addpath(genpath('/home/bbci/data/haufe/Franziska'))
-addpath(genpath('~/matlab/fp/PAC/'))
+addpath(genpath('~/matlab/fp/'))
 addpath(genpath('~/matlab/matgrid/'))
 addpath(genpath('~/matlab/libs/Daniele_ARMA/'))
 addpath(genpath('~/matlab/libs/haufe/'))
