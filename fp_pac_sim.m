@@ -91,7 +91,7 @@ pac_ortho = fp_pac_standard(signal_ortho, filt.low, filt.high, fres);
 t.ortho = toc;
 
 %shabazi
-if parrams.ip == 1
+if params.ip == 1
     pac_shabazi = (pac_standard-mean(pac_shuf,3))/std(pac_shuf,[],3);
 end
 
@@ -114,7 +114,9 @@ end
 pr_shabazi=[];
 [pr_standard] = fp_pr_pac(pac_standard,iroi_amplt,iroi_phase);
 [pr_ortho] = fp_pr_pac(pac_ortho,iroi_amplt,iroi_phase);
-% [pr_shabazi] = fp_pr_pac(pac_shabazi,iroi_amplt,iroi_phase);
+if params.ip==1
+    [pr_shabazi] = fp_pr_pac(pac_shabazi,iroi_amplt,iroi_phase);
+end
 [pr_bispec_o] = fp_pr_pac(b_orig,iroi_amplt,iroi_phase);
 [pr_bispec_a] = fp_pr_pac(b_anti,iroi_amplt,iroi_phase);
 [pr_bispec_o_norm] = fp_pr_pac(b_orig_norm,iroi_amplt,iroi_phase);
