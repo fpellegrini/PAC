@@ -3,7 +3,7 @@ fp_addpath_pac
 cd ~/matlab/fp/PAC/
 nit = 100;
 
-for ip = [4:5] %4,5 next: 1, 6 to 8!
+for ip = [1 6] %1,4,5,6 next: 7 to 8!
     mgsub({},@fp_eval_pac_sim,{ip},'qsub_opts',['-l h_vmem=16G -t 1-' num2str(nit) ]) %' -q 2jobs'
     pause(60*3)
 end
