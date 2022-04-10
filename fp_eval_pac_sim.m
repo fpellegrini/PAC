@@ -14,10 +14,15 @@ iit = str2num(getenv('SGE_TASK_ID'))
 params1 = fp_get_params_pac(ip);
 params = params1;
 
-for iInt = params1.iInt
-    params.iInt = iInt;
-    for isnr = params1.isnr
-        params.isnr = isnr;
+for isnr = params1.isnr
+    params.isnr = isnr;    
+    
+    for iInt = params1.iInt
+        if params.case<3
+            params.iInt = iInt;
+        else 
+            params.iInt = params1.iInt;
+        end
         
         %create logfile for parallelization
         if params.case == 1
@@ -27,8 +32,8 @@ for iInt = params1.iInt
             logname = sprintf('bivar_iInt%d_iReg%d_snr0%d_iss0%d_filt%s_pip%d_iter%d'...
                 ,params.iInt,params.iReg,params.isnr*10,params.iss*10,params.ifilt,params.t,iit);
         elseif params.case == 3
-            logname = sprintf('mixed_iInt%d_iReg%d_snr0%d_iss0%d_filt%s_pip%d_iter%d'...
-                ,params.iInt,params.iReg,params.isnr*10,params.iss*10,params.ifilt,params.t,iit);
+            logname = sprintf('mixed_iInt%d%d_iReg%d_snr0%d_iss0%d_filt%s_pip%d_iter%d'...
+                ,params.iInt(1),params.iInt(2),params.iReg,params.isnr*10,params.iss*10,params.ifilt,params.t,iit);
         end
         
         if ~exist(sprintf('%s%s_work',DIRLOG,logname)) & ~exist(sprintf('%s%s_done',DIRLOG,logname))
