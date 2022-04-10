@@ -11,7 +11,7 @@ if ip == 1
     params.iss = 0.9;
     params.ifilt = 'l';
     params.pips = 1;
-    params.nshuf = 500;
+    params.nshuf = 100;
     
 elseif ip == 2
     %vary interactions 
@@ -24,7 +24,7 @@ elseif ip == 2
     params.iss = 0.9;
     params.ifilt = 'l';
     params.pips = 1;
-    params.nshuf = 500;
+    params.nshuf = 100;
     
 elseif ip == 3
     %vary snr 
@@ -37,7 +37,7 @@ elseif ip == 3
     params.iss = 0.9;
     params.ifilt = 'l';
     params.pips = 1;
-    params.nshuf = 500;
+    params.nshuf = 100;
     
 elseif ip == 4
     %truevox pipeline 
@@ -50,7 +50,7 @@ elseif ip == 4
     params.iss = 0.9;
     params.ifilt = 'l';
     params.pips = 1;
-    params.nshuf = 500;
+    params.nshuf = 100;
     
 elseif ip==5 
     %uni+bivariate case 
@@ -63,7 +63,7 @@ elseif ip==5
     params.iss = 0.9;
     params.ifilt = 'l';
     params.pips = 1;
-    params.nshuf = 500;
+    params.nshuf = 100;
     
 elseif ip==6
     %uni+bivariate case 
@@ -76,7 +76,7 @@ elseif ip==6
     params.iss = 0.9;
     params.ifilt = 'l';
     params.pips = 1;
-    params.nshuf = 500;
+    params.nshuf = 100;
     
 elseif ip == 7 
     %uni+bivariate case 
@@ -89,7 +89,7 @@ elseif ip == 7
     params.iss = 0.9;
     params.ifilt = 'l';
     params.pips = 1;
-    params.nshuf = 500;
+    params.nshuf = 100;
     
 elseif ip==8 
     %uni+bivariate case 
@@ -102,7 +102,7 @@ elseif ip==8
     params.iss = 0.9;
     params.ifilt = 'l';
     params.pips = 1;
-    params.nshuf = 500;
+    params.nshuf = 100;
        
     
 % elseif ip == 5

@@ -42,29 +42,31 @@ t.signal = toc;
 L_backward = L(:, D.ind_cortex, :);
 
 %% null distribution for shabazi method 
-tic
-[W,~] = runica(signal_sensor(:,:));
-
-signal_unmixed = W*signal_sensor(:,:);
-signal_unmixed = reshape(signal_unmixed,n_sensors, l_epoch, n_trials);
-
-for ishuf = 1:params.nshuf    
-    %shuffling
-    fprintf(['Shuffle '  num2str(ishuf) '\n'])
-    signal_shuf = fp_shuffle_shab(W,signal_unmixed);
+if params.ip == 1
+    tic
+    [W,~] = runica(signal_sensor(:,:));
     
-    %lcmv
-    A = fp_get_lcmv(signal_shuf,L_backward);
+    signal_unmixed = W*signal_sensor(:,:);
+    signal_unmixed = reshape(signal_unmixed,n_sensors, l_epoch, n_trials);
     
-    %dimesionality reduction
-    signal_roi_shuf = fp_dimred(signal_shuf,D,A,params.t);
-    
-    %pac calculation 
-    pac_shuf(:,:,ishuf) = fp_pac_standard(signal_roi_shuf, filt.low, filt.high, fres);
-    
-    clear signal_shuf A signal_roi_shuf 
+    for ishuf = 1:params.nshuf
+        %shuffling
+        fprintf(['Shuffle '  num2str(ishuf) '\n'])
+        signal_shuf = fp_shuffle_shab(W,signal_unmixed);
+        
+        %lcmv
+        A = fp_get_lcmv(signal_shuf,L_backward);
+        
+        %dimesionality reduction
+        signal_roi_shuf = fp_dimred(signal_shuf,D,A,params.t);
+        
+        %pac calculation
+        pac_shuf(:,:,ishuf) = fp_pac_standard(signal_roi_shuf, filt.low, filt.high, fres);
+        
+        clear signal_shuf A signal_roi_shuf
+    end
+    t.shab = toc;
 end
-t.shab = toc;
 
 %% true pac scores 
 
@@ -75,30 +77,44 @@ A = fp_get_lcmv(signal_sensor,L_backward);
 signal_roi = fp_dimred(signal_sensor,D,A,params.t);
 
 %standard pac
+fprintf(['Calculating standard pac \n'])
 tic
 pac_standard = fp_pac_standard(signal_roi, filt.low, filt.high, fres);
 t.standard = toc;
 
 %ortho pac
 tic
+fprintf(['Calculating ortho pac \n'])
 [signal_ortho, ~, ~, ~] = symmetric_orthogonalise(signal_roi(:,:)', 1);
 signal_ortho = reshape(signal_ortho',D.nroi,l_epoch,n_trials);
 pac_ortho = fp_pac_standard(signal_ortho, filt.low, filt.high, fres);
 t.ortho = toc;
 
 %shabazi
-pac_shabazi = (pac_standard-mean(pac_shuf,3))/std(pac_shuf,[],3);
+if parrams.ip == 1
+    pac_shabazi = (pac_standard-mean(pac_shuf,3))/std(pac_shuf,[],3);
+end
 
 % bispectra 
+fprintf(['Calculating bispectra \n'])
 tic
 [b_orig, b_anti, b_orig_norm,b_anti_norm] = fp_pac_bispec(signal_roi,fres,filt);
 t.bispec = toc;
 
 %% Evaluate
 
+if params.case==3
+    %remove univariate interaction before calculating performance
+    iroi_amplt_save = iroi_amplt; 
+    iroi_phase_save = iroi_phase; 
+    iroi_amplt(1:params.iInt(1))=[];
+    iroi_phase(1:params.iInt(1))=[];
+end
+
+pr_shabazi=[];
 [pr_standard] = fp_pr_pac(pac_standard,iroi_amplt,iroi_phase);
 [pr_ortho] = fp_pr_pac(pac_ortho,iroi_amplt,iroi_phase);
-[pr_shabazi] = fp_pr_pac(pac_shabazi,iroi_amplt,iroi_phase);
+% [pr_shabazi] = fp_pr_pac(pac_shabazi,iroi_amplt,iroi_phase);
 [pr_bispec_o] = fp_pr_pac(b_orig,iroi_amplt,iroi_phase);
 [pr_bispec_a] = fp_pr_pac(b_anti,iroi_amplt,iroi_phase);
 [pr_bispec_o_norm] = fp_pr_pac(b_orig_norm,iroi_amplt,iroi_phase);
