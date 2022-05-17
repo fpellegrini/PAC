@@ -6,7 +6,7 @@ mywindow=repmat(hanning(segleng),1,nchan);
 nep=floor(ndat/epleng);
 
 nseg=floor((epleng-segleng)/segshift)+1; %total number of segments
-assert(nseg==1,"only possible with 1 segment")
+assert(nseg==1,'only possible with 1 segment')
 
 for j=1:nep
     %disp(j)
