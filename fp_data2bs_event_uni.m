@@ -31,7 +31,7 @@ function [cs,nave]=fp_data2bs_event_uni(data,segleng,segshift,epleng,freqpairs,n
 nep=floor(ndat/epleng);
 
 nseg=floor((epleng-segleng)/segshift)+1; %total number of segments
-assert(nseg==1,"only possible with 1 segment")
+assert(nseg==1,'only possible with 1 segment')
 
 cs=zeros(nchan,nchan,nchan,2,nshuf);
 
