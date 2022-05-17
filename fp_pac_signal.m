@@ -63,7 +63,7 @@ elseif params.case==2 % in bivariate case
 elseif params.case==3 % uni + bivariate case 
     assert(length(params.iInt)==2,...
         'Indicate number of uni- and bivariate interactions in mixed case.')
-     
+    iroi_amplt=[];
     iroi_phase = randperm(D.nroi,sum(params.iInt))'; %select regions for both uni and bivariate interactions
    
     % first entries of iroi_amplt are copies of iroi_phase for uni interactions

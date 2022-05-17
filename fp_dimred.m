@@ -23,13 +23,14 @@ for aroi = 1:D.nroi
     %project sensor signal to voxels at the current roi (aroi)
     signal_source = A2{aroi}' * signal_sensor(:,:);
     
-    %zscoring
-    signal_source = zscore(signal_source')'; %%%%%leave this out?????
-    
     %do PCA
     clear signal_roi_ S
     [signal_roi_,S,~] = svd(double(signal_source(:,:))','econ');
-    
+%     
+%     figure; 
+%     pwelch(signal_roi_(:,:),200,[],[],200)
+%     legend('1')
+%     
     %fixed number of pcs
     npcs(aroi) = ipip;
     

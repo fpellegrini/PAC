@@ -1,4 +1,4 @@
-function fp_plot_pac
+function fp_plot_pac_snr
 
 addpath(genpath('~/Dropbox/Franziska/PAC_AAC_estimation/data/'))
 DIRDATA = '~/Dropbox/Franziska/PAC_AAC_estimation/data/sim2/';
@@ -7,61 +7,54 @@ if ~exist(DIRFIG); mkdir(DIRFIG); end
 
 %%
 clear PR
-ip = 8;
+ip = 3;
 params = fp_get_params_pac(ip);
 
-titles = {'Standard','Ortho','Bispec Original','Bispec Anti','Bispec O. Norm','Bispec A. Norm','Shabazi'};
-a=[];
+titles = {'SNR 0.3','SNR 0.5','SNR 0.9'};
 
-for iit= [1:100]
+for isnr = 1:length(params.isnr)
     
-%     try
+    for iit= [1:100]
+        
+        %     try
         if params.case == 1
             inname = sprintf('pr_univar_iInt%d_iReg%d_snr0%d_iss0%d_filt%s_pip%d_iter%d'...
-                ,params.iInt,params.iReg,params.isnr*10,params.iss*10,params.ifilt,params.t,iit);
+                ,params.iInt,params.iReg,params.isnr(isnr)*10,params.iss*10,params.ifilt,params.t,iit);
         elseif params.case == 2
             inname = sprintf('pr_bivar_iInt%d_iReg%d_snr0%d_iss0%d_filt%s_pip%d_iter%d'...
-                ,params.iInt,params.iReg,params.isnr*10,params.iss*10,params.ifilt,params.t,iit);
-        elseif params.case == 3
-            inname = sprintf('pr_mixed_iInt%d%d_iReg%d_snr0%d_iss0%d_filt%s_pip%d_iter%d'...
-                ,params.iInt(1),params.iInt(2),params.iReg,params.isnr*10,params.iss*10,params.ifilt,params.t,iit);
+                ,params.iInt,params.iReg,params.isnr(isnr)*10,params.iss*10,params.ifilt,params.t,iit);
         end
         
         load([DIRDATA inname '.mat'])
         
-        PR{1}(iit) = pr_standard;
-        PR{2}(iit) = pr_ortho;
-        PR{3}(iit) = pr_bispec_o;
-        PR{4}(iit) = pr_bispec_a;
-        PR{5}(iit) = pr_bispec_o_norm;
-        PR{6}(iit) = pr_bispec_a_norm;
+        PR{1}(isnr,iit) = pr_standard;
+        PR{2}(isnr,iit) = pr_ortho;
+        PR{3}(isnr,iit) = pr_bispec_o;
+        PR{4}(isnr,iit) = pr_bispec_a;
+        PR{5}(isnr,iit) = pr_bispec_o_norm;
+        PR{6}(isnr,iit) = pr_bispec_a_norm;
         if ip == 1
-            PR{7}(iit) = pr_shabazi; 
-        end 
-%     catch
-%         a=[a iit];
-%     end
-    
+            PR{7}(isnr,iit) = pr_shabazi;
+        end
+        
+        
+    end
 end
 
-% for ii = 1:4 
-%     PR{ii}(a)=[];
-% end
 
 %%
 figure
-figone(8,30)
+figone(8,20)
 o=1;
-for icon = 1:length(PR)
+icon = 5;
+for isnr = 1:length(params.isnr)
     
-    data1 = PR{icon};
-    mean_pr(o) = mean(data1);
-    imlab = 'PR';
-    imlab1 = 'PR';
+    data1 = squeeze(PR{icon}(isnr,:));
+%     mean_pr(o) = mean(data1);
     
     cl = [0.8 0.7 0.6];
     
-    subplot(1,length(PR),o)
+    subplot(1,length(params.isnr),o)
     
     [h, u] = fp_raincloud_plot_a(data1, cl, 1,0.2, 'ks');
     view([-90 -90]);
@@ -101,13 +94,9 @@ for icon = 1:length(PR)
     o=o+1;
 end
 
+
 %%
 outname = [DIRFIG inname(1:end-8) '.png'];
 print(outname,'-dpng');
 
 close all
-
-
-
-
-
