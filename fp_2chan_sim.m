@@ -64,6 +64,7 @@ if ~exist(sprintf('%s%s_work',DIRLOG,logname)) & ~exist(sprintf('%s%s_done',DIRL
         %% Case 1: true bivariate interaction (formerly case 3)
         
         cse = 1;
+        fprintf(['SNR '  num2str(isnr) ', case ' num2str(cse) '\n'])        
         
         %generate signal
         X_1 = [high_osc low_osc];
@@ -77,6 +78,7 @@ if ~exist(sprintf('%s%s_work',DIRLOG,logname)) & ~exist(sprintf('%s%s_done',DIRL
         %% Case 2: true bivariate pac + mixing (formerly case 4)
         
         cse=2;
+        fprintf(['SNR '  num2str(isnr) ', case ' num2str(cse) '\n']) 
         
         %generate signal with mixing
         X_2 = [high_osc low_osc];
@@ -91,6 +93,7 @@ if ~exist(sprintf('%s%s_work',DIRLOG,logname)) & ~exist(sprintf('%s%s_done',DIRL
         %% Case 3: univariate pac + random signal (formerly case 5)
         
         cse = 3;
+        fprintf(['SNR '  num2str(isnr) ', case ' num2str(cse) '\n']) 
         
         %generate signal
         X_3 = [pac_0 rand_sig];
@@ -104,6 +107,7 @@ if ~exist(sprintf('%s%s_work',DIRLOG,logname)) & ~exist(sprintf('%s%s_done',DIRL
         %% Case 4: univariate pac + random signal + mixing (formerly case 6)
         
         cse = 4;
+        fprintf(['SNR '  num2str(isnr) ', case ' num2str(cse) '\n']) 
         
         %generate signal with mixing
         X_4 = [pac_0 rand_sig];
@@ -118,6 +122,7 @@ if ~exist(sprintf('%s%s_work',DIRLOG,logname)) & ~exist(sprintf('%s%s_done',DIRL
         %% Case 5: two univariate pac signals  (formerly case 7)
         
         cse = 5;
+        fprintf(['SNR '  num2str(isnr) ', case ' num2str(cse) '\n']) 
         
         %generate signal
         X_5 = [pac_0 pac_1];
@@ -131,6 +136,7 @@ if ~exist(sprintf('%s%s_work',DIRLOG,logname)) & ~exist(sprintf('%s%s_done',DIRL
         %% Case 6: two univariate pac signals + mixing (formerly case 8)
         
         cse = 6;
+        fprintf(['SNR '  num2str(isnr) ', case ' num2str(cse) '\n']) 
         
         %generate signal with mixing
         X_6 = [pac_0 pac_1];

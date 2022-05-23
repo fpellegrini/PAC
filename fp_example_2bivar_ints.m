@@ -83,7 +83,7 @@ backg = backg ./ norm(backg, 'fro');
 
 %combine signal and background noise 
 signal_sources = coupling_snr*s1 + (1-coupling_snr)*backg;
-s = signal_sources ./ norm(signal_sources(:),'fro'); 
+s = reshape((signal_sources ./ norm(signal_sources(:),'fro'))',4,[],n_trials);
 
 %% calculation of pac 
 

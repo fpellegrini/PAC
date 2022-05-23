@@ -9,13 +9,13 @@ pac(:,4) =  max([squeeze(u1(1,2,:)),squeeze(u1(2,1,:))]');
 pac(:,5) =  max([squeeze(u2(1,2,:)),squeeze(u2(2,1,:))]');
 
 %preparation for shabahzi
-[W,~] = runica(X(:,:));
+[W,~] = runica(X(:,:),'verbose','off');
 signal_unmixed = W*X(:,:);
 signal_unmixed = reshape(signal_unmixed,nchan, [], n_trials_s);
 
 %shuffling for null distributions
 for ishuf = 1:n_shuffles
-    fprintf(['Shuffle '  num2str(ishuf) '\n'])
+%     fprintf(['Shuffle '  num2str(ishuf) '\n'])
     
     %first shuffle contains true pac
     if ishuf == 1
