@@ -54,8 +54,8 @@ for ishuf = 1:nshuf
     for j=1:nep
         
         for k=1:nchan
-            csloc1(:,:,k)=coeffs(inds(1),:,j)'*coeffs(2,:,j)*conj(coeffs(3,k,j)); %bispec of f1, f2-f1, f2
-            csloc2(:,:,k)=coeffs(inds(1),:,j)'*coeffs(3,:,j)*conj(coeffs(4,k,j)); %bispec of f1, f2, f1+f2
+            csloc1(:,:,k)=transpose(coeffs(inds(1),:,j))*coeffs(2,:,j)*conj(coeffs(3,k,j)); %bispec of f1, f2-f1, f2
+            csloc2(:,:,k)=transpose(coeffs(inds(1),:,j))*coeffs(3,:,j)*conj(coeffs(4,k,j)); %bispec of f1, f2, f1+f2
         end
         cs1=cs1+csloc1;
         cs2=cs2+csloc2;
