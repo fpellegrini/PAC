@@ -88,10 +88,10 @@ s = reshape((signal_sources ./ norm(signal_sources(:),'fro'))',4,[],n_trials);
 %% calculation of pac 
 
 %Bispectrum
-[b_orig, b_anti,~,~] = fp_pac_bispec(s',fres,filt); 
+[b_orig, b_anti,~,~] = fp_pac_bispec(s,fres,filt); 
 
 %Tort
-pac_standard = fp_pac_standard(s', filt.low, filt.high, fres);
+pac_standard = fp_pac_standard(s, filt.low, filt.high, fres);
 
 %% plot pac scores (true interactions are between 1 and 3 and between 2 and 4)
 figure
