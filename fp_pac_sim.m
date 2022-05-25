@@ -89,9 +89,9 @@ if params.ip == 1 || params.ip==4 || params.ip == 5 || params.ip == 6 || params.
         signal_shuf = fp_shuffle_shab(W,signal_unmixed);
         
         %lcmv
-        if strcmp(params.filt,'lf')
+        if strcmp(params.ifilt,'lf')
             A = fp_get_lcmv_filtered(signal_shuf,L_backward,filt);           
-        elseif strcmp(params.filt,'l')
+        elseif strcmp(params.ifilt,'l')
             A = fp_get_lcmv(signal_shuf,L_backward);
         else
             error('wrong filter parameter')
@@ -111,9 +111,9 @@ end
 %%
 
 %lcmv
-if strcmp(params.filt,'lf')
+if strcmp(params.ifilt,'lf')
     A = fp_get_lcmv_filtered(signal_sensor,L_backward,filt);
-elseif strcmp(params.filt,'l')
+elseif strcmp(params.ifilt,'l')
     A = fp_get_lcmv(signal_sensor,L_backward);
 else
     error('wrong filter parameter')
@@ -145,6 +145,7 @@ if params.case == 1 %univariate case
                inds = randperm(n_trials);
            end
            s_shuf(ichan,:,:) = signal_unmixed(ichan,:,inds);
+       end
            
            %shuffled Tort
            pac_standard(:,:,ishuf) = fp_pac_standard(s_shuf, filt.low, filt.high, fres);
@@ -154,7 +155,6 @@ if params.case == 1 %univariate case
            signal_ortho = reshape(signal_ortho',D.nroi,l_epoch,n_trials);
            pac_ortho(:,:,ishuf) = fp_pac_standard(signal_ortho, filt.low, filt.high, fs);
            
-       end
     end
     t.shufTort = toc; 
     

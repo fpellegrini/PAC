@@ -2,12 +2,12 @@ function fp_plot_pac
 
 addpath(genpath('~/Dropbox/Franziska/PAC_AAC_estimation/data/'))
 DIRDATA = '~/Dropbox/Franziska/PAC_AAC_estimation/data/sim2/';
-DIRFIG = '~/Dropbox/Franziska/PAC_AAC_estimation/figures/sim2/';
+DIRFIG = '~/Dropbox/Franziska/PAC_AAC_estimation/figures/sim2_/';
 if ~exist(DIRFIG); mkdir(DIRFIG); end
 
 %%
 clear PR
-ip = 8;
+ip = 1;
 params = fp_get_params_pac(ip);
 
 titles = {'Standard','Ortho','Bispec Original','Bispec Anti','Bispec O. Norm','Bispec A. Norm','Shabazi'};
