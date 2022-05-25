@@ -90,7 +90,7 @@ if params.ip == 1 || params.ip==4 || params.ip == 5 || params.ip == 6 || params.
         
         %lcmv
         if strcmp(params.ifilt,'lf')
-            A = fp_get_lcmv_filtered(signal_shuf,L_backward,filt);
+            A = fp_get_lcmv_filtered(signal_shuf,L_backward,filt);           
         elseif strcmp(params.ifilt,'l')
             A = fp_get_lcmv(signal_shuf,L_backward);
         else
@@ -124,40 +124,39 @@ signal_roi = fp_dimred(signal_sensor,D,A,params.t);
 
 %%
 
-if params.case == 1 %univariate case
+if params.case == 1 %univariate case 
     
     % bispectra
-    fprintf(['Calculating bispectra \n'])
+    fprintf(['Calculating bispectra \n'])  
     nshuf = params.nshuf;
     tic
     [b_orig, b_anti] = fp_pac_bispec_uni(signal_roi,fres,filt,nshuf+1);
-    t.bispec = toc;
-    
-    fprintf(['Calculating Tort and ortho \n'])
+    t.bispec = toc;    
+   
+    fprintf(['Calculating Tort and ortho \n']) 
     tic
     for ishuf = 1:nshuf+1
-        clear s_shuf
-        for iroi = 1:D.nroi
-            
-            %shuffle trials
-            if ishuf ==1 % first shuf is true value
-                inds = 1:n_trials;
-            else
-                inds = randperm(n_trials);
-            end
-            s_shuf(iroi,:,:) = signal_roi(iroi,:,inds);
-        end
-        
-        %shuffled Tort
-        pac_standard(:,:,ishuf) = fp_pac_standard(s_shuf, filt.low, filt.high, fres);
-        
-        %shuffled ortho
-        [signal_ortho, ~, ~, ~] = symmetric_orthogonalise(s_shuf(:,:)', 1);
-        signal_ortho = reshape(signal_ortho',D.nroi,l_epoch,n_trials);
-        pac_ortho(:,:,ishuf) = fp_pac_standard(signal_ortho, filt.low, filt.high, fres);
-        
+       for iroi = 1:D.nroi
+           
+           %shuffle trials 
+           if ishuf ==1 % first shuf is true value 
+               inds = 1:n_trials; 
+           else
+               inds = randperm(n_trials);
+           end
+           s_shuf(iroi,:,:) = signal_roi(iroi,:,inds);
+       end
+           
+           %shuffled Tort
+           pac_standard(:,:,ishuf) = fp_pac_standard(s_shuf, filt.low, filt.high, fres);
+           
+           %shuffled ortho 
+           [signal_ortho, ~, ~, ~] = symmetric_orthogonalise(s_shuf(:,:)', 1);
+           signal_ortho = reshape(signal_ortho',D.nroi,l_epoch,n_trials);
+           pac_ortho(:,:,ishuf) = fp_pac_standard(signal_ortho, filt.low, filt.high, fs);
+           
     end
-    t.shufTort = toc;
+    t.shufTort = toc; 
     
     for proi = 1:D.nroi
         for aroi = 1:D.nroi
@@ -170,12 +169,7 @@ if params.case == 1 %univariate case
         end
     end
     
-    %save only evaluation parameters
-    outname1 = sprintf('%spr_%s.mat',DIROUT,params.logname);
-    save(outname1,...
-        'p_standard','p_ortho','p_shahbazi','p_orig','p_anti','t','iroi_phase','iroi_amplt',...
-        '-v7.3')
-        
+    
 else
     
     %standard pac
@@ -222,7 +216,7 @@ else
     [pr_bispec_o] = fp_pr_pac(b_orig,iroi_amplt,iroi_phase);
     [pr_bispec_a] = fp_pr_pac(b_anti,iroi_amplt,iroi_phase);
     [pr_bispec_o_norm] = fp_pr_pac(b_orig_norm,iroi_amplt,iroi_phase);
-    [pr_bispec_a_norm] = fp_pr_pac(b_anti_norm,iroi_amplt,iroi_phase);
+    [pr_bispec_a_norm] = fp_pr_pac(b_anti_norm,iroi_amplt,iroi_phase);    
     
     %save only evaluation parameters
     outname1 = sprintf('%spr_%s.mat',DIROUT,params.logname);
