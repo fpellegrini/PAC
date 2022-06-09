@@ -1,4 +1,4 @@
-DIRIN = '~/Dropbox/Franziska/PAC_AAC_estimation/data/2chan_sim/';
+DIRIN = '~/Dropbox/Franziska/PAC_AAC_estimation/data/2chan_sim2/';
 
 nit =100;
 
@@ -26,7 +26,7 @@ end
 %%
 nmet = length(p{1,1}); 
 [ncse, nsnr] = size(p); 
-mets = {'Tort','Ortho','Sha','Bispec','Anti'};
+mets = {'Tort','Ortho','Sha','Bispec','Anti','0.05'};
 snrs = {'0', '0.2', '0.4', '0.6', '0.8', '1'};
 cses = {'true int','true int mixed','uni int','uni int mixed','two unis','two unis mixed'};
 
@@ -73,29 +73,33 @@ for icse = 1:ncse
 end
 
 %%
-
+clear a
 figure
 ii=1;
 for icse = 1:ncse
     subplot(3,2,ii)
     
     for imet = 1:nmet
-        for isnr = 1:nsnr
+        for isnr = 1:nsnr-1
             a(isnr) = mean(squeeze(pval{isnr}(icse,imet,:)));
         end
-        plot(a)
+        plot(a,'LineWidth',1)
         
         hold on
     end
+    yline(0.05,'--')
+    
     legend(mets)
     ylabel('pval')
     xlabel('snr')
-    xticks = 1:nsnr; 
-    xTickLabels = snrs;
+    xticks = 1:nsnr-1; 
+    xTickLabels = snrs(1:end-1);
     set(gca,'xtick',xticks,'xticklabels',xTickLabels);
     ylim([0 1])
     title([cses{icse} ])
     ii=ii+1;
+    
+    
 end
 
 %% TPR and TNR

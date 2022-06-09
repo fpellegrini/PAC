@@ -17,8 +17,25 @@ for iit = 1:100
     end
 end
 
-mean(m,2)
-%%
+p1 = mean(m,2);
+
+figure
+bar(p1)
+grid on 
+xticks = 1:5; 
+xTickLabels = titles2;
+set(gca,'xtick',xticks,'xticklabels',xTickLabels);
+ylabel('FPR')
+
+figure; 
+bar(p1(1:4))
+grid on 
+xticks = 1:4; 
+xTickLabels = titles2(1:4);
+set(gca,'xtick',xticks,'xticklabels',xTickLabels);
+ylabel('FPR')
+
+%% Histograms of neighboring FPR
 titles = {'Standard','Ortho','Bispec Original','Bispec Anti','Shabazi'};
 for ii =1:5
     subplot(2,3,ii)
@@ -28,7 +45,7 @@ for ii =1:5
     ylim([0 100])
 end
 
-%%
+%% why is Shahbazi performing so badly?
 for iit = 1:100
     figure
     for ii = 1:5
@@ -39,3 +56,35 @@ for iit = 1:100
     end
 end
 
+
+%%
+
+for iit = 1:100
+    
+    cnb = find(nb(:,iroi(iit))==0.5);
+    cnb1 = setdiff(1:68,cnb);
+    
+    for im = 1:5
+        
+        u1 = P{im}(cnb1,cnb1,iit);
+        mm(im,iit) = mean(u1(:));
+    end
+end
+
+p2 = mean(mm,2);
+
+figure
+bar(p2)
+grid on 
+xticks = 1:5; 
+xTickLabels = titles2;
+set(gca,'xtick',xticks,'xticklabels',xTickLabels);
+ylabel('FPR')
+
+figure; 
+bar(p2(1:4))
+grid on 
+xticks = 1:4; 
+xTickLabels = titles2(1:4);
+set(gca,'xtick',xticks,'xticklabels',xTickLabels);
+ylabel('FPR')

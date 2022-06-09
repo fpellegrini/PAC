@@ -47,17 +47,23 @@ end
 
 
 for ii = 1:5    
-    p(ii) = sum(P{ii}(:))/(68*68); 
+    p(ii) = sum(P{ii}(:))/(((68*68)-68)*100); 
 end
 
+bar(p)
+grid on 
+xticks = 1:5; 
+xTickLabels = titles2;
+set(gca,'xtick',xticks,'xticklabels',xTickLabels);
+ylabel('FPR')
 
-%%
-outname = [DIRFIG inname(1:end-8) '.png'];
-print(outname,'-dpng');
-
-close all
-
-
+figure; 
+bar(p(1:4))
+grid on 
+xticks = 1:4; 
+xTickLabels = titles2(1:4);
+set(gca,'xtick',xticks,'xticklabels',xTickLabels);
+ylabel('FPR')
 
 
 
