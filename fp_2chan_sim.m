@@ -2,10 +2,10 @@ function fp_2chan_sim
 
 fp_addpath_pac
 
-DIRLOG ='/home/bbci/data/haufe/Franziska/log/2chan_sim2/';
+DIRLOG ='/home/bbci/data/haufe/Franziska/log/2chan_sim3/';
 if ~exist(DIRLOG); mkdir(DIRLOG); end
 
-DIROUT = '/home/bbci/data/haufe/Franziska/data/2chan_sim2/';
+DIROUT = '/home/bbci/data/haufe/Franziska/data/2chan_sim3/';
 if ~exist(DIROUT);mkdir(DIROUT); end
 
 iit = str2num(getenv('SGE_TASK_ID'));
@@ -18,15 +18,16 @@ if ~exist(sprintf('%s%s_work',DIRLOG,logname)) & ~exist(sprintf('%s%s_done',DIRL
     
     %% Parameters
     
-    % N = 1000000;
-    N = 120000;
+    N = 1000000;
+%     N = 120000;
     
     nchan= 2;
     
     %Sampling frequency
     fs = 200;
     
-    n_trials_s = 60;
+%     n_trials_s = 60;
+    n_trials_s = 400;
     
     n_shuffles = 1000;
     n_iter = 500;
