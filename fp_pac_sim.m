@@ -1,9 +1,9 @@
 function fp_pac_sim(params)
 
 % define folders for saving results
-DIROUT = '/home/bbci/data/haufe/Franziska/data/pac_sim2/';
+DIROUT = '/home/bbci/data/haufe/Franziska/data/pac_sim3/';
 if ~exist(DIROUT);mkdir(DIROUT); end
-DIROUT1 = '/home/bbci/data/haufe/Franziska/data/pac_save2/';
+DIROUT1 = '/home/bbci/data/haufe/Franziska/data/pac_save3/';
 if ~exist(DIROUT1);mkdir(DIROUT1); end
 
 
@@ -93,6 +93,10 @@ if params.ip == 1 || params.ip==4 || params.ip == 5 || params.ip == 6 || params.
             A = fp_get_lcmv_filtered(signal_shuf,L_backward,filt);
         elseif strcmp(params.ifilt,'l')
             A = fp_get_lcmv(signal_shuf,L_backward);
+        elseif strcmp(params.ifilt,'e')
+            reg_param = fp_eloreta_crossval(signal_sensor,L_backward,5);
+            A = squeeze(mkfilt_eloreta_v2(L_backward,reg_param));
+            A = permute(A,[1, 3, 2]);
         else
             error('wrong filter parameter')
         end
@@ -115,6 +119,10 @@ if strcmp(params.ifilt,'lf')
     A = fp_get_lcmv_filtered(signal_sensor,L_backward,filt);
 elseif strcmp(params.ifilt,'l')
     A = fp_get_lcmv(signal_sensor,L_backward);
+elseif strcmp(params.ifilt,'e')
+    reg_param = fp_eloreta_crossval(signal_sensor,L_backward,5);
+    A = squeeze(mkfilt_eloreta_v2(L_backward,reg_param));
+    A = permute(A,[1, 3, 2]);
 else
     error('wrong filter parameter')
 end
