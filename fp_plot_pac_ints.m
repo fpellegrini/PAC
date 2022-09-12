@@ -10,7 +10,7 @@ clear PR
 ip = 2;
 params = fp_get_params_pac(ip);
 
-titles = {'2','3','4','5'};
+titles = {'2 interactions','3 interactions','4 interactions','5 interactions'};
 mets = {'Tort','Ortho','Borig','Banti','Borignorm','Bantinorm','Shah'};
 
 for iInt = 1:length(params.iInt)
@@ -46,14 +46,14 @@ end
 
 for icon = [1:4]
     figure
-    figone(8,20)
+    figone(6,16)
     o=1;
     for iInt = 1:length(params.iInt)
         
         data1 = squeeze(PR{icon}(iInt,:));
         %     mean_pr(o) = mean(data1);
         
-        cl = [0.8 0.7 0.6];
+        cl = [0.7 0.75 0.75];
         
         subplot(1,length(params.iInt),o)
         

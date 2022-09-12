@@ -7,13 +7,12 @@ if ~exist(DIRFIG); mkdir(DIRFIG); end
 
 %%
 
-for ip =[8]
+for ip =[1]
     
     clear PR
     params = fp_get_params_pac(ip);
     
-    titles1 = {'Standard','Ortho','Bispec Original','Bispec Anti','Bispec O. Norm','Bispec A. Norm','Shabazi'};
-    titles2 = {'Standard','Ortho','Bispec Original','Bispec Anti','Shabazi'};
+    titles = {'MI','Ortho','Bispec Original','Bispec Anti','Shabazi'};
     
     a=[];
     
@@ -37,15 +36,7 @@ for ip =[8]
             PR{2}(iit) = pr_ortho;
             PR{3}(iit) = pr_bispec_o;
             PR{4}(iit) = pr_bispec_a;
-            if ip == 1
-                PR{5}(iit) = pr_bispec_o_norm;
-                PR{6}(iit) = pr_bispec_a_norm;
-            end
-            if ip == 1
-                PR{7}(iit) = pr_shahbazi;
-            elseif ip==4 || ip == 5 || ip == 6 || ip == 9 || ip == 10
-                PR{5}(iit) = pr_shahbazi;
-            end
+            PR{5}(iit) = pr_shahbazi;
         catch
             a=[a iit];
         end
@@ -58,16 +49,16 @@ for ip =[8]
     
     %%
     figure
-    figone(8,30)
+    figone(6,20)
     o=1;
-    for icon = 1:length(PR)
+    for icon = [1 2 5 3 4]
         
         data1 = PR{icon};
         mean_pr(o) = mean(data1);
         imlab = 'PR';
         imlab1 = 'PR';
         
-        cl = [0.8 0.7 0.6];
+        cl = [0.7 0.75 0.75];
         
         subplot(1,length(PR),o)
         
@@ -76,11 +67,8 @@ for ip =[8]
         set(gca, 'Xdir', 'reverse');
         set(gca, 'XLim', [0 1]);
         
-        if ip==1
-            htit = title(titles1{o});
-        else
-            htit = title(titles2{o});
-        end
+        htit = title(titles{icon});
+
         htit.Position(1) = -0.12;
         set(gca,'ytick',[])
         ylim([-0.75 2])
@@ -91,11 +79,11 @@ for ip =[8]
             set(gca,'Clipping','Off')
             xt = xticks;
             for ix = xt
-                hu = line([ix ix],[2 -10]);
+                hu = line([ix ix],[2 -15]);
                 set(hu, 'color',[0.9 0.9 0.9])
                 uistack(hu,'bottom')
             end
-            hu1 = line([0 0],[2 -10]);
+            hu1 = line([0 0],[2 -15]);
             set(hu1, 'color',[0 0 0])
         else
             set(gca,'xticklabel',{[]})
@@ -113,7 +101,7 @@ for ip =[8]
         o=o+1;
     end
     
-    %
+    %%
     outname = [DIRFIG inname(1:end-8) '.png'];
     print(outname,'-dpng');
     

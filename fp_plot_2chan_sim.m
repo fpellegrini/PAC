@@ -104,17 +104,17 @@ end
 
 %% TPR and TNR
 
-
+clear a
 figure
 ii=1;
 for icse = 1:ncse
     subplot(3,2,ii)
     
     for imet = 1:nmet
-        for isnr = 1:nsnr
-            a(isnr) = sum(squeeze(tpnr{isnr}(icse,imet,:)))/nit;
+        for isnr = 1:nsnr-1
+            a(isnr) = mean(squeeze(tpnr{isnr}(icse,imet,:)));
         end
-        plot(a)
+        plot(a,'LineWidth',1)
         
         hold on
     end
@@ -125,8 +125,8 @@ for icse = 1:ncse
         ylabel('TNR')
     end
     xlabel('snr')
-    xticks = 1:nsnr; 
-    xTickLabels = snrs;
+    xticks = 1:nsnr-1; 
+    xTickLabels = snrs(1:end-1);
     set(gca,'xtick',xticks,'xticklabels',xTickLabels);
     ylim([0 1])
     title([cses{icse} ])

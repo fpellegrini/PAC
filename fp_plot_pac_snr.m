@@ -10,7 +10,7 @@ clear PR
 ip = 3;
 params = fp_get_params_pac(ip);
 
-titles = {'SNR 0.3','SNR 0.5','SNR 0.9'};
+titles = {'-7.4 dB','0 dB','19.1 dB'};
 mets = {'Tort','Ortho','Borig','Banti','Borignorm','Bantinorm','Shah'};
 
 for isnr = 1:length(params.isnr)
@@ -46,7 +46,7 @@ end
 %%
 for icon = [1:4]
     figure
-    figone(8,20)
+    figone(6,10)
     o=1;
     
     for isnr = 1:length(params.isnr)
@@ -54,7 +54,7 @@ for icon = [1:4]
         data1 = squeeze(PR{icon}(isnr,:));
         %     mean_pr(o) = mean(data1);
         
-        cl = [0.8 0.7 0.6];
+        cl = [0.7 0.75 0.75];
         
         subplot(1,length(params.isnr),o)
         

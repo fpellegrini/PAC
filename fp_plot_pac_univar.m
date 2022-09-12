@@ -38,17 +38,20 @@ for iit= [1:100]
         P{4}(:,:,iit) = p_anti<0.05;
         P{5}(:,:,iit) = p_shahbazi<0.05;
         iroi(iit)=iroi_phase; 
-       
+        
+        for ii = 1:5
+            p(iit,ii) = sum(P{ii}(:))/((68*68)-68);
+        end
+        
     catch
         a=[a iit];
     end
     
+    
 end
 
+%%
 
-for ii = 1:5    
-    p(ii) = sum(P{ii}(:))/(((68*68)-68)*100); 
-end
 
 bar(p)
 grid on 
