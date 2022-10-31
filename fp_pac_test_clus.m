@@ -7,7 +7,7 @@ DIRIN = '/home/bbci/data/haufe/Franziska/data/pac_rde/';
 DIROUT = [DIRIN 'bispecs/'];
 if ~exist(DIROUT); mkdir(DIROUT); end
 
-DIRLOG = 'home/bbci/data/haufe/Franziska/log/pac_rde/';
+DIRLOG = '/home/bbci/data/haufe/Franziska/log/pac_rde/';
 if ~exist(DIRLOG); mkdir(DIRLOG); end
 
 %subjects with high performance classification
