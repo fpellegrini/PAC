@@ -7,12 +7,13 @@ DIRIN = '/home/bbci/data/haufe/Franziska/data/pac_rde/';
 DIROUT = [DIRIN 'bispecs/'];
 if ~exist(DIROUT); mkdir(DIROUT); end
 
-DIRLOG = '/home/bbci/data/haufe/Franziska/log/pac_rde/';
+DIRLOG = '/home/bbci/data/haufe/Franziska/log/pac_rde_shuf/';
 if ~exist(DIRLOG); mkdir(DIRLOG); end
 
 %subjects with high performance classification
 subs = [3 4 5 8 9 11 12 14 15 16 17 18 19 21 22 23 25 27 28 29 30 31 33 34 35 37];
 rois = [45,46,49,50]; %Regions of interest: postcentral l/r, precentral l/r
+nshuf = 1000; 
 
 %%
 
@@ -44,21 +45,31 @@ if ~exist(sprintf('%s%s_work',DIRLOG,logname)) & ~exist(sprintf('%s%s_done',DIRL
     baln = nan(25,50,4,4);
     born = nan(25,50,4,4);
     barn = nan(25,50,4,4);
+    bols = nan(25,50,4,4,nshuf);
+    bals = nan(25,50,4,4,nshuf);
+    bors = nan(25,50,4,4,nshuf);
+    bars = nan(25,50,4,4,nshuf);
     
     for ifl = 1:25
         for ifh = ifl:50
             if (ifh+ifl<50)
                 filt.low = [ifl];
                 filt.high = [ifh];
-                [bol(ifl,ifh,:,:), bal(ifl,ifh,:,:),boln(ifl,ifh,:,:), baln(ifl,ifh,:,:)] = fp_pac_bispec(dl,EEG_left.srate,filt);
-                [bor(ifl,ifh,:,:), bar(ifl,ifh,:,:),born(ifl,ifh,:,:), barn(ifl,ifh,:,:)] = fp_pac_bispec(dr,EEG_left.srate,filt);
+                [bol(ifl,ifh,:,:), bal(ifl,ifh,:,:),boln(ifl,ifh,:,:), baln(ifl,ifh,:,:)] ...
+                    = fp_pac_bispec(dl,EEG_left.srate,filt);
+                [bor(ifl,ifh,:,:), bar(ifl,ifh,:,:),born(ifl,ifh,:,:), barn(ifl,ifh,:,:)]...
+                    = fp_pac_bispec(dr,EEG_left.srate,filt);
+                
+                [bols(ifl,ifh,:,:,:), bals(ifl,ifh,:,:,:)] = fp_pac_bispec_uni(dl,EEG_left.srate,filt, nshuf);
+                [bors(ifl,ifh,:,:,:), bars(ifl,ifh,:,:,:)] = fp_pac_bispec_uni(dr,EEG_left.srate,filt, nshuf);
                 
             end
         end
     end
     
     t=toc;
-    save([DIROUT sub '_PAC.mat'],'bol','bal','bor','bar','boln','baln','born','barn','t','-v7.3')
+    save([DIROUT sub '_PAC_shuf.mat'],'bol','bal','bor','bar','boln','baln','born','barn',...
+        'bols','bals','bors','bars','t','-v7.3')
     eval(sprintf('!mv %s%s_work %s%s_done',DIRLOG,logname,DIRLOG,logname))
     
 end
