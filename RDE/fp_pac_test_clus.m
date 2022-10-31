@@ -2,7 +2,7 @@ function fp_pac_test_clus
 
 fp_addpath_pac
 
-DIRIN = 'home/bbci/data/haufe/Franziska/data/pac_rde/';
+DIRIN = '/home/bbci/data/haufe/Franziska/data/pac_rde/';
 
 DIROUT = [DIRIN 'bispecs/'];
 if ~exist(DIROUT); mkdir(DIROUT); end
