@@ -53,7 +53,7 @@ for ishuf = 1:nshuf
     for j=1:nep
         
         %bispec of f1, f2-f1, f2
-        csloc1(1,1,1)= transpose(coeffs(1,1,j))        *coeffs(2,1,j)      *conj(coeffs(3,1,j));
+        csloc1(1,1,1)=transpose(coeffs(1,1,j))        *coeffs(2,1,j)      *conj(coeffs(3,1,j));
         csloc1(2,1,1)=transpose(coeffs(1,2,inds(j)))  *coeffs(2,1,j)      *conj(coeffs(3,1,j));
         csloc1(1,2,1)=transpose(coeffs(1,1,j))        *coeffs(2,2,inds(j))*conj(coeffs(3,1,j));
         csloc1(1,1,2)=transpose(coeffs(1,1,j))        *coeffs(2,1,j)      *conj(coeffs(3,2,inds(j)));
@@ -63,14 +63,14 @@ for ishuf = 1:nshuf
         csloc1(2,1,2)=transpose(coeffs(1,2,inds(j)))  *coeffs(2,1,j)      *conj(coeffs(3,2,inds(j)));
         
         %bispec of f1, f2, f1+f2
-        csloc2(1,1,1)=transpose(coeffs(1,1,j))*coeffs(3,1,j)*conj(coeffs(4,1,j));
-        csloc2(2,1,1)=transpose(coeffs(1,2,inds(j)))*coeffs(3,1,j)*conj(coeffs(4,1,j));
-        csloc2(1,2,1)=transpose(coeffs(1,1,j))*coeffs(3,2,inds(j))*conj(coeffs(4,1,j));
-        csloc2(1,1,2)=transpose(coeffs(1,1,j))*coeffs(3,1,j)*conj(coeffs(4,2,inds(j)));
-        csloc2(2,2,1)=transpose(coeffs(1,2,inds(j)))*coeffs(3,2,inds(j))*conj(coeffs(4,1,j));
-        csloc2(1,2,2)=transpose(coeffs(1,1,j))*coeffs(3,2,inds(j))*conj(coeffs(4,2,inds(j)));
-        csloc2(2,2,2)=transpose(coeffs(1,2,inds(j)))*coeffs(3,2,inds(j))*conj(coeffs(4,2,inds(j)));
-        csloc2(2,1,2)=transpose(coeffs(1,2,inds(j)))*coeffs(3,1,j)*conj(coeffs(4,2,inds(j)));
+        csloc2(1,1,1)=transpose(coeffs(1,1,j))          *coeffs(3,1,j)      *conj(coeffs(4,1,j));
+        csloc2(2,1,1)=transpose(coeffs(1,2,inds(j)))    *coeffs(3,1,j)      *conj(coeffs(4,1,j));
+        csloc2(1,2,1)=transpose(coeffs(1,1,j))          *coeffs(3,2,inds(j))*conj(coeffs(4,1,j));
+        csloc2(1,1,2)=transpose(coeffs(1,1,j))          *coeffs(3,1,j)      *conj(coeffs(4,2,inds(j)));
+        csloc2(2,2,1)=transpose(coeffs(1,2,inds(j)))    *coeffs(3,2,inds(j))*conj(coeffs(4,1,j));
+        csloc2(1,2,2)=transpose(coeffs(1,1,j))          *coeffs(3,2,inds(j))*conj(coeffs(4,2,inds(j)));
+        csloc2(2,2,2)=transpose(coeffs(1,2,inds(j)))    *coeffs(3,2,inds(j))*conj(coeffs(4,2,inds(j)));
+        csloc2(2,1,2)=transpose(coeffs(1,2,inds(j)))    *coeffs(3,1,j)      *conj(coeffs(4,2,inds(j)));
         
         cs1=cs1+csloc1;
         cs2=cs2+csloc2;
