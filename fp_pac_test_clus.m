@@ -50,8 +50,8 @@ if ~exist(sprintf('%s%s_work',DIRLOG,logname)) & ~exist(sprintf('%s%s_done',DIRL
             if (ifh+ifl<50)
                 filt.low = [ifl];
                 filt.high = [ifh];
-                [bol(ifl,ifh,:,:), bal(ifl,ifh,:,:),boln(ifl,ifh,:,:), baln(ifl,ifh,:,:)] = fp_pac_bispec_red(dl,EEG_left.srate,filt);
-                [bor(ifl,ifh,:,:), bar(ifl,ifh,:,:),born(ifl,ifh,:,:), barn(ifl,ifh,:,:)] = fp_pac_bispec_red(dr,EEG_left.srate,filt);
+                [bol(ifl,ifh,:,:), bal(ifl,ifh,:,:),boln(ifl,ifh,:,:), baln(ifl,ifh,:,:)] = fp_pac_bispec(dl,EEG_left.srate,filt);
+                [bor(ifl,ifh,:,:), bar(ifl,ifh,:,:),born(ifl,ifh,:,:), barn(ifl,ifh,:,:)] = fp_pac_bispec(dr,EEG_left.srate,filt);
                 
             end
         end
