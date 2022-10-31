@@ -16,6 +16,7 @@ for isb = 1:26
             title([titles{jj} '--' titles{ii}])
             xlabel('amplitude freqs')
             ylabel('phase freqs')
+            axis equal
 %             if u==16
 %                 colorbar
 %             end
@@ -42,6 +43,7 @@ for ii = 1:4
           title([titles{jj} '--' titles{ii}])
         xlabel('amplitude freqs')
         ylabel('phase freqs')
+        axis equal
         u = u+1;
     end
 end
@@ -64,6 +66,7 @@ for ii = 1:4
         title([titles{jj} '--' titles{ii}])
         xlabel('amplitude freqs')
         ylabel('phase freqs')
+        axis equal
         u = u+1;
     end
 end
@@ -86,6 +89,7 @@ for ii = 1:4
           title([titles{jj} '--' titles{ii}])
         xlabel('amplitude freqs')
         ylabel('phase freqs')
+        axis equal
         u = u+1;
     end
 end
