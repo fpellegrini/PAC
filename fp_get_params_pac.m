@@ -39,83 +39,83 @@ elseif ip == 3
     params.pips = 1;
     params.nshuf = 100;
     
-elseif ip == 4
-    %truevox pipeline 
-    params.case = 2; %bivariate
-    params.iInt = 3;
-    params.isnr=0.5;
-    params.t = 1; 
+% elseif ip == 4
+%     %truevox pipeline 
+%     params.case = 2; %bivariate
+%     params.iInt = 3;
+%     params.isnr=0.5;
+%     params.t = 1; 
+%     
+%     params.iReg=1;
+%     params.iss = 0.9;
+%     params.ifilt = 'l';
+%     params.pips = 1;
+%     params.nshuf = 100;
     
-    params.iReg=1;
-    params.iss = 0.9;
-    params.ifilt = 'l';
-    params.pips = 1;
-    params.nshuf = 100;
+% elseif ip==5 
+%     %uni+bivariate case 
+%     params.case = 3; 
+%     params.iInt = [1 1];%one univariate and one bivariate interaction 
+%     params.isnr=0.5;
+%     params.t = 0; % pip1 
+%     
+%     params.iReg=1;
+%     params.iss = 0.9;
+%     params.ifilt = 'l';
+%     params.pips = 1;
+%     params.nshuf = 100;
+%     
+% elseif ip==6
+%     %uni+bivariate case 
+%     params.case = 3; 
+%     params.iInt = [1 1];%one univariate and one bivariate interaction 
+%     params.isnr=0.5;
+%     params.t = 1; % truevox pip
+%     
+%     params.iReg=1;
+%     params.iss = 0.9;
+%     params.ifilt = 'l';
+%     params.pips = 1;
+%     params.nshuf = 100;
+%     
+% elseif ip == 7 
+%     %uni+bivariate case 
+%     params.case = 3; 
+%     params.iInt = [3 3];%three univariate and two bivariate interactions 
+%     params.isnr=0.5;
+%     params.t = 0; % pip1 
+%     
+%     params.iReg=1;
+%     params.iss = 0.9;
+%     params.ifilt = 'l';
+%     params.pips = 1;
+%     params.nshuf = 100;
+%     
+% elseif ip==8 
+%     %uni+bivariate case 
+%     params.case = 3; 
+%     params.iInt = [3 3];%three univariate and two bivariate interactions 
+%     params.isnr=0.5;
+%     params.t = 1; % truevox
+%     
+%     params.iReg=1;
+%     params.iss = 0.9;
+%     params.ifilt = 'l';
+%     params.pips = 1;
+%     params.nshuf = 100;
     
-elseif ip==5 
-    %uni+bivariate case 
-    params.case = 3; 
-    params.iInt = [1 1];%one univariate and one bivariate interaction 
-    params.isnr=0.5;
-    params.t = 0; % pip1 
-    
-    params.iReg=1;
-    params.iss = 0.9;
-    params.ifilt = 'l';
-    params.pips = 1;
-    params.nshuf = 100;
-    
-elseif ip==6
-    %uni+bivariate case 
-    params.case = 3; 
-    params.iInt = [1 1];%one univariate and one bivariate interaction 
-    params.isnr=0.5;
-    params.t = 1; % truevox pip
-    
-    params.iReg=1;
-    params.iss = 0.9;
-    params.ifilt = 'l';
-    params.pips = 1;
-    params.nshuf = 100;
-    
-elseif ip == 7 
-    %uni+bivariate case 
-    params.case = 3; 
-    params.iInt = [3 3];%three univariate and two bivariate interactions 
-    params.isnr=0.5;
-    params.t = 0; % pip1 
-    
-    params.iReg=1;
-    params.iss = 0.9;
-    params.ifilt = 'l';
-    params.pips = 1;
-    params.nshuf = 100;
-    
-elseif ip==8 
-    %uni+bivariate case 
-    params.case = 3; 
-    params.iInt = [3 3];%three univariate and two bivariate interactions 
-    params.isnr=0.5;
-    params.t = 1; % truevox
-    
-    params.iReg=1;
-    params.iss = 0.9;
-    params.ifilt = 'l';
-    params.pips = 1;
-    params.nshuf = 100;
-    
-elseif ip==9
-    %different lcmv
-    params.case = 2; %bivariate
-    params.iInt = 3;
-    params.isnr=0.5;
-    params.t = 0; 
-    
-    params.iReg=1;
-    params.iss = 0.9;
-    params.ifilt = 'lf';
-    params.pips = 1;
-    params.nshuf = 100;
+% elseif ip==9
+%     %different lcmv
+%     params.case = 2; %bivariate
+%     params.iInt = 3;
+%     params.isnr=0.5;
+%     params.t = 0; 
+%     
+%     params.iReg=1;
+%     params.iss = 0.9;
+%     params.ifilt = 'lf';
+%     params.pips = 1;
+%     params.nshuf = 100;
     
 elseif ip == 10 
     
