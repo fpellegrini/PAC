@@ -4,7 +4,7 @@ titles = {'post l','post r','pre l','pre r'};
 
 %% subject plots 
 
-for isb = 1:26
+for isb = 1:size(data,1)
     figure;
     figone(30,40)
     u = 1;

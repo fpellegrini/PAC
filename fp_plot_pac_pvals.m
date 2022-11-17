@@ -33,6 +33,7 @@ figone(30,40)
 u = 1;
 for ii = 1:4
     for jj =1:4
+        if ii ~= jj
         subplot(4,4,u)
         imagesc(-log10(squeeze(data_a(:,:,ii,jj))).*squeeze(sign(ta(:,:,ii,jj))))
 %         colorbar
@@ -41,6 +42,7 @@ for ii = 1:4
         xlabel('amplitude freqs')
         ylabel('phase freqs')
         axis equal
+        end
         u = u+1;
     end
 end
