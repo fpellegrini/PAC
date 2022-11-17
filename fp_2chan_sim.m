@@ -2,10 +2,10 @@ function fp_2chan_sim
 
 fp_addpath_pac
 
-DIRLOG ='/home/bbci/data/haufe/Franziska/log/2chan_sim4/';
+DIRLOG ='/home/bbci/data/haufe/Franziska/log/2chan_sim5/';
 if ~exist(DIRLOG); mkdir(DIRLOG); end
 
-DIROUT = '/home/bbci/data/haufe/Franziska/data/2chan_sim4/';
+DIROUT = '/home/bbci/data/haufe/Franziska/data/2chan_sim5/';
 if ~exist(DIROUT);mkdir(DIROUT); end
 
 iit = str2num(getenv('SGE_TASK_ID'));
