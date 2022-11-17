@@ -9,22 +9,31 @@ DIRFIG = '~/Dropbox/Franziska/PAC_AAC_estimation/RDE_figures/';
 subs = [3 4 5 8 9 11 12 14 15 16 17 18 19 21 22 23 25 27 28 29 30 31 33 34 35 37];
 %%
 isb = 1;
-for isub = subs
+for isub = subs(19:end)
     
     sub = ['vp' num2str(isub)];
-    load([DIRIN sub '_PAC.mat'])
+    load([DIRIN sub '_PAC_shuf.mat'])
+    
+    BORN(isb,:,:,:,:)=born;
+    BOLN(isb,:,:,:,:)=boln;
+    BARN(isb,:,:,:,:)=barn;
+    BALN(isb,:,:,:,:)=baln;
     
     BOR(isb,:,:,:,:)=bor;
     BOL(isb,:,:,:,:)=bol;
     BAR(isb,:,:,:,:)=bar;
     BAL(isb,:,:,:,:)=bal;
+    
     isb = isb+1;
     
 end
 
 %%
-fp_plot_pac(DIRFIG,BOL,BAL,'left_norm')
-fp_plot_pac(DIRFIG,BOR,BAR,'right_norm')
+fp_plot_pac(DIRFIG,BOL,BAL,'left')
+fp_plot_pac(DIRFIG,BOR,BAR,'right')
+
+fp_plot_pac(DIRFIG,BOLN,BALN,'left_norm')
+fp_plot_pac(DIRFIG,BORN,BARN,'right_norm')
 
 %%
 pa = nan(size(squeeze(BAL(1,:,:,:,:))));
@@ -60,6 +69,17 @@ for ifq = 1:size(BAR,2)
                         'alpha',0.05);
                     ta(ifq,jfq,iroi,jroi) = sign(stats.zval);
                     
+                    [pon(ifq,jfq,iroi,jroi), ~, stats] ...
+                        = signrank(squeeze(BOLN(:,ifq,jfq,iroi,jroi)),squeeze(BORN(:,ifq,jfq,iroi,jroi)),...
+                        'alpha',0.05);
+                    
+                    ton(ifq,jfq,iroi,jroi) = sign(stats.zval);
+                    
+                    [pan(ifq,jfq,iroi,jroi), ~, stats] ...
+                        = signrank(squeeze(BALN(:,ifq,jfq,iroi,jroi)),squeeze(BARN(:,ifq,jfq,iroi,jroi)),...
+                        'alpha',0.05);
+                    tan(ifq,jfq,iroi,jroi) = sign(stats.zval);
+                    
                 end
             end
         end
@@ -67,5 +87,15 @@ for ifq = 1:size(BAR,2)
 end
 
 %%
-fp_plot_pac_pvals(DIRFIG,po,pa,to,ta)
+
+dirout = [DIRFIG 'normalized/'];
+if ~exist(dirout); mkdir(dirout); end
+
+fp_plot_pac_pvals(dirout,pon,pan,ton,tan)
+
+%%
+dirout = [DIRFIG 'unnormalized/'];
+if ~exist(dirout); mkdir(dirout); end
+
+fp_plot_pac_pvals(dirout,po,pa,to,ta)
 
