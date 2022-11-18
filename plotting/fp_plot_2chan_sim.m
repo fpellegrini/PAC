@@ -1,4 +1,4 @@
-DIRIN = '~/Dropbox/Franziska/PAC_AAC_estimation/data/2chan_sim2/';
+DIRIN = '~/Dropbox/Franziska/PAC_AAC_estimation/data/2chan_sim4/';
 
 nit =100;
 
@@ -27,50 +27,51 @@ end
 nmet = length(p{1,1}); 
 [ncse, nsnr] = size(p); 
 mets = {'Tort','Ortho','Sha','Bispec','Anti','0.05'};
-snrs = {'0', '0.2', '0.4', '0.6', '0.8', '1'};
+% snrs = {'0', '0.2', '0.4', '0.6', '0.8', '1'};
+snrs = {'0', '0.2', '0.4','0.5', '0.6', '0.8', '1'};
 cses = {'true int','true int mixed','uni int','uni int mixed','two unis','two unis mixed'};
-
-for isnr = 1:nsnr
-    
-    figure
-    ii=1;
-    for icse = 1:ncse
-        for imet = 1:nmet
-            
-            subplot(size(p,1),length(p{1,1}),ii)
-            hist(squeeze(pval{isnr}(icse,imet,:)))
-            xlim([0 1])
-            xlabel('pvalues')
-            title([mets{imet} ' ' cses{icse} ' snr ' snrs{isnr}])
-            
-            ii=ii+1;
-            
-        end
-    end
-    
-end
+% 
+% for isnr = 1:nsnr
+%     
+%     figure
+%     ii=1;
+%     for icse = 1:ncse
+%         for imet = 1:nmet
+%             
+%             subplot(size(p,1),length(p{1,1}),ii)
+%             hist(squeeze(pval{isnr}(icse,imet,:)))
+%             xlim([0 1])
+%             xlabel('pvalues')
+%             title([mets{imet} ' ' cses{icse} ' snr ' snrs{isnr}])
+%             
+%             ii=ii+1;
+%             
+%         end
+%     end
+%     
+% end
 
 %%
 
-figure
-ii=1;
-for icse = 1:ncse
-    for imet = 1:nmet
-        
-        subplot(size(p,1),length(p{1,1}),ii)
-        for isnr = 1:nsnr
-            a(isnr) = mean(squeeze(pval{isnr}(icse,imet,:)));
-        end
-        plot(a)
-        ylabel('pval')
-        xlabel('snr')
-        title([cses{icse} ' ' mets{imet} ])
-        ylim([0 1])
-        
-        ii=ii+1;
-        
-    end
-end
+% figure
+% ii=1;
+% for icse = 1:ncse
+%     for imet = 1:nmet
+%         
+%         subplot(size(p,1),length(p{1,1}),ii)
+%         for isnr = 1:nsnr
+%             a(isnr) = mean(squeeze(pval{isnr}(icse,imet,:)));
+%         end
+%         plot(a)
+%         ylabel('pval')
+%         xlabel('snr')
+%         title([cses{icse} ' ' mets{imet} ])
+%         ylim([0 1])
+%         
+%         ii=ii+1;
+%         
+%     end
+% end
 
 %%
 clear a

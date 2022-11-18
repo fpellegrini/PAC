@@ -2,10 +2,10 @@ function fp_2chan_sim
 
 fp_addpath_pac
 
-DIRLOG ='/home/bbci/data/haufe/Franziska/log/2chan_sim5/';
+DIRLOG ='/home/bbci/data/haufe/Franziska/log/2chan_sim6/';
 if ~exist(DIRLOG); mkdir(DIRLOG); end
 
-DIROUT = '/home/bbci/data/haufe/Franziska/data/2chan_sim5/';
+DIROUT = '/home/bbci/data/haufe/Franziska/data/2chan_sim6/';
 if ~exist(DIROUT);mkdir(DIROUT); end
 
 iit = str2num(getenv('SGE_TASK_ID'));
@@ -39,8 +39,7 @@ if ~exist(sprintf('%s%s_work',DIRLOG,logname)) & ~exist(sprintf('%s%s_done',DIRL
     filt.high = high;
     
     %SNR
-%     snr_v = [0 0.2 0.4 0.6 0.8 1]; %in sim 3 
-    snr_v = [0 0.2 0.4 0.5 0.6 0.8 1];
+    snr_v = [0 0.2 0.4 0.6 0.8 1]; %in sim 3 
     
     %% Signal generation
     
@@ -77,35 +76,35 @@ if ~exist(sprintf('%s%s_work',DIRLOG,logname)) & ~exist(sprintf('%s%s_done',DIRL
         [pac{cse,isnr}, p{cse,isnr}] = fp_get_all_pac(X_1, fs, filt, n_shuffles);
         
         
-%         %% Case 2: true bivariate pac + mixing (formerly case 4)
-%         
-%         cse=2;
-%         fprintf(['SNR '  num2str(isnr) ', case ' num2str(cse) '\n']) 
-%         
-%         %generate signal with mixing
-%         X_2 = [high_osc low_osc];
-%         X_2 = X_2*mixing_matrix;
-%         X_2 = X_2./norm(X_2(:),'fro');
-%         X_2 =  snr_v(isnr)*X_2 + (1-snr_v(isnr))*channels_noise;
-%         X_2 = reshape(X_2',nchan,[],n_trials_s);
-%         
-%         [pac{cse,isnr}, p{cse,isnr}] = fp_get_all_pac(X_2, fs, filt, n_shuffles);
-%         
-%         
-%         %% Case 3: univariate pac + random signal (formerly case 5)
-%         
-%         cse = 3;
-%         fprintf(['SNR '  num2str(isnr) ', case ' num2str(cse) '\n']) 
-%         
-%         %generate signal
-%         X_3 = [pac_0 rand_sig];
-%         X_3 = X_3./norm(X_3(:),'fro');
-%         X_3 =  snr_v(isnr)*X_3 + (1-snr_v(isnr))*channels_noise;
-%         X_3 = reshape(X_3',nchan,[],n_trials_s);
-%         
-%         [pac{cse,isnr}, p{cse,isnr}] = fp_get_all_pac(X_3, fs, filt, n_shuffles);
-%         
-%         
+        %% Case 2: true bivariate pac + mixing (formerly case 4)
+        
+        cse=2;
+        fprintf(['SNR '  num2str(isnr) ', case ' num2str(cse) '\n']) 
+        
+        %generate signal with mixing
+        X_2 = [high_osc low_osc];
+        X_2 = X_2*mixing_matrix;
+        X_2 = X_2./norm(X_2(:),'fro');
+        X_2 =  snr_v(isnr)*X_2 + (1-snr_v(isnr))*channels_noise;
+        X_2 = reshape(X_2',nchan,[],n_trials_s);
+        
+        [pac{cse,isnr}, p{cse,isnr}] = fp_get_all_pac(X_2, fs, filt, n_shuffles);
+        
+        
+        %% Case 3: univariate pac + random signal (formerly case 5)
+        
+        cse = 3;
+        fprintf(['SNR '  num2str(isnr) ', case ' num2str(cse) '\n']) 
+        
+        %generate signal
+        X_3 = [pac_0 rand_sig];
+        X_3 = X_3./norm(X_3(:),'fro');
+        X_3 =  snr_v(isnr)*X_3 + (1-snr_v(isnr))*channels_noise;
+        X_3 = reshape(X_3',nchan,[],n_trials_s);
+        
+        [pac{cse,isnr}, p{cse,isnr}] = fp_get_all_pac(X_3, fs, filt, n_shuffles);
+        
+        
         %% Case 4: univariate pac + random signal + mixing (formerly case 6)
         
         cse = 4;
@@ -121,33 +120,33 @@ if ~exist(sprintf('%s%s_work',DIRLOG,logname)) & ~exist(sprintf('%s%s_done',DIRL
         [pac{cse,isnr}, p{cse,isnr}] = fp_get_all_pac(X_4, fs, filt, n_shuffles);
         
         
-%         %% Case 5: two univariate pac signals  (formerly case 7)
-%         
-%         cse = 5;
-%         fprintf(['SNR '  num2str(isnr) ', case ' num2str(cse) '\n']) 
-%         
-%         %generate signal
-%         X_5 = [pac_0 pac_1];
-%         X_5 = X_5./norm(X_5(:),'fro');
-%         X_5 =  snr_v(isnr)*X_5 + (1-snr_v(isnr))*channels_noise;
-%         X_5 = reshape(X_5',nchan,[],n_trials_s);
-%         
-%         [pac{cse,isnr}, p{cse,isnr}] = fp_get_all_pac(X_5, fs, filt, n_shuffles);
-%         
-%         
-%         %% Case 6: two univariate pac signals + mixing (formerly case 8)
-%         
-%         cse = 6;
-%         fprintf(['SNR '  num2str(isnr) ', case ' num2str(cse) '\n']) 
-%         
-%         %generate signal with mixing
-%         X_6 = [pac_0 pac_1];
-%         X_6 = X_6*mixing_matrix;
-%         X_6 = X_6./norm(X_6(:),'fro');
-%         X_6 = snr_v(isnr)*X_6 + (1-snr_v(isnr))*channels_noise;
-%         X_6 = reshape(X_6',nchan,[],n_trials_s);
-%         
-%         [pac{cse,isnr}, p{cse,isnr}] = fp_get_all_pac(X_6, fs, filt, n_shuffles);
+        %% Case 5: two univariate pac signals  (formerly case 7)
+        
+        cse = 5;
+        fprintf(['SNR '  num2str(isnr) ', case ' num2str(cse) '\n']) 
+        
+        %generate signal
+        X_5 = [pac_0 pac_1];
+        X_5 = X_5./norm(X_5(:),'fro');
+        X_5 =  snr_v(isnr)*X_5 + (1-snr_v(isnr))*channels_noise;
+        X_5 = reshape(X_5',nchan,[],n_trials_s);
+        
+        [pac{cse,isnr}, p{cse,isnr}] = fp_get_all_pac(X_5, fs, filt, n_shuffles);
+        
+        
+        %% Case 6: two univariate pac signals + mixing (formerly case 8)
+        
+        cse = 6;
+        fprintf(['SNR '  num2str(isnr) ', case ' num2str(cse) '\n']) 
+        
+        %generate signal with mixing
+        X_6 = [pac_0 pac_1];
+        X_6 = X_6*mixing_matrix;
+        X_6 = X_6./norm(X_6(:),'fro');
+        X_6 = snr_v(isnr)*X_6 + (1-snr_v(isnr))*channels_noise;
+        X_6 = reshape(X_6',nchan,[],n_trials_s);
+        
+        [pac{cse,isnr}, p{cse,isnr}] = fp_get_all_pac(X_6, fs, filt, n_shuffles);
         
     end
     
