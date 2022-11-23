@@ -1,4 +1,4 @@
-DIRIN = '~/Dropbox/Franziska/PAC_AAC_estimation/data/2chan_sim4/';
+DIRIN = '~/Dropbox/Franziska/PAC_AAC_estimation/data/2chan_sim6/';
 
 nit =100;
 
@@ -27,8 +27,8 @@ end
 nmet = length(p{1,1}); 
 [ncse, nsnr] = size(p); 
 mets = {'Tort','Ortho','Sha','Bispec','Anti','0.05'};
-% snrs = {'0', '0.2', '0.4', '0.6', '0.8', '1'};
-snrs = {'0', '0.2', '0.4','0.5', '0.6', '0.8', '1'};
+snrs = {'0', '0.2', '0.4', '0.6', '0.8', '1'};
+% snrs = {'0', '0.2', '0.4','0.5', '0.6', '0.8', '1'};
 cses = {'true int','true int mixed','uni int','uni int mixed','two unis','two unis mixed'};
 % 
 % for isnr = 1:nsnr
