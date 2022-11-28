@@ -5,11 +5,11 @@ fp_addpath_pac
 DIRLOG ='/home/bbci/data/haufe/Franziska/log/pac_sim3/';
 if ~exist(DIRLOG); mkdir(DIRLOG); end
 
-rng('shuffle')
 
 %%
 %prevent array jobs to start at exactly the same time
 iit = str2num(getenv('SGE_TASK_ID'))
+rng(iit)
 
 params1 = fp_get_params_pac(ip);
 params = params1;
