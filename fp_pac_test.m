@@ -19,8 +19,8 @@ for isub = subs
     tic
     % load preprocessed EEG    
     sub = ['vp' num2str(isub)];
-    EEG_left = pop_loadset('filename',['roi1_' sub '_left.set'],'filepath',DIRIN) ;
-    EEG_right = pop_loadset('filename',['roi1_' sub '_right.set'],'filepath',DIRIN);
+    EEG_left = pop_loadset('filename',['roi_' sub '_left.set'],'filepath',DIRIN) ;
+    EEG_right = pop_loadset('filename',['roi_' sub '_right.set'],'filepath',DIRIN);
     
     %select data of rois 
     dl = EEG_left.roi.source_roi_data(rois,:,:); 

@@ -2,19 +2,19 @@
 addpath(genpath('~/Dropbox/Franziska/PAC_AAC_estimation/data/'))
 addpath('/Users/franziskapellegrini/Dropbox/Franziska/MEG_Project/matlab/libs/emd_for_icoh/roi_connectivity_emd/');
 
-DIRDATA = '~/Dropbox/Franziska/PAC_AAC_estimation/data/sim3/';
+DIRDATA = '~/Dropbox/Franziska/PAC_AAC_estimation/data/sim4/';
 
-DIRFIG = '~/Dropbox/Franziska/PAC_AAC_estimation/figures/sim3/univar/';
+DIRFIG = '~/Dropbox/Franziska/PAC_AAC_estimation/figures/sim4/univar/';
 if ~exist(DIRFIG); mkdir(DIRFIG); end
 
 %%
 
-for ip = 10%[10 11 13]
+for ip = 11%[10 11 13]
     
     clearvars -except ip DIRFIG DIRDATA
     params = fp_get_params_pac(ip);
     
-    titles = {'MI','Ortho','Bispec Original','Bispec Anti','Shahbazi'};
+    titles = {'MI','Ortho','Bispec Original','Bispec Anti','ICshuf'};
     
     a=[];
     
@@ -39,18 +39,19 @@ for ip = 10%[10 11 13]
             P{4}(:,:,iit) = p_anti<0.05;
             P{5}(:,:,iit) = p_shahbazi<0.05;
             iroi(:,iit)=iroi_phase;
-%             
-%             for ii = 1:5
-%                 p(iit,ii) = sum(P{ ii}(:))/((68*68)-68);
-%             end
             
         catch
             a=[a iit];
+            iit_ = setdiff(1:100,a); 
         end
         
         
     end
     
+    for ii =1: 5
+        P{ii}(:,:,a)=[];
+        iroi(:,a)=[];
+    end
     
     %% get neighboring structure
     
@@ -60,7 +61,7 @@ for ip = 10%[10 11 13]
     [~, ~, nb, ~] = get_ROI_dist_full(cortex, iatl, neighbor_thresh);
     
     %%
-    for iit = [1:76 78:100]
+    for iit = 1:size(iroi,2)
         for im = 1:5
             
             u1=[];
@@ -131,8 +132,8 @@ for ip = 10%[10 11 13]
     %
     outname = [DIRFIG 'neighbors_seedamp_iInt' num2str(params.iInt) '_filt' params.ifilt '.eps'];
     print(outname,'-depsc');
-%     outname = [DIRFIG 'neighbors_seedamp_iInt' num2str(params.iInt) '_filt' params.ifilt '.png'];
-%     print(outname,'-dpng');
+    outname = [DIRFIG 'neighbors_seedamp_iInt' num2str(params.iInt) '_filt' params.ifilt '.png'];
+    print(outname,'-dpng');
     close all
     %%
     o=1;
@@ -187,13 +188,13 @@ for ip = 10%[10 11 13]
     %
     outname = [DIRFIG 'neighbors_seedphase_iInt' num2str(params.iInt) '_filt' params.ifilt '.eps'];
     print(outname,'-depsc');
-%     outname = [DIRFIG 'neighbors_seedphase_iInt' num2str(params.iInt) '_filt' params.ifilt '.png'];
-%     print(outname,'-dpng');
+    outname = [DIRFIG 'neighbors_seedphase_iInt' num2str(params.iInt) '_filt' params.ifilt '.png'];
+    print(outname,'-dpng');
     close all
     
     %% non-neighbouring regions
     
-    for iit = 1:100
+    for iit = 1:size(iroi,2)
         
         for im = 1:5
             u1=[];
@@ -265,8 +266,8 @@ for ip = 10%[10 11 13]
     end
     
     %
-%     outname = [DIRFIG 'non-neighbors_seedamp_iInt' num2str(params.iInt) '_filt' params.ifilt '.png'];
-%     print(outname,'-dpng');
+    outname = [DIRFIG 'non-neighbors_seedamp_iInt' num2str(params.iInt) '_filt' params.ifilt '.png'];
+    print(outname,'-dpng');
     outname = [DIRFIG 'non-neighbors_seedamp_iInt' num2str(params.iInt) '_filt' params.ifilt '2.eps'];
     print(outname,'-depsc');
     close all
@@ -323,8 +324,8 @@ for ip = 10%[10 11 13]
     end
     
     %
-%     outname = [DIRFIG 'non-neighbors_seedphase_iInt' num2str(params.iInt) '_filt' params.ifilt '.png'];
-%     print(outname,'-dpng');
+    outname = [DIRFIG 'non-neighbors_seedphase_iInt' num2str(params.iInt) '_filt' params.ifilt '.png'];
+    print(outname,'-dpng');
     outname = [DIRFIG 'non-neighbors_seedphase_iInt' num2str(params.iInt) '_filt' params.ifilt '.eps'];
     print(outname,'-depsc');
 close all

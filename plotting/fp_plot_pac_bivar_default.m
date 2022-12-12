@@ -1,8 +1,8 @@
 function fp_plot_pac_bivar_default
 
 addpath(genpath('~/Dropbox/Franziska/PAC_AAC_estimation/data/'))
-DIRDATA = '~/Dropbox/Franziska/PAC_AAC_estimation/data/sim3/';
-DIRFIG = '~/Dropbox/Franziska/PAC_AAC_estimation/figures/sim3/';
+DIRDATA = '~/Dropbox/Franziska/PAC_AAC_estimation/data/sim4/';
+DIRFIG = '~/Dropbox/Franziska/PAC_AAC_estimation/figures/sim4/';
 if ~exist(DIRFIG); mkdir(DIRFIG); end
 
 %%
@@ -12,7 +12,7 @@ for ip =[1]
     clear PR
     params = fp_get_params_pac(ip);
     
-    titles = {'MI','Ortho','Bispec Original','Bispec Anti','Shahbazi'};
+    titles = {'MI','Ortho','Bispec Original','Bispec Anti','ICshuf'};
     
     a=[];
     
@@ -101,14 +101,14 @@ for ip =[1]
         o=o+1;
     end
     
-    %%
-%     outname = [DIRFIG inname(1:end-8) '.png'];
-%     print(outname,'-dpng');
+    %
+    outname = [DIRFIG inname(1:end-8) '.png'];
+    print(outname,'-dpng');
 %     
     outname = [DIRFIG inname(1:end-8) '.eps'];
     print(outname,'-depsc');
     
-    close all
+%     close all
 end
 
 

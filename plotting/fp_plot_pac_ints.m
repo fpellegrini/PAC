@@ -1,8 +1,8 @@
 function fp_plot_pac_ints
 
 addpath(genpath('~/Dropbox/Franziska/PAC_AAC_estimation/data/'))
-DIRDATA = '~/Dropbox/Franziska/PAC_AAC_estimation/data/sim3/';
-DIRFIG = '~/Dropbox/Franziska/PAC_AAC_estimation/figures/sim3/';
+DIRDATA = '~/Dropbox/Franziska/PAC_AAC_estimation/data/sim4/';
+DIRFIG = '~/Dropbox/Franziska/PAC_AAC_estimation/figures/sim4/';
 if ~exist(DIRFIG); mkdir(DIRFIG); end
 
 %%
@@ -11,7 +11,7 @@ ip = 2;
 params = fp_get_params_pac(ip);
 
 titles = {'1 interaction','3 interactions','5 interactions'};
-mets = {'Tort','Ortho','Borig','Banti','Borignorm','Bantinorm','Shah'};
+mets = {'MI','Ortho','Borig','Banti','Borignorm','Bantinorm','Shah'};
 
 for iInt = [1 0 2]
     if iInt ==0 
@@ -29,7 +29,7 @@ for iInt = [1 0 2]
     end 
     params = fp_get_params_pac(ip);
     
-    for iit= [1:63 66:72 74:100]
+    for iit= [1:24 26:97 99:100]
         
         if params.case == 1
             inname = sprintf('pr_univar_iInt%d_iReg%d_snr0%d_iss0%d_filt%s_pip%d_iter%d'...
@@ -53,7 +53,7 @@ for iInt = [1 0 2]
 end
 
 for ii = 1:5
-   PR{ii}(:,[64 65 73])=[]; 
+   PR{ii}(:,[25 98])=[]; 
 end
 %%
 
@@ -110,11 +110,11 @@ for icon = [1:4]
     
     
     %%
-%     outname = [DIRFIG 'Ints_' mets{icon} '.png'];
-%     print(outname,'-dpng');
+    outname = [DIRFIG 'Ints_' mets{icon} '.png'];
+    print(outname,'-dpng');
     
     outname = [DIRFIG 'Ints_' mets{icon} '.eps'];
     print(outname,'-depsc');
     
-    close all
+%     close all
 end

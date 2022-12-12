@@ -1,15 +1,15 @@
 function fp_plot_pac_snr
 
 addpath(genpath('~/Dropbox/Franziska/PAC_AAC_estimation/data/'))
-DIRDATA = '~/Dropbox/Franziska/PAC_AAC_estimation/data/sim3/';
-DIRFIG = '~/Dropbox/Franziska/PAC_AAC_estimation/figures/sim3/';
+DIRDATA = '~/Dropbox/Franziska/PAC_AAC_estimation/data/sim4/';
+DIRFIG = '~/Dropbox/Franziska/PAC_AAC_estimation/figures/sim4/';
 if ~exist(DIRFIG); mkdir(DIRFIG); end
 
 %%
 clear PR
 
 titles = {'-7.4 dB','0 dB','19.1 dB'};
-mets = {'Tort','Ortho','Borig','Banti','Borignorm','Bantinorm','Shah'};
+mets = {'MI','Ortho','Borig','Banti','Borignorm','Bantinorm','Shah'};
 
 for isnr = [1 0 2]
     
@@ -108,8 +108,8 @@ for icon = [1:4]
     
     
     %%
-%     outname = [DIRFIG 'SNR_' mets{icon} '.png'];
-%     print(outname,'-dpng');
+    outname = [DIRFIG 'SNR_' mets{icon} '.png'];
+    print(outname,'-dpng');
     
     outname = [DIRFIG 'SNR_' mets{icon} '.eps'];
     print(outname,'-depsc');
