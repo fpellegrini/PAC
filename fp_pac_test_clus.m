@@ -4,16 +4,16 @@ fp_addpath_pac
 
 DIRIN = '/home/bbci/data/haufe/Franziska/data/pac_rde/';
 
-DIROUT = [DIRIN 'bispecs/'];
+DIROUT = [DIRIN 'bispecs3/'];
 if ~exist(DIROUT); mkdir(DIROUT); end
 
-DIRLOG = '/home/bbci/data/haufe/Franziska/log/pac_rde_shuf/';
+DIRLOG = '/home/bbci/data/haufe/Franziska/log/pac_rde_shuf3/';
 if ~exist(DIRLOG); mkdir(DIRLOG); end
 
 %subjects with high performance classification
 subs = [3 4 5 8 9 11 12 14 15 16 17 18 19 21 22 23 25 27 28 29 30 31 33 34 35 37];
 rois = [45,46,49,50]; %Regions of interest: postcentral l/r, precentral l/r
-nshuf = 1000; 
+nshuf = 100; 
 
 %%
 
@@ -29,32 +29,35 @@ if ~exist(sprintf('%s%s_work',DIRLOG,logname)) & ~exist(sprintf('%s%s_done',DIRL
     tic
     % load preprocessed EEG
     sub = ['vp' num2str(isub)]
-    EEG_left = pop_loadset('filename',['roi1_' sub '_left.set'],'filepath',DIRIN) ;
-    EEG_right = pop_loadset('filename',['roi1_' sub '_right.set'],'filepath',DIRIN);
+    EEG_left = pop_loadset('filename',['roi_' sub '_left.set'],'filepath',DIRIN) ;
+    EEG_right = pop_loadset('filename',['roi_' sub '_right.set'],'filepath',DIRIN);
+    
+    f_nyq = EEG_left.srate/2;
     
     %select data of rois
     dl = EEG_left.roi.source_roi_data(rois,:,:);
     dr = EEG_right.roi.source_roi_data(rois,:,:);
     
     %calculate bispectra
-    bol = nan(25,50,4,4);
-    bal = nan(25,50,4,4);
-    bor = nan(25,50,4,4);
-    bar = nan(25,50,4,4);
-    boln = nan(25,50,4,4);
-    baln = nan(25,50,4,4);
-    born = nan(25,50,4,4);
-    barn = nan(25,50,4,4);
-    bols = nan(25,50,4,4,nshuf);
-    bals = nan(25,50,4,4,nshuf);
-    bors = nan(25,50,4,4,nshuf);
-    bars = nan(25,50,4,4,nshuf);
+    bol =  nan(f_nyq/4,f_nyq,4,4);
+    bal =  nan(f_nyq/4,f_nyq,4,4);
+    bor =  nan(f_nyq/4,f_nyq,4,4);
+    bar =  nan(f_nyq/4,f_nyq,4,4);
+    boln = nan(f_nyq/4,f_nyq,4,4);
+    baln = nan(f_nyq/4,f_nyq,4,4);
+    born = nan(f_nyq/4,f_nyq,4,4);
+    barn = nan(f_nyq/4,f_nyq,4,4);
+    bols = nan(f_nyq/4,f_nyq,4,4,nshuf);
+    bals = nan(f_nyq/4,f_nyq,4,4,nshuf);
+    bors = nan(f_nyq/4,f_nyq,4,4,nshuf);
+    bars = nan(f_nyq/4,f_nyq,4,4,nshuf);
     
     for ifl = 1:25
-        for ifh = ifl:50
-            if (ifh+ifl<50)
+        for ifh = ifl*3:f_nyq
+            if (ifh+ifl<f_nyq)
+                tic
                 filt.low = [ifl];
-                filt.high = [ifh];
+                filt.high = [ifh]
                 [bol(ifl,ifh,:,:), bal(ifl,ifh,:,:),boln(ifl,ifh,:,:), baln(ifl,ifh,:,:)] ...
                     = fp_pac_bispec(dl,EEG_left.srate,filt);
                 [bor(ifl,ifh,:,:), bar(ifl,ifh,:,:),born(ifl,ifh,:,:), barn(ifl,ifh,:,:)]...
@@ -62,7 +65,7 @@ if ~exist(sprintf('%s%s_work',DIRLOG,logname)) & ~exist(sprintf('%s%s_done',DIRL
                 
                 [bols(ifl,ifh,:,:,:), bals(ifl,ifh,:,:,:)] = fp_pac_bispec_uni(dl,EEG_left.srate,filt, nshuf);
                 [bors(ifl,ifh,:,:,:), bars(ifl,ifh,:,:,:)] = fp_pac_bispec_uni(dr,EEG_left.srate,filt, nshuf);
-                
+                toc
             end
         end
     end
