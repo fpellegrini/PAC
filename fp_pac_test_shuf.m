@@ -91,8 +91,11 @@ for iroi = 1:nr1
                 if isb == nsub
                     colorbar
                 end
-                xticks =0:2:25;
-                xticklabs = 0:1:12
+                yticks =0:10:nf1;
+                yticklabs = 0:5:floor(nf1/2); %because the fres is 0.5 Hz 
+                xticks = 0:20:nf2; 
+                xticklabs = 0:10:floor(nf2/2); %because the fres is 0.5 Hz 
+                set(gca,'XTick',xticks,'XTickLabel',xticklabs,'YTick',yticks,'YTickLabel',yticklabs)
             end
             outname = [DIRFIG 'right_' regions{jroi} '--' regions{iroi} '.png'];
             print(outname,'-dpng');
@@ -113,6 +116,12 @@ for iroi = 1:nr1
                 if isb == nsub
                     colorbar
                 end
+                
+                yticks =0:10:nf1;
+                yticklabs = 0:5:floor(nf1/2); %because the fres is 0.5 Hz 
+                xticks = 0:20:nf2; 
+                xticklabs = 0:10:floor(nf2/2); %because the fres is 0.5 Hz 
+                set(gca,'XTick',xticks,'XTickLabel',xticklabs,'YTick',yticks,'YTickLabel',yticklabs)
             end
             outname = [DIRFIG 'left_' regions{jroi} '--' regions{iroi} '.png'];
             print(outname,'-dpng');
@@ -153,6 +162,12 @@ for iroi = 1:nr1
                 axis equal
                 title([regions{jroi} '--' regions{iroi}])
                 ylim([0 25])
+                
+                yticks =0:10:nf1;
+                yticklabs = 0:5:floor(nf1/2); %because the fres is 0.5 Hz 
+                xticks = 0:20:nf2; 
+                xticklabs = 0:10:floor(nf2/2); %because the fres is 0.5 Hz 
+                set(gca,'XTick',xticks,'XTickLabel',xticklabs,'YTick',yticks,'YTickLabel',yticklabs)
         end 
         u = u+1;
     end
@@ -176,9 +191,15 @@ for iroi = 1:nr1
                 caxis([0 12])
                 xlabel('amplitude freqs')
                 ylabel('phase freqs')
-%                 axis equal
+                axis equal
                 title([regions{jroi} '--' regions{iroi}])
-                ylim([0 25])
+                ylim([0 nf1])
+                
+                yticks =0:10:nf1;
+                yticklabs = 0:5:floor(nf1/2); %because the fres is 0.5 Hz 
+                xticks = 0:20:nf2; 
+                xticklabs = 0:10:floor(nf2/2); %because the fres is 0.5 Hz 
+                set(gca,'XTick',xticks,'XTickLabel',xticklabs,'YTick',yticks,'YTickLabel',yticklabs)
         end 
         u = u+1;
     end

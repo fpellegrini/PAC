@@ -1,20 +1,20 @@
 
-function fp_pac_test_clus
+function fp_pac_test_clus100
 
 fp_addpath_pac
 
-DIRIN = '/home/bbci/data/haufe/Franziska/data/pac_rde/';
+DIRIN = '/home/bbci/data/haufe/Franziska/data/pac_rde/100_Hz_srate/';
 
-DIROUT = [DIRIN 'bispecs4/'];
+DIROUT = [DIRIN 'bispecs/'];
 if ~exist(DIROUT); mkdir(DIROUT); end
 
-DIRLOG = '/home/bbci/data/haufe/Franziska/log/pac_rde_shuf4/';
+DIRLOG = '/home/bbci/data/haufe/Franziska/log/pac_rde_shuf100/';
 if ~exist(DIRLOG); mkdir(DIRLOG); end
 
 %subjects with high performance classification
 subs = [3 4 5 8 9 11 12 14 15 16 17 18 19 21 22 23 25 27 28 29 30 31 33 34 35 37];
 rois = [45,46,49,50]; %Regions of interest: postcentral l/r, precentral l/r
-nshuf = 100; 
+nshuf = 10000; 
 
 %%
 
