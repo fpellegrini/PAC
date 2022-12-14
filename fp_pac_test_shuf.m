@@ -91,6 +91,8 @@ for iroi = 1:nr1
                 if isb == nsub
                     colorbar
                 end
+                xticks =0:2:25;
+                xticklabs = 0:1:12
             end
             outname = [DIRFIG 'right_' regions{jroi} '--' regions{iroi} '.png'];
             print(outname,'-dpng');

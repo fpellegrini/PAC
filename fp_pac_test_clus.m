@@ -53,7 +53,7 @@ if ~exist(sprintf('%s%s_work',DIRLOG,logname)) & ~exist(sprintf('%s%s_done',DIRL
     bors = nan(f_nyq_b/4,f_nyq_b,4,4,nshuf);
     bars = nan(f_nyq_b/4,f_nyq_b,4,4,nshuf);
     
-    for ifl = 1:25
+    for ifl = 1:f_nyq_b/4
         for ifh = ifl*3:f_nyq_b
             if (ifh+ifl<f_nyq_b)
                 tic
