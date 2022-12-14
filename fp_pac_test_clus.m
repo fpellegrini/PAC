@@ -4,10 +4,10 @@ fp_addpath_pac
 
 DIRIN = '/home/bbci/data/haufe/Franziska/data/pac_rde/';
 
-DIROUT = [DIRIN 'bispecs3/'];
+DIROUT = [DIRIN 'bispecs4/'];
 if ~exist(DIROUT); mkdir(DIROUT); end
 
-DIRLOG = '/home/bbci/data/haufe/Franziska/log/pac_rde_shuf3/';
+DIRLOG = '/home/bbci/data/haufe/Franziska/log/pac_rde_shuf4/';
 if ~exist(DIRLOG); mkdir(DIRLOG); end
 
 %subjects with high performance classification
@@ -32,29 +32,30 @@ if ~exist(sprintf('%s%s_work',DIRLOG,logname)) & ~exist(sprintf('%s%s_done',DIRL
     EEG_left = pop_loadset('filename',['roi_' sub '_left.set'],'filepath',DIRIN) ;
     EEG_right = pop_loadset('filename',['roi_' sub '_right.set'],'filepath',DIRIN);
     
-    f_nyq = EEG_left.srate/2;
+    f_nyq = EEG_left.srate/2; % Nyquist frequency 
+    f_nyq_b = f_nyq*2;  % Nyquist frequency in bins with 0.5 Hz resolution 
     
     %select data of rois
     dl = EEG_left.roi.source_roi_data(rois,:,:);
     dr = EEG_right.roi.source_roi_data(rois,:,:);
     
     %calculate bispectra
-    bol =  nan(f_nyq/4,f_nyq,4,4);
-    bal =  nan(f_nyq/4,f_nyq,4,4);
-    bor =  nan(f_nyq/4,f_nyq,4,4);
-    bar =  nan(f_nyq/4,f_nyq,4,4);
-    boln = nan(f_nyq/4,f_nyq,4,4);
-    baln = nan(f_nyq/4,f_nyq,4,4);
-    born = nan(f_nyq/4,f_nyq,4,4);
-    barn = nan(f_nyq/4,f_nyq,4,4);
-    bols = nan(f_nyq/4,f_nyq,4,4,nshuf);
-    bals = nan(f_nyq/4,f_nyq,4,4,nshuf);
-    bors = nan(f_nyq/4,f_nyq,4,4,nshuf);
-    bars = nan(f_nyq/4,f_nyq,4,4,nshuf);
+    bol =  nan(f_nyq_b/4,f_nyq_b,4,4);
+    bal =  nan(f_nyq_b/4,f_nyq_b,4,4);
+    bor =  nan(f_nyq_b/4,f_nyq_b,4,4);
+    bar =  nan(f_nyq_b/4,f_nyq_b,4,4);
+    boln = nan(f_nyq_b/4,f_nyq_b,4,4);
+    baln = nan(f_nyq_b/4,f_nyq_b,4,4);
+    born = nan(f_nyq_b/4,f_nyq_b,4,4);
+    barn = nan(f_nyq_b/4,f_nyq_b,4,4);
+    bols = nan(f_nyq_b/4,f_nyq_b,4,4,nshuf);
+    bals = nan(f_nyq_b/4,f_nyq_b,4,4,nshuf);
+    bors = nan(f_nyq_b/4,f_nyq_b,4,4,nshuf);
+    bars = nan(f_nyq_b/4,f_nyq_b,4,4,nshuf);
     
     for ifl = 1:25
-        for ifh = ifl*3:f_nyq
-            if (ifh+ifl<f_nyq)
+        for ifh = ifl*3:f_nyq_b
+            if (ifh+ifl<f_nyq_b)
                 tic
                 filt.low = [ifl];
                 filt.high = [ifh]

@@ -32,14 +32,16 @@ end
 
 %%
 [nsub, nf1, nf2, nr1, nr2,nshuf] = size(BORS);
+% nf2=nf2/2;
 
-par = nan(isb,ifq,jfq,iroi,jroi);
-pal = nan(isb,ifq,jfq,iroi,jroi);
+par = nan(size(BOR));
+pal =  nan(size(BOR));
+
 
 for isb = 1:nsub
     for ifq = 1:nf1
         for jfq=ifq:nf2
-            if (ifq+jfq<50)
+            if (ifq+jfq<nf2)
                 for iroi = 1:nr1
                     for jroi = 1:nr2
                         
@@ -143,7 +145,7 @@ for iroi = 1:nr1
                 subplot(4,4,u)
                 imagesc((squeeze(hr(:,:,iroi,jroi))))
                 colorbar
-                caxis([0 8])
+                caxis([0 12])
                 xlabel('amplitude freqs')
                 ylabel('phase freqs')
                 axis equal
@@ -169,10 +171,10 @@ for iroi = 1:nr1
                 subplot(4,4,u)
                 imagesc((squeeze(hl(:,:,iroi,jroi))))
                 colorbar
-                caxis([0 8])
+                caxis([0 12])
                 xlabel('amplitude freqs')
                 ylabel('phase freqs')
-                axis equal
+%                 axis equal
                 title([regions{jroi} '--' regions{iroi}])
                 ylim([0 25])
         end 
