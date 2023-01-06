@@ -1,5 +1,5 @@
 
-function fp_pac_test_clus
+function fp_pac_test_clus(seeds)
 
 fp_addpath_pac
 
@@ -22,7 +22,7 @@ nshuf = 5000;
 isb = str2num(getenv('SGE_TASK_ID'));
 isub = subs(isb)
 logname = num2str(isub);
-
+rng(seeds(isb))
 %%
 if ~exist(sprintf('%s%s_work',DIRLOG,logname)) & ~exist(sprintf('%s%s_done',DIRLOG,logname))
     
@@ -76,7 +76,7 @@ if ~exist(sprintf('%s%s_work',DIRLOG,logname)) & ~exist(sprintf('%s%s_done',DIRL
     
     t=toc;
     save([DIROUT sub '_PAC_shuf1-5000.mat'],'bol','bal','bor','bar','boln','baln','born','barn',...
-        'bols','bals','bors','bars','t','-v7.3')
+        'bols','bals','bors','bars','t','seeds','-v7.3')
     eval(sprintf('!mv %s%s_work %s%s_done',DIRLOG,logname,DIRLOG,logname))
     
 end
