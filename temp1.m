@@ -12,6 +12,6 @@ for isub = subs
     EEG_left = pop_roi_activity(EEG_left, 'leadfield',EEG_left.dipfit.sourcemodel,'model','LCMV','modelparams',{0.05},'atlas','Desikan-Kilianny','nPCA',1);
     EEG_right = pop_roi_activity(EEG_right, 'leadfield',EEG_left.dipfit.sourcemodel,'model','LCMV','modelparams',{0.05},'atlas','Desikan-Kilianny','nPCA',1);
 
-    pop_saveset(EEG_left,'filename',['roi1_' sub '_left'],'filepath',DIRIN1)
-    pop_saveset(EEG_right,'filename',['roi1_' sub '_right'],'filepath',DIRIN1)
+    pop_saveset(EEG_left,'filename',['roi1_' sub '_left'],'filepath',DIRIN1,'savemode','twofiles')
+    pop_saveset(EEG_right,'filename',['roi1_' sub '_right'],'filepath',DIRIN1,'savemode','twofiles')
 end

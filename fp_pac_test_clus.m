@@ -3,7 +3,7 @@ function fp_pac_test_clus(seeds)
 
 fp_addpath_pac
 
-DIRIN = '/home/bbci/data/haufe/Franziska/data/pac_rde/';
+DIRIN = '/home/bbci/data/haufe/Franziska/data/MIMrealdata/';
 
 DIROUT = [DIRIN 'bispecs/'];
 if ~exist(DIROUT); mkdir(DIROUT); end
@@ -31,7 +31,7 @@ if ~exist(sprintf('%s%s_work',DIRLOG,logname)) & ~exist(sprintf('%s%s_done',DIRL
     % load preprocessed EEG
     sub = ['vp' num2str(isub)]
     EEG_left = pop_loadset('filename',['roi1_' sub '_left.set'],'filepath',DIRIN) ;
-    EEG_right = pop_loadset('filename',['roi_' sub '_right.set'],'filepath',DIRIN);
+    EEG_right = pop_loadset('filename',['roi1_' sub '_right.set'],'filepath',DIRIN);
     
     f_nyq = EEG_left.srate/2; % Nyquist frequency in Hz 
     dr = 3; %we define PAC only when high freq is at least dr times higher than low freq
