@@ -2,8 +2,12 @@ function fp_plot_pac_pvals(DIRFIG,data,data_a,to,ta)
 
 titles = {'post l','post r','pre l','pre r'};
 %%
-data(data>0.05)=1;
-data_a(data_a>0.05)=1;
+ind = find(~isnan(data));
+[p_fdr, ~] = fdr(data(ind), 0.05)
+[p_fdr_a, ~] = fdr(data_a(ind), 0.05)
+
+data(data>p_fdr)=1;
+data_a(data_a>p_fdr_a)=1;
 
 %%
 figure;
@@ -15,10 +19,11 @@ for ii = 1:4
         imagesc(-log10(squeeze(data(:,:,ii,jj))).*squeeze(sign(to(:,:,ii,jj))))
 %         colorbar
         caxis([-3 3])
-          title([titles{jj} '--' titles{ii}])
+        title([titles{jj} '--' titles{ii}])
         xlabel('amplitude freqs')
         ylabel('phase freqs')
         axis equal
+        ylim([0 12])
         u = u+1;
     end
 end
@@ -42,6 +47,7 @@ for ii = 1:4
         xlabel('amplitude freqs')
         ylabel('phase freqs')
         axis equal
+        ylim([0 12])
         end
         u = u+1;
     end

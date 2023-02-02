@@ -17,6 +17,7 @@ for isb = 1:size(data,1)
             xlabel('amplitude freqs')
             ylabel('phase freqs')
             axis equal
+            ylim([0 12])
 %             if u==16
 %                 colorbar
 %             end
@@ -44,6 +45,7 @@ for ii = 1:4
         xlabel('amplitude freqs')
         ylabel('phase freqs')
         axis equal
+        ylim([0 12])
         u = u+1;
     end
 end
@@ -67,6 +69,7 @@ for ii = 1:4
         xlabel('amplitude freqs')
         ylabel('phase freqs')
         axis equal
+        ylim([0 12])
         u = u+1;
     end
 end
@@ -89,6 +92,7 @@ for ii = 1:4
           title([titles{jj} '--' titles{ii}])
         xlabel('amplitude freqs')
         ylabel('phase freqs')
+        ylim([0 12])
         axis equal
         u = u+1;
     end
