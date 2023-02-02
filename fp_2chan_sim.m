@@ -10,11 +10,11 @@ if ~exist(DIROUT);mkdir(DIROUT); end
 
 stack_id = str2num(getenv('SGE_TASK_ID'));
 
-iit_ids = (stack_id*10)-9 :(stack_id*10);
+iit_ids = (stack_id*6)-5 :(stack_id*6);
 
 
 for iit = iit_ids
-    
+
     clearvars -except iit iit_ids DIROUT DIRLOG stack_id 
     
     logname=num2str(iit);
