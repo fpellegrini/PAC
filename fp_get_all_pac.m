@@ -25,17 +25,17 @@ for ishuf = 1:n_shuffles
     end
     X_shuf = cat(1,X(1,:,:),X(2,:,ind));
     
-    %standard-tort
+    %standard MI
     u = fp_pac_standard(X_shuf, filt.low,filt.high, fs );
     pac(ishuf,1) = max([u(1,2),u(2,1)]);
     
-    %ortho-tort
+    %ortho MI
     [signal_ortho, ~, ~, ~] = symmetric_orthogonalise(X_shuf(:,:)', 1);
     signal_ortho = reshape(signal_ortho',nchan,[],n_trials_s);
     u = fp_pac_standard(signal_ortho, filt.low, filt.high, fs);
     pac(ishuf,2) = max([u(1,2),u(2,1)]);
     
-    %shahbazi-tort
+    %shahbazi MI
     if ishuf == 1 
         X_shuf_sha = reshape(W\signal_unmixed(:,:),nchan,[], n_trials_s);
     else
@@ -46,7 +46,7 @@ for ishuf = 1:n_shuffles
     
 end
 
-p(1) = fp_get_p_pac(pac(:,1)');%tort
+p(1) = fp_get_p_pac(pac(:,1)');%standard MI
 p(2) = fp_get_p_pac(pac(:,2)');%ortho
 p(3) = fp_get_p_pac(pac(:,3)');%shahbazi
 p(4) = fp_get_p_pac(pac(:,4)');%bispec_orig
