@@ -131,19 +131,19 @@ elseif ip == 10
     params.pips = 1;
     params.nshuf = 100; 
     
-elseif ip == 11
-    
-    %univariate case 
-    params.case = 1; %univariate
-    params.iInt = 3;
-    params.isnr=0.8;
-    params.t = 0; 
-    
-    params.iReg=1;
-    params.iss = 0.9;
-    params.ifilt = 'l';
-    params.pips = 1;
-    params.nshuf = 100; 
+% elseif ip == 11
+%     
+%     %univariate case 
+%     params.case = 1; %univariate
+%     params.iInt = 3;
+%     params.isnr=0.8;
+%     params.t = 0; 
+%     
+%     params.iReg=1;
+%     params.iss = 0.9;
+%     params.ifilt = 'l';
+%     params.pips = 1;
+%     params.nshuf = 100; 
     
 elseif ip == 12
     %eloreta 
