@@ -1,9 +1,12 @@
-function fp_plot_pac_bivar_default
+tmpfunction fp_plot_pac_bivar_default
 
 addpath(genpath('~/Dropbox/Franziska/PAC_AAC_estimation/data/'))
 DIRDATA = '~/Dropbox/Franziska/PAC_AAC_estimation/data/sim4/';
 DIRFIG = '~/Dropbox/Franziska/PAC_AAC_estimation/figures/sim4/';
 if ~exist(DIRFIG); mkdir(DIRFIG); end
+
+cols = [[0 0 0.5];[0 0 0.5];...
+    [0.8 0 0.2];[0.8 0 0.2];[0 0 0.5]];
 
 %%
 
@@ -12,7 +15,7 @@ for ip =[1]
     clear PR
     params = fp_get_params_pac(ip);
     
-    titles = {'MI','Ortho','Bispec Original','Bispec Anti','ICshuf'};
+    titles = {'MI','Ortho','Bispec','ASB','ICshuf'};
     
     a=[];
     
@@ -58,11 +61,11 @@ for ip =[1]
         imlab = 'PR';
         imlab1 = 'PR';
         
-        cl = [0.7 0.75 0.75];
+%         cl = [0.7 0.75 0.75];
         
         subplot(1,length(PR),o)
         
-        [h, u] = fp_raincloud_plot_a(data1, cl, 1,0.2, 'ks');
+        [h, u] = fp_raincloud_plot_a(data1, cols(icon,:), 1,0.2, 'ks');
         view([-90 -90]);
         set(gca, 'Xdir', 'reverse');
         set(gca, 'XLim', [0 1]);

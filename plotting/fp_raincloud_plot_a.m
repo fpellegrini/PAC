@@ -58,6 +58,7 @@ Xi(Xi<0 | Xi>1) = [];
 
 h{1} = area(Xi, f); hold on
 set(h{1}, 'FaceColor', cl);
+set(h{1}, 'FaceAlpha', 0.5);
 set(h{1}, 'EdgeColor', 'none');
 set(h{1}, 'LineWidth', 0.01);
 plot([0 1],[0 0],'color',[1 1 1],'LineWidth',2)

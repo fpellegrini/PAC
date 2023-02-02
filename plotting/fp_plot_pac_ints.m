@@ -12,6 +12,8 @@ params = fp_get_params_pac(ip);
 
 titles = {'1 interaction','3 interactions','5 interactions'};
 mets = {'MI','Ortho','Borig','Banti','Borignorm','Bantinorm','Shah'};
+cols = [[0 0 0.5];[0 0 0.5];...
+    [0.8 0 0.2];[0.8 0 0.2]];
 
 for iInt = [1 0 2]
     if iInt ==0 
@@ -66,11 +68,11 @@ for icon = [1:4]
         data1 = squeeze(PR{icon}(iInt,:));
         %     mean_pr(o) = mean(data1);
         
-        cl = [0.7 0.75 0.75];
+%         cl = [0.7 0.75 0.75];
         
         subplot(1,3,o)
         
-        [h, u] = fp_raincloud_plot_a(data1, cl, 1,0.2, 'ks');
+        [h, u] = fp_raincloud_plot_a(data1, cols(icon,:), 1,0.2, 'ks');
         view([-90 -90]);
         set(gca, 'Xdir', 'reverse');
         set(gca, 'XLim', [0 1]);

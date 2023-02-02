@@ -8,13 +8,15 @@ DIRFIG = '~/Dropbox/Franziska/PAC_AAC_estimation/figures/sim4/univar/';
 if ~exist(DIRFIG); mkdir(DIRFIG); end
 
 %%
+cols = [[0 0 0.5];[0 0 0.5];...
+    [0.8 0 0.2];[0.8 0 0.2];[0 0 0.5]];
 
-for ip = 11%[10 11 13]
+for ip = [10]
     
-    clearvars -except ip DIRFIG DIRDATA
+    clearvars -except ip DIRFIG DIRDATA cols
     params = fp_get_params_pac(ip);
     
-    titles = {'MI','Ortho','Bispec Original','Bispec Anti','ICshuf'};
+    titles = {'MI','Ortho','Bispec','ASB','ICshuf'};
     
     a=[];
     
@@ -82,7 +84,7 @@ for ip = 11%[10 11 13]
     %%
     o=1;
     figure
-    figone(6,20)
+    figone(6,12)
     
     for im = [1 2 5 3 4]
         
@@ -92,7 +94,7 @@ for ip = 11%[10 11 13]
         
         subplot(1,5,o)
         
-        [h, u] = fp_raincloud_plot_a(data1, cl, 1,0.2, 'ks');
+        [h, u] = fp_raincloud_plot_c(data1, cols(im,:), 1,0.2, 'ks');
         view([-90 -90]);
         set(gca, 'Xdir', 'reverse');
         set(gca, 'XLim', [0 1]);
@@ -138,7 +140,7 @@ for ip = 11%[10 11 13]
     %%
     o=1;
     figure
-    figone(6,20)
+    figone(6,12)
     
     for im = [1 2 5 3 4]
         
@@ -148,7 +150,7 @@ for ip = 11%[10 11 13]
         
         subplot(1,5,o)
         
-        [h, u] = fp_raincloud_plot_a(data1, cl, 1,0.2, 'ks');
+        [h, u] = fp_raincloud_plot_c(data1, cols(im,:), 1,0.2, 'ks');
         view([-90 -90]);
         set(gca, 'Xdir', 'reverse');
         set(gca, 'XLim', [0 1]);
@@ -217,7 +219,7 @@ for ip = 11%[10 11 13]
     %%
     o=1;
     figure
-    figone(6,20.1)
+    figone(6,12)
     
     for im = [1 2 5 3 4]
         
@@ -227,7 +229,7 @@ for ip = 11%[10 11 13]
         
         subplot(1,5,o)
         
-        [h, u] = fp_raincloud_plot_a(data1, cl, 1,0.2, 'ks');
+        [h, u] = fp_raincloud_plot_c(data1, cols(im,:), 1,0.2, 'ks');
         view([-90 -90]);
         set(gca, 'Xdir', 'reverse');
         set(gca, 'XLim', [0 1]);
@@ -275,7 +277,7 @@ for ip = 11%[10 11 13]
     %%
     o=1;
     figure
-    figone(6,20)
+    figone(6,12)
     
     for im = [1 2 5 3 4]
         
@@ -285,7 +287,7 @@ for ip = 11%[10 11 13]
         
         subplot(1,5,o)
         
-        [h, u] = fp_raincloud_plot_a(data1, cl, 1,0.2, 'ks');
+        [h, u] = fp_raincloud_plot_c(data1, cols(im,:), 1,0.2, 'ks');
         view([-90 -90]);
         set(gca, 'Xdir', 'reverse');
         set(gca, 'XLim', [0 1]);
@@ -328,6 +330,6 @@ for ip = 11%[10 11 13]
     print(outname,'-dpng');
     outname = [DIRFIG 'non-neighbors_seedphase_iInt' num2str(params.iInt) '_filt' params.ifilt '.eps'];
     print(outname,'-depsc');
-close all
+    close all
     
 end

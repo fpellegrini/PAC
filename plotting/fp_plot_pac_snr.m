@@ -8,8 +8,10 @@ if ~exist(DIRFIG); mkdir(DIRFIG); end
 %%
 clear PR
 
-titles = {'-7.4 dB','0 dB','19.1 dB'};
+titles = {'-7.4 dB','0 dB','7.4 dB'};
 mets = {'MI','Ortho','Borig','Banti','Borignorm','Bantinorm','Shah'};
+cols = [[0 0 0.5];[0 0 0.5];...
+    [0.8 0 0.2];[0.8 0 0.2]];
 
 for isnr = [1 0 2]
     
@@ -62,13 +64,13 @@ for icon = [1:4]
     for isnr = 1:length(titles)
         
         data1 = squeeze(PR{icon}(isnr,:));
-        %     mean_pr(o) = mean(data1);
+        mean_pr(isnr) = mean(data1);
         
         cl = [0.7 0.75 0.75];
         
         subplot(1,length(titles),o)
         
-        [h, u] = fp_raincloud_plot_a(data1, cl, 1,0.2, 'ks');
+        [h, u] = fp_raincloud_plot_a(data1, cols(icon,:), 1,0.2, 'ks');
         view([-90 -90]);
         set(gca, 'Xdir', 'reverse');
         set(gca, 'XLim', [0 1]);
