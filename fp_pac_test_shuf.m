@@ -1,65 +1,51 @@
 
-DIRIN = '~/Dropbox/Franziska/PAC_AAC_estimation/data/RDE/bispectra/';
+DIRIN = '~/Dropbox/Franziska/PAC_AAC_estimation/data/RDE/100Hz_srate/bispectra_5000/';
 
-DIRFIG = '~/Dropbox/Franziska/PAC_AAC_estimation/RDE_figures/shuffled_test/';
+DIRFIG = '~/Dropbox/Franziska/PAC_AAC_estimation/RDE_figures/5000/shuffled_test/';
 if ~exist(DIRFIG); mkdir(DIRFIG); end
 
 %subjects with high performance classification
-% subs = [3 4 5 8 9 11 12 14 15 16 17 18 19 21 22 23 25 27 28 29 30 31 33 34 35 37];
-subs = [3 4 8 9 11 12 14 15 16 17 18 19 21 22 23 25 27 29 30 31 33 34 35 37];
+subs = [3 4 5 8 9 11 12 14 15 16 17 18 19 21 22 23 25 27 28 29 30 31 33 34 35 37];
+nsub = numel(subs);
 regions = {'post l','post r','pre l','pre r'};
+
+fs = 100;
+f_nyq = fs/2; % Nyquist frequency in Hz
+dr = 3; %we define PAC only when high freq is at least dr times higher than low freq
+f_lm = floor(f_nyq/(dr+1)); %maximum freq for low frequencies in Hz
+
+par = nan(nsub,f_lm,f_nyq,numel(regions),numel(regions));
+pal = nan(nsub,f_lm,f_nyq,numel(regions),numel(regions));
 %%
 isb = 1;
 for isub = subs
-    
+    isb
     sub = ['vp' num2str(isub)];
-    load([DIRIN sub '_PAC_shuf.mat'])
+    load([DIRIN sub '_PAC_shuf1-5000.mat'])
+    [~,~,nr1, nr2,nshuf] = size(bars);
     
-    BORS(isb,:,:,:,:,:)=bors;
-    BOLS(isb,:,:,:,:,:)=bols;
-    BARS(isb,:,:,:,:,:)=bars;
-    BALS(isb,:,:,:,:,:)=bals;
-    
-    BOR(isb,:,:,:,:)=bor;
-    BOL(isb,:,:,:,:)=bol;
-    BAR(isb,:,:,:,:)=bar;
-    BAL(isb,:,:,:,:)=bal;
-    
-    isb = isb+1;
-    
-end
-
-
-%%
-[nsub, nf1, nf2, nr1, nr2,nshuf] = size(BORS);
-% nf2=nf2/2;
-
-par = nan(size(BOR));
-pal =  nan(size(BOR));
-
-
-for isb = 1:nsub
-    for ifq = 1:nf1
-        for jfq=ifq:nf2
-            if (ifq+jfq<nf2)
+    for ifq = 1:f_lm
+        for jfq=ifq*dr:f_nyq
+            if (ifq+jfq<f_nyq)
                 for iroi = 1:nr1
                     for jroi = 1:nr2
                         
                         if (iroi~=jroi)
-                            par(isb,ifq,jfq,iroi,jroi)= sum(BAR(isb,ifq,jfq,iroi,jroi)< BARS(isb,ifq,jfq,iroi,jroi,:))/nshuf;
-                            pal(isb,ifq,jfq,iroi,jroi) = sum(BAL(isb,ifq,jfq,iroi,jroi)< BALS(isb,ifq,jfq,iroi,jroi,:))/nshuf;
+                            par(isb,ifq,jfq,iroi,jroi)= sum(bar(ifq,jfq,iroi,jroi)< bars(ifq,jfq,iroi,jroi,:))/nshuf;
+                            pal(isb,ifq,jfq,iroi,jroi) = sum(bal(ifq,jfq,iroi,jroi)< bals(ifq,jfq,iroi,jroi,:))/nshuf;
                         end
                     end
                 end
             else
                 par(isb,ifq,jfq,iroi,jroi)= nan;
-                pal(isb,ifq,jfq,iroi,jroi) = nan;
-                
+                pal(isb,ifq,jfq,iroi,jroi) = nan;               
             end
         end
     end
+    isb = isb+1;
 end
-
+par(par==0)=1/(nshuf-1);
+pal(pal==0)=1/(nshuf-1);
 %%
 par1 = par;
 par1(par1>0.05)=1;
@@ -79,23 +65,18 @@ for iroi = 1:nr1
             figure
             figone(30,40)
             for isb = 1:nsub
-                subplot(5,5,isb)
+                subplot(4,6,isb)
                 imagesc((squeeze(par1(isb,:,:,iroi,jroi))))
                 %                 colorbar
-                caxis([-1 3])
+                caxis([-1 4])
                 title(['subject ' num2str(subs(isb))])
                 xlabel('amplitude freqs')
                 ylabel('phase freqs')
                 axis equal
-                ylim([0 25])
+                ylim([0 12])
                 if isb == nsub
                     colorbar
                 end
-                yticks =0:10:nf1;
-                yticklabs = 0:5:floor(nf1/2); %because the fres is 0.5 Hz 
-                xticks = 0:20:nf2; 
-                xticklabs = 0:10:floor(nf2/2); %because the fres is 0.5 Hz 
-                set(gca,'XTick',xticks,'XTickLabel',xticklabs,'YTick',yticks,'YTickLabel',yticklabs)
             end
             outname = [DIRFIG 'right_' regions{jroi} '--' regions{iroi} '.png'];
             print(outname,'-dpng');
@@ -103,25 +84,20 @@ for iroi = 1:nr1
             
             figure
             figone(30,40)
-            for isb = 1:nsub
+            for isb = 1:nsub-1
                 subplot(5,5,isb)
                 imagesc((squeeze(pal1(isb,:,:,iroi,jroi))))
                 %                 colorbar
-                caxis([-1 3])
+                caxis([-1 4])
                 title(['subject ' num2str(subs(isb))])
                 xlabel('amplitude freqs')
                 ylabel('phase freqs')
                 axis equal
-                ylim([0 25])
+                ylim([0 12])
                 if isb == nsub
                     colorbar
                 end
                 
-                yticks =0:10:nf1;
-                yticklabs = 0:5:floor(nf1/2); %because the fres is 0.5 Hz 
-                xticks = 0:20:nf2; 
-                xticklabs = 0:10:floor(nf2/2); %because the fres is 0.5 Hz 
-                set(gca,'XTick',xticks,'XTickLabel',xticklabs,'YTick',yticks,'YTickLabel',yticklabs)
             end
             outname = [DIRFIG 'left_' regions{jroi} '--' regions{iroi} '.png'];
             print(outname,'-dpng');
@@ -133,82 +109,81 @@ end
 
 
 %%
-
-par1 = par;
-par1(par>0.05)=0;
-par1(par<0.05)=1;
-
-pal1 = pal;
-pal1(pal>0.05)=0;
-pal1(pal<0.05)=1;
-
-hr = squeeze(sum(par1,1));
-hl = squeeze(sum(pal1,1)); 
-
-
-figure
-figone(30,40)
-u=1;
-for iroi = 1:nr1
-    for jroi = 1:nr2        
-        if iroi ~= jroi
-            
-                subplot(4,4,u)
-                imagesc((squeeze(hr(:,:,iroi,jroi))))
-                colorbar
-                caxis([0 12])
-                xlabel('amplitude freqs')
-                ylabel('phase freqs')
-                axis equal
-                title([regions{jroi} '--' regions{iroi}])
-                ylim([0 25])
-                
-                yticks =0:10:nf1;
-                yticklabs = 0:5:floor(nf1/2); %because the fres is 0.5 Hz 
-                xticks = 0:20:nf2; 
-                xticklabs = 0:10:floor(nf2/2); %because the fres is 0.5 Hz 
-                set(gca,'XTick',xticks,'XTickLabel',xticklabs,'YTick',yticks,'YTickLabel',yticklabs)
-        end 
-        u = u+1;
-    end
+%fdr
+for isb = 1:nsub
+    par1 = par(isb,:,:,:,:);
+    pal1 = pal(isb,:,:,:,:);
+    ind = find(~isnan(par1));
+    [par_fdr, ~] = fdr(par1(ind), 0.05);
+    [pal_fdr, ~] = fdr(pal1(ind), 0.05);
+    
+    par2 = par1;
+    pal2 = pal1;
+    
+    par1(par2>par_fdr)=0;
+    par1(par2<par_fdr)=1;
+    pal1(pal2>pal_fdr)=0;
+    pal1(pal2<pal_fdr)=1;
+    
+    PAR1(isb,:,:,:,:)=par1;
+    PAL1(isb,:,:,:,:)=pal1;
+    
 end
+ur = squeeze(nansum(PAR1,1));
+ul = squeeze(nansum(PAL1,1));
+hr = nan(size(ur));
+hl = nan(size(ul));
+hr(ind) = ur(ind);
+hl(ind)= ul(ind); 
 
-outname = [DIRFIG 'right_sum_pvals.png'];
+
+fp_plot_rdefig(hr,[0 3])
+outname = [DIRFIG 'right_sum_pvals_fdr.png'];
 print(outname,'-dpng');
-% close all
+close all
 
-
-figure
-figone(30,40)
-u=1;
-for iroi = 1:nr1
-    for jroi = 1:nr2        
-        if iroi ~= jroi
-            
-                subplot(4,4,u)
-                imagesc((squeeze(hl(:,:,iroi,jroi))))
-                colorbar
-                caxis([0 12])
-                xlabel('amplitude freqs')
-                ylabel('phase freqs')
-                axis equal
-                title([regions{jroi} '--' regions{iroi}])
-                ylim([0 nf1])
-                
-                yticks =0:10:nf1;
-                yticklabs = 0:5:floor(nf1/2); %because the fres is 0.5 Hz 
-                xticks = 0:20:nf2; 
-                xticklabs = 0:10:floor(nf2/2); %because the fres is 0.5 Hz 
-                set(gca,'XTick',xticks,'XTickLabel',xticklabs,'YTick',yticks,'YTickLabel',yticklabs)
-        end 
-        u = u+1;
-    end
-end
-
-outname = [DIRFIG 'left_sum_pvals.png'];
+%%
+fp_plot_rdefig(hl,[0 3])
+outname = [DIRFIG 'left_sum_pvals_fdr.png'];
 print(outname,'-dpng');
-% close all
+close all
 
 
+%% Stouffer's method
 
+zsr= norminv(par);
+zr = squeeze(sum(zsr,1)./sqrt(nsub));
+pr = normpdf(zr);
+ind = find(~isnan(pr));
+[pr_fdr, ~] = fdr(pr(ind), 0.05);
+pr(pr>pr_fdr)=1;
+fp_plot_rdefig(-log10(pr),[0 10])
+outname = [DIRFIG 'right_stouffer.png'];
+print(outname,'-dpng');
+outname = [DIRFIG 'right_stouffer.eps'];
+print(outname,'-depsc');
+close all
+
+zsl= norminv(pal);
+zl = squeeze(sum(zsl,1)./sqrt(nsub));
+pl = normpdf(zl);
+[pl_fdr, ~] = fdr(pl(ind), 0.05);
+pl(pl>pl_fdr)=1;
+fp_plot_rdefig(-log10(pl),[0 10])
+outname = [DIRFIG 'left_stouffer.png'];
+print(outname,'-dpng');
+outname = [DIRFIG 'left_stouffer.eps'];
+print(outname,'-depsc');
+close all
+
+%%
+
+figure; 
+caxis([0 10]) 
+cb = colorbar;
+cb.Label.String = '-log10(p)';
+cb.FontSize = 18;
+outname = [DIRFIG 'cb_stouffer.eps'];
+print(outname,'-depsc');
+close all
 
