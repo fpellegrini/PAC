@@ -9,6 +9,7 @@ DIROUT = '/home/bbci/data/haufe/Franziska/data/2chan_sim8/';
 if ~exist(DIROUT);mkdir(DIROUT); end
 
 stack_id = str2num(getenv('SGE_TASK_ID'));
+rng(stack_id)
 
 iit_ids = (stack_id*6)-5 :(stack_id*6);
 
@@ -23,9 +24,7 @@ for iit = iit_ids
         eval(sprintf('!touch %s%s_work',DIRLOG,logname))
         tic
         
-        %% Parameters
-        
-        rng(iit)
+        %% Parameters        
         
         N = 1000000;
         %     N = 120000;
