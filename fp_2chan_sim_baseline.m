@@ -64,8 +64,6 @@ for iit = iit_ids
         end
         
         %% Save
-        
-        t = toc;
         save([DIROUT logname '.mat'],'-v7.3')
         save([DIROUT 'pvals_' logname '.mat'],'p','-v7.3')
         eval(sprintf('!mv %s%s_work %s%s_done',DIRLOG,logname,DIRLOG,logname))
