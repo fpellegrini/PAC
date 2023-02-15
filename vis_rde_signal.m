@@ -24,8 +24,8 @@ for lroi = 1:4
     for hroi = 1:4
         if lroi ~=hroi
             %%
-            low_0= [-1 1];
-            high_0 = [-2 2];
+            low_0= [-2 2];
+            high_0 = [-(low+1) (low+1)];
             
             [bl al] = butter(3, (low +low_0)/fs*2);
             [bh ah] = butter(3, (high + high_0)/fs*2);
@@ -36,10 +36,10 @@ for lroi = 1:4
             amp = abs(hilbert(xh));
             phase  = angle(hilbert(xl));
             
-            phase_bins = linspace(-pi, pi, 19);
+            phase_bins = linspace(-pi, pi, 31);
             
             %Mean amplitude per bin
-            for i=1:18
+            for i=1:30
                 mean_amp_bin(i) = mean( amp( find( phase >= phase_bins(i) & phase< phase_bins(i+1) )));
             end
             
@@ -103,7 +103,7 @@ for lroi = 1:4
             plot([-dist:dist],mean(a,1))
             xlabel('Time (samples), 0 = Envelope peak of FO')
             ylabel('Mean Amplitude')
-            ylim(2.*[-10^-4 10^-4])
+            ylim(3.*[-10^-4 10^-4])
             
             subplot(3,2,5)
             imagesc([-dist_h:dist_h],[],b)
