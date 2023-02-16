@@ -6,7 +6,7 @@ function fp_addpath_pac
 addpath(genpath('/home/bbci/data/haufe/Franziska/data/'))
 addpath(genpath('/home/bbci/data/haufe/Franziska/log/'))
 addpath(genpath('~/matlab/fp/'))
-addpath(genpath('~/matlab/fp/PAC/'))
+addpath(genpath('~/matlab/fp/'))
 addpath(genpath('~/matlab/matgrid/'))
 addpath(genpath('~/matlab/libs/Daniele_ARMA/'))
 addpath(genpath('~/matlab/libs/haufe/'))
