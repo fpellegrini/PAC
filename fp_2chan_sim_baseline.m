@@ -26,14 +26,14 @@ for iit = iit_ids
         
         %% Parameters
         
-        N = 1000000;
+        N = 120000;
         
         nchan= 2;
         
         %Sampling frequency
         fs = 200;
         
-        n_trials_s = 500;
+        n_trials_s = 60;
         
         %BW
         low = [9 11];
