@@ -2,10 +2,10 @@ function fp_2chan_sim
 
 fp_addpath_pac
 
-DIRLOG ='/home/bbci/data/haufe/Franziska/log/2chan_sim8/';
+DIRLOG ='/home/bbci/data/haufe/Franziska/log/2chan_sim9/';
 if ~exist(DIRLOG); mkdir(DIRLOG); end
 
-DIROUT = '/home/bbci/data/haufe/Franziska/data/2chan_sim8/';
+DIROUT = '/home/bbci/data/haufe/Franziska/data/2chan_sim9/';
 if ~exist(DIROUT);mkdir(DIROUT); end
 
 stack_id = str2num(getenv('SGE_TASK_ID'));
@@ -26,19 +26,16 @@ for iit = iit_ids
         
         %% Parameters        
         
-        N = 1000000;
-        %     N = 120000;
+%         N = 1000000;
+        N = 120000;
         
         nchan= 2;
         
         %Sampling frequency
         fs = 200;
-        
-        %     n_trials_s = 60;
-        n_trials_s = 500;
+        n_trials_s = 60; %before: 500
         
         n_shuffles = 1000;
-        n_iter = 500;
         
         %BW
         low = [9 11];
@@ -57,20 +54,16 @@ for iit = iit_ids
         channels_noise = randn(N,2);
         channels_noise = channels_noise./ norm(channels_noise(:),'fro');
         
-        rand_sig = randn(N, 1);
-        rand_sig = rand_sig./norm(rand_sig,'fro');
-        
         mixing_matrix = eye(2);
         mixing_matrix(1,2)=2*(rand-.5);
         mixing_matrix(2,1)=2*(rand-.5);
-        
-        
+                
         %% Loop through snrs
         
         for isnr = 1:length(snr_v)
             
             
-            %% Case 1: true bivariate interaction (formerly case 3)
+            %% Case 1: true bivariate interaction 
             
             cse = 1;
             fprintf(['SNR '  num2str(isnr) ', case ' num2str(cse) '\n'])
@@ -84,7 +77,7 @@ for iit = iit_ids
             [pac{cse,isnr}, p{cse,isnr}] = fp_get_all_pac(X_1, fs, filt, n_shuffles);
             
             
-            %% Case 2: true bivariate pac + mixing (formerly case 4)
+            %% Case 2: true bivariate pac + mixing 
             
             cse=2;
             fprintf(['SNR '  num2str(isnr) ', case ' num2str(cse) '\n'])
@@ -98,37 +91,7 @@ for iit = iit_ids
             
             [pac{cse,isnr}, p{cse,isnr}] = fp_get_all_pac(X_2, fs, filt, n_shuffles);
             
-            
-            %         %% Case 3: univariate pac + random signal (formerly case 5)
-            %
-            %         cse = 3;
-            %         fprintf(['SNR '  num2str(isnr) ', case ' num2str(cse) '\n'])
-            %
-            %         %generate signal
-            %         X_3 = [pac_0 rand_sig];
-            %         X_3 = X_3./norm(X_3(:),'fro');
-            %         X_3 =  snr_v(isnr)*X_3 + (1-snr_v(isnr))*channels_noise;
-            %         X_3 = reshape(X_3',nchan,[],n_trials_s);
-            %
-            %         [pac{cse,isnr}, p{cse,isnr}] = fp_get_all_pac(X_3, fs, filt, n_shuffles);
-            %
-            %
-            %         %% Case 4: univariate pac + random signal + mixing (formerly case 6)
-            %
-            %         cse = 4;
-            %         fprintf(['SNR '  num2str(isnr) ', case ' num2str(cse) '\n'])
-            %
-            %         %generate signal with mixing
-            %         X_4 = [pac_0 rand_sig];
-            %         X_4 = X_4*mixing_matrix;
-            %         X_4 = X_4./norm(X_4(:),'fro');
-            %         X_4 =  snr_v(isnr)*X_4 + (1-snr_v(isnr))*channels_noise;
-            %         X_4 = reshape(X_4',nchan,[],n_trials_s);
-            %
-            %         [pac{cse,isnr}, p{cse,isnr}] = fp_get_all_pac(X_4, fs, filt, n_shuffles);
-            %
-            
-            %% Case 5: two univariate pac signals  (formerly case 7)
+            %% Case 3: two univariate pac signals
             
             cse = 5;
             fprintf(['SNR '  num2str(isnr) ', case ' num2str(cse) '\n'])
@@ -142,7 +105,7 @@ for iit = iit_ids
             [pac{cse,isnr}, p{cse,isnr}] = fp_get_all_pac(X_5, fs, filt, n_shuffles);
             
             
-            %% Case 6: two univariate pac signals + mixing (formerly case 8)
+            %% Case 4: two univariate pac signals + mixing
             
             cse = 6;
             fprintf(['SNR '  num2str(isnr) ', case ' num2str(cse) '\n'])
