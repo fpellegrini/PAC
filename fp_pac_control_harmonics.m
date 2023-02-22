@@ -57,7 +57,7 @@ for isb = 1:numel(subs)
     p_6_12(isb) = fp_control_harmonics(sig,fs,6,12,1,2,nshuf);
     
     %icoh 3 to 3 Hz between two regions 
-    p_3_3 = fp_control_harmonics_icoh(d_l, fs, 3, nshuf);
+    p_3_3(isb) = fp_control_harmonics_icoh(d_l, fs, 3, nshuf);
       
 end
 t=toc;
