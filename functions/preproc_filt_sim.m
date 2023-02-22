@@ -1,7 +1,7 @@
  function [xh, xl]= preproc_filt_sim(sim_sig,fs, low, high)
 
 %shift high center frequency according to Zandvoort 2021
-% high = high + (low/2);
+high = high + (low/2);
 
 %filter bandwidth 
 low_0= [-2 2];
