@@ -2,11 +2,11 @@ function fp_2chan_sim_baseline
 
 fp_addpath_pac
 
-DIROUT = '/home/bbci/data/haufe/Franziska/data/2chan_sim_univar_baseline/shifted_filt/';
+DIROUT = '/home/bbci/data/haufe/Franziska/data/2chan_sim_univar_baseline/shifted_filt1/';
 if ~exist(DIROUT);mkdir(DIROUT); end
 
 
-DIRLOG ='/home/bbci/data/haufe/Franziska/log/2chan_sim_univar_baseline/shifted_filt/';
+DIRLOG ='/home/bbci/data/haufe/Franziska/log/2chan_sim_univar_baseline/shifted_filt1/';
 if ~exist(DIRLOG); mkdir(DIRLOG); end
 
 stack_id = str2num(getenv('SGE_TASK_ID'));
@@ -42,7 +42,7 @@ for iit = iit_ids
         filt.high = high;
         
         %SNR
-        snr_v = [0 0.2 0.4 0.6 0.8];
+        snr_v = [0.1 0.3];
         n_shuffles = 100;
         cse = 1;
         
