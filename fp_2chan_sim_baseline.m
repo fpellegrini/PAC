@@ -42,7 +42,7 @@ for iit = iit_ids
         filt.high = high;
         
         %SNR
-        snr_v = [0.1 0.3];
+        snr_v = [0 0.1 0.2 0.3 0.4];
         n_shuffles = 100;
         cse = 1;
         
