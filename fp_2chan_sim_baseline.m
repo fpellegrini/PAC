@@ -9,7 +9,7 @@ if ~exist(DIROUT);mkdir(DIROUT); end
 DIRLOG ='/home/bbci/data/haufe/Franziska/log/2chan_sim_univar_baseline/shifted_filt1/';
 if ~exist(DIRLOG); mkdir(DIRLOG); end
 
-stack_id = str2num(getenv('SGE_TASK_ID'));
+stack_id = str2num(getenv('SGE_TASK_ID'))
 rng(stack_id)
 
 iit_ids = (stack_id*6)-5 :(stack_id*6);

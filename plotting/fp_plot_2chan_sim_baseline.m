@@ -1,7 +1,7 @@
-DIRIN = '~/Dropbox/Franziska/PAC_AAC_estimation/data/2chan_sim8_baseline/';
+DIRIN = '~/Dropbox/Franziska/PAC_AAC_estimation/data/2chan_sim8_baseline1/';
 
 nit =100;
-
+a=[];
 for iit = 1:nit
     try
         load([DIRIN 'pvals_' num2str(iit) '.mat'])
@@ -19,16 +19,25 @@ for iit = 1:nit
                 end
             end
         end
+    catch 
+        a = [a iit];
+        
     end
     
 end
+
+% for isnr = 1:size(p,2)
+%     pval{isnr}(:,:,a)=[];
+%     tpnr{isnr}(:,:,a)=[];
+% end
 
 %%
 nmet = length(p{1,1});
 [ncse, nsnr] = size(p);
 mets = {'MI','Ortho','ICshuf','Bispec','ASB','0.05'};
 snrs = {'0', '0.2', '0.4', '0.6', '0.8', '1'};
-snrs1= 0.2:0.2:0.8;
+% snrs1= 0.2:0.2:0.8;
+snrs1 = [0.1 0.2 0.3 0.4];
 snrs_dB = 20*log10(snrs1./(1-snrs1));
 for ii = 1:numel(snrs_dB)
     SNR_dB{ii} = num2str(round(snrs_dB(ii)));
@@ -48,7 +57,7 @@ figure
 icse =1;
 
 
-for imet = 1:nmet
+for imet = [1 4]
     for isnr = 1:nsnr
         a(isnr) = mean(squeeze(tpnr{isnr}(icse,imet,:)));
     end
@@ -71,7 +80,7 @@ legend(mets,'Location','southeast')
 ylabel('TPR')
 
 xlabel('SNR (dB)')
-xticks = 2:nsnr-1;
+xticks = 2:nsnr;
 xTickLabels = SNR_dB(1:end);
 set(gca,'xtick',xticks,'xticklabels',xTickLabels);
 ylim([0 1])

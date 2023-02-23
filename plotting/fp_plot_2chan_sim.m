@@ -1,7 +1,7 @@
-DIRIN = '~/Dropbox/Franziska/PAC_AAC_estimation/data/2chan_sim8/';
+DIRIN = '~/Dropbox/Franziska/PAC_AAC_estimation/data/2chan_sim9/';
 
 nit =100;
-
+u=[];
 for iit = 1:nit
     try
         load([DIRIN 'pvals_' num2str(iit) '.mat'])
@@ -19,6 +19,8 @@ for iit = 1:nit
                 end
             end
         end
+    catch 
+        u = [u iit];
     end
     
 end

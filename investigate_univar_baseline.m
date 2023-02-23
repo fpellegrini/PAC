@@ -1,5 +1,5 @@
-
-rng(5)
+clear all
+rng(20)
 % Parameters
 
 N = 120000;
@@ -8,7 +8,7 @@ nchan= 2;
 %Sampling frequency
 fs = 200;
 
-n_trials_s = 60;
+n_trials_s = 300;
 n_iter = 500;
 
 %BW
@@ -54,5 +54,8 @@ for isnr = 1:5
         end        
     end
 end
+figure
 plot(pval)
 legend('MI','Bispec')
+ylabel('p value')
+xlabel('SNR')
