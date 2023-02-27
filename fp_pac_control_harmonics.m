@@ -11,8 +11,8 @@ DIRIN = './';
 
 %subjects with high performance classification
 subs = [3 4 5 8 9 11 12 14 15 16 17 18 19 21 22 23 25 27 28 29 30 31 33 34 35 37];
-% rois = [50, 46]; %Regions of interest:  precentral r, postcentral r
-rois = [49, 46]; %Regions of interest:  precentral l, postcentral r
+rois = [50, 46]; %Regions of interest:  precentral r, postcentral r
+% rois = [49, 46]; %Regions of interest:  precentral l, postcentral r
 
 %FOIs
 ifl = 5;
@@ -97,15 +97,15 @@ t=toc;
  figure 
  subplot(1,3,1)
  hist(p_mim_l)
- title('MIM 10 Hz, RDE within hemis')
+ title('MIM 10 Hz, RDE between hemis')
  xlabel('p value')
   
  subplot(1,3,2)
  hist(p_mim_h)
- title('MIM 30 Hz, RDE within hemis')
+ title('MIM 30 Hz, RDE between hemis')
  xlabel('p value')
  
  subplot(1,3,3)
  hist(p_pac)
- title('PAC 5 to 33 Hz, RDE within hemis')
+ title('PAC 5 to 33 Hz, RDE between hemis')
  xlabel('p value')

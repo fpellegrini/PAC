@@ -1,4 +1,4 @@
-DIRIN = '~/Dropbox/Franziska/PAC_AAC_estimation/data/2chan_sim8_baseline1/';
+DIRIN = '~/Dropbox/Franziska/PAC_AAC_estimation/data/2chan_sim9_baseline/';
 
 nit =100;
 a=[];

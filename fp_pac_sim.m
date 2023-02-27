@@ -1,16 +1,16 @@
 function fp_pac_sim(params)
 
 % define folders for saving results
-DIROUT = '/home/bbci/data/haufe/Franziska/data/pac_sim4/';
-if ~exist(DIROUT);mkdir(DIROUT); end
-DIROUT1 = '/home/bbci/data/haufe/Franziska/data/pac_save4/';
-if ~exist(DIROUT1);mkdir(DIROUT1); end
+DIROUT = './';
+DIROUT1 = './';
+
+addpath(genpath(DIROUT))
 
 
 if params.ip==9 % source localization is varied
     %reload data from ip1 to keep them constant and only vary the source
     %localization
-    params_save = params;
+    params_save = params; 
     load(sprintf('%s/pac_sensorsig/%d.mat',DIROUT1,params.iit));
     params = params_save;
     clear params_save
@@ -38,11 +38,10 @@ else
         
         if params.ip==1 %if ip1, save sig for ip3
             dir1 =  sprintf('%s/pac_sig/',DIROUT1);
-            if ~exist(dir1); mkdir(dir1); end
+%             if ~exist(dir1); mkdir(dir1); end
             outname = sprintf('%s/pac_sig/%d.mat',DIROUT1,params.iit);
             save(outname,'-v7.3')
-        end
-        
+        end        
     end
     
     %combine noise sources
@@ -64,7 +63,7 @@ else
     
     if params.ip==1 %if ip1, save sig for ip9
         dir1 =  sprintf('%s/pac_sensorsig/',DIROUT1);
-        if ~exist(dir1); mkdir(dir1); end
+%         if ~exist(dir1); mkdir(dir1); end
         outname = sprintf('%s/pac_sensorsig/%d.mat',DIROUT1,params.iit);
         save(outname,'-v7.3')
     end
@@ -243,8 +242,8 @@ end
 
 %% Saving workspace
 
-fprintf('Saving... \n')
-%save all
-outname = sprintf('%spac_%s.mat',DIROUT,params.logname);
-save(outname,'-v7.3')
+% fprintf('Saving... \n')
+% %save all
+% outname = sprintf('%spac_%s.mat',DIROUT,params.logname);
+% save(outname,'-v7.3')
 

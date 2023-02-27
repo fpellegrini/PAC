@@ -1,4 +1,5 @@
 function [b_orig, b_anti, b_orig_norm,b_anti_norm] = fp_pac_bispec(data,fs,filt)
+%data is nchan x timepoints x ntrials 
 
 nroi = size(data,1);
 segleng = 2*fs;

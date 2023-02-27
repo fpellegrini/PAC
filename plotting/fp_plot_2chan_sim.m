@@ -25,6 +25,11 @@ for iit = 1:nit
     
 end
 
+for isnr = 1:nsnr
+    pval{isnr}(:,:,u)=[];
+    tpnr{isnr}(:,:,u)=[]; 
+end
+
 %%
 nmet = length(p{1,1}); 
 [ncse, nsnr] = size(p); 

@@ -5,7 +5,6 @@ function [sig,brain_noise,sensor_noise, L_save,iroi_phase,iroi_amplt,D, fres, n_
 
 %total number of samples 
 N = 120000; 
-% N = 1000000;
 
 %Sampling frequency
 fs = 200;
