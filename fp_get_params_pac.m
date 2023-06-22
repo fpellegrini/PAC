@@ -1,7 +1,9 @@
 function params = fp_get_params_pac(ip)
+%Output is the params structure with several fields defining the
+%experimental setup. 
 
 if ip == 1
-    %default bivariate 
+    %default bivariate case
     params.case = 2; %bivariate
     params.iInt = 3;
     params.isnr=0.5;
@@ -119,7 +121,7 @@ elseif ip == 3
     
 elseif ip == 10 
     
-    %univariate case 
+    %default univariate case 
     params.case = 1; %univariate
     params.iInt = 1;
     params.isnr=0.8;
@@ -145,30 +147,30 @@ elseif ip == 10
 %     params.pips = 1;
 %     params.nshuf = 100; 
     
-elseif ip == 12
-    %eloreta 
-    params.case = 2; %bivariate
-    params.iInt = 3;
-    params.isnr=0.5;
-    params.t = 0; 
+% elseif ip == 12
+%     %eloreta 
+%     params.case = 2; %bivariate
+%     params.iInt = 3;
+%     params.isnr=0.5;
+%     params.t = 0; 
+%     
+%     params.iReg=1;
+%     params.iss = 0.9;
+%     params.ifilt = 'e';
+%     params.pips = 1;
+%     params.nshuf = 100; %for shahbazi
     
-    params.iReg=1;
-    params.iss = 0.9;
-    params.ifilt = 'e';
-    params.pips = 1;
-    params.nshuf = 100; %for shahbazi
-    
-elseif ip == 13     
-    %eloreta
-    params.case = 1; %univariate
-    params.iInt = 3;
-    params.isnr=0.8;
-    params.t = 0; 
-    
-    params.iReg=1;
-    params.iss = 0.9;
-    params.ifilt = 'e';
-    params.pips = 1;
-    params.nshuf = 100; 
+% elseif ip == 13     
+%     %eloreta
+%     params.case = 1; %univariate
+%     params.iInt = 3;
+%     params.isnr=0.8;
+%     params.t = 0; 
+%     
+%     params.iReg=1;
+%     params.iss = 0.9;
+%     params.ifilt = 'e';
+%     params.pips = 1;
+%     params.nshuf = 100; 
         
 end

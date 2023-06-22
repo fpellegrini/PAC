@@ -4,10 +4,10 @@ DIRIN = '~/Dropbox/Franziska/PAC_AAC_estimation/data/RDE/100Hz_srate/';
 subs = [3 4 5 8 9 11 12 14 15 16 17 18 19 21 22 23 25 27 28 29 30 31 33 34 35 37];
 rois = [45,46,49,50]; %Regions of interest: postcentral l/r, precentral l/r
 
-isub = 22;
+isub = 17;
 
-low = 4;
-high = 34;
+low = 3;
+high = 40;
 
 %%
 % load preprocessed EEG
@@ -24,7 +24,7 @@ for lroi = 1:4
     for hroi = 1:4
         if lroi ~=hroi
             %%
-            low_0= [-2 2];
+            low_0= [-1 1];
             high_0 = [-(low+1) (low+1)];
             
             [bl al] = butter(3, (low +low_0)/fs*2);
@@ -122,8 +122,8 @@ end
 
 %% polar plot 
 
-lroi = 1; 
-hroi = 4;
+% lroi = 1; 
+% hroi = 4;
 
 low_0= [-2 2];
 high_0 = [-(low+1) (low+1)];

@@ -1,5 +1,8 @@
 function coeffs = fp_fft_coeffs(data,segleng,segshift,epleng,freqpairs)
-
+% Get Fourier coefficients for epoched data. 
+% The output coeffs is peaks x nchan x ntrials. 
+% The 4 peaks correspond to 1) the low-frequeny peak, 2) the left side
+% lobe, 3) the high-frequency peak, 4) the right side lobe.
 [ndat,nchan]=size(data);
 
 mywindow=repmat(hanning(segleng),1,nchan);

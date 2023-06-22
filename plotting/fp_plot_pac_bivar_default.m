@@ -1,8 +1,8 @@
-tmpfunction fp_plot_pac_bivar_default
+function fp_plot_pac_bivar_default
 
 addpath(genpath('~/Dropbox/Franziska/PAC_AAC_estimation/data/'))
-DIRDATA = '~/Dropbox/Franziska/PAC_AAC_estimation/data/sim4/';
-DIRFIG = '~/Dropbox/Franziska/PAC_AAC_estimation/figures/sim4/';
+DIRDATA = '~/Dropbox/Franziska/PAC_AAC_estimation/data/sim5/';
+DIRFIG = '~/Dropbox/Franziska/PAC_AAC_estimation/figures/sim5/';
 if ~exist(DIRFIG); mkdir(DIRFIG); end
 
 cols = [[0 0 0.5];[0 0 0.5];...
@@ -46,9 +46,9 @@ for ip =[1]
         
     end
     
-    % for ii = 1:4
-    %     PR{ii}(a)=[];
-    % end
+    for ii = 1:5
+        PR{ii}(a)=[];
+    end
     
     %%
     figure

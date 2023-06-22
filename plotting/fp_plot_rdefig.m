@@ -1,4 +1,4 @@
-function fp_plot_rdefig(data,ca)
+function fp_plot_rdefig(data,ca,mask)
 
 regions = {'Postcentral left','Postcentral right','Precentral left','Precentral right'};
 rc = [[3 4];[4 3];[1 2];[2 1];[3 2];[2 3];[4 1];[1 4];[3 1];[1 3];[4 2];[2 4]];
@@ -12,7 +12,7 @@ for u = 1:size(rc,1)
     axes(ha(u)); 
     img_data=squeeze(data(:,:,iroi,jroi));
     h = imagesc(img_data);
-    set(h, 'AlphaData', 1-isnan(img_data))
+    set(h, 'AlphaData', mask(:,:,iroi,jroi)-isnan(img_data))
 %     colorbar
     caxis(ca)
     axis equal    

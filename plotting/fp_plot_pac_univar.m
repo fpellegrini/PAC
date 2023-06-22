@@ -2,9 +2,9 @@
 addpath(genpath('~/Dropbox/Franziska/PAC_AAC_estimation/data/'))
 addpath('/Users/franziskapellegrini/Dropbox/Franziska/MEG_Project/matlab/libs/emd_for_icoh/roi_connectivity_emd/');
 
-DIRDATA = '~/Dropbox/Franziska/PAC_AAC_estimation/data/sim4/';
+DIRDATA = '~/Dropbox/Franziska/PAC_AAC_estimation/data/sim5/';
 
-DIRFIG = '~/Dropbox/Franziska/PAC_AAC_estimation/figures/sim4/univar/';
+DIRFIG = '~/Dropbox/Franziska/PAC_AAC_estimation/figures/sim5/univar/';
 if ~exist(DIRFIG); mkdir(DIRFIG); end
 
 %%
@@ -49,11 +49,13 @@ for ip = [10]
         
         
     end
-    
-    for ii =1: 5
-        P{ii}(:,:,a)=[];
-        iroi(:,a)=[];
+    %%
+     iroi(:,a(a<=size(P{5},3)))=[];
+    for ii =1:5
+        P{ii}(:,:,a(a<=size(P{5},3)))=[];
+        
     end
+   
     
     %% get neighboring structure
     

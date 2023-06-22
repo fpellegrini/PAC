@@ -23,7 +23,7 @@ for proi = 1:nroi
         
         %normalized by threenorm
         [RTP_up,~]=data2bs_threenorm(X(:,:)',segleng,segshift,epleng,freqinds_up);
-        bicoh_up=bs_up./sqrt(RTP_up);
+        bicoh_up=bs_up./RTP_up;
         biv_orig_up_norm = ([abs(bicoh_up(1, 2, 2)) abs(bicoh_up(2, 1, 1))]);
         xx=bicoh_up-permute(bicoh_up, [2 1 3]);
         biv_anti_up_norm = ([abs(xx(1, 2, 2)) abs(xx(2, 1, 1))]);
@@ -36,7 +36,7 @@ for proi = 1:nroi
         
         %normalized by threenorm
         [RTP_low,~]=data2bs_threenorm(X(:,:)',segleng,segshift,epleng,freqinds_low);
-        bicoh_low=bs_low./sqrt(RTP_low);
+        bicoh_low=bs_low./RTP_low;
         biv_orig_low_norm = ([abs(bicoh_low(1, 2, 2)) abs(bicoh_low(2, 1, 1))]);
         xx=bicoh_low-permute(bicoh_low, [2 1 3]);
         biv_anti_low_norm = ([abs(xx(1, 2, 2)) abs(xx(2, 1, 1))]);

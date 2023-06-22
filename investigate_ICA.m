@@ -34,14 +34,12 @@ signal_unmixed = reshape(signal_unmixed,n_sensors, l_epoch, n_trials);
 fs = fres; 
 
 figure
-[pxx,f] = pwelch(signal_sensor(:,:)',2*fs,fs,2*fs,fs)
+figone(5,18)
+subplot(1,2,1)
+pwelch(signal_sensor(:,:)',2*fs,fs,2*fs,fs);
 title('97 channels')
-a = pxx(find(f==10),:);
 
-figure;
+subplot(1,2,2)
 pwelch(signal_unmixed(:,:)',2*fs,fs,2*fs,fs)
 title('Independent components') 
 
-%% 
-
-topoplot(a,EEG.chanlocs)

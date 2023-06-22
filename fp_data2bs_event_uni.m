@@ -1,6 +1,8 @@
 function [cs,nave]=fp_data2bs_event_uni(data,segleng,segshift,epleng,freqpairs,nshuf)
-% calculates bispectral-tensors  from data for event-related measurement
-%
+% Calculates bispectral-tensors  from data for event-related measurement
+% and their null distributions using a shuffling approach. Based on the
+% data2bs_event function of the METH toolbox by Guido Nolte. 
+% 
 % usage: [cs,nave]=data2bs_event(data,segleng,segshift,epleng,freqpairs,para);
 %
 % input:
@@ -11,14 +13,16 @@ function [cs,nave]=fp_data2bs_event_uni(data,segleng,segshift,epleng,freqpairs,n
 %           e.g. segshift=segleng/2 makes overlapping segments
 % epleng: leng of each epoch
 % freqpairs: pairs of  frequency in bins
+% nshuf: required number of samples (shuffles) in the null distribution 
 % para: structure which is eventually used later
 %
 % output:
-% cs: nchan by nchan by nchan by number_of_frequency_pairs
-%      (by number_of_segments) tensor such that
-%  cs(i,j,k,f)=<x(f1)_i*x(f2)_j*conj(x(f1+f2-1)_k)>
+% cs: nchan by nchan by nchan by number_of_frequency_pairs by number of shuffles 
+% tensor such that
+%  cs(i,j,k,f,ishuf)=<x(f1)_i*x(f2)_j*conj(x(f1+f2-1)_k)>
 %  where f1=freqpairs(f,1) and  f2=freqpairs(f,1),
-%  x=fft(data) and the average is over epeochs and segments
+%  x=fft(data) and the average is over epeochs and segments. 
+% Note that this function is restricted to one frequency combination only! 
 %
 % if para.fave=0 then cs contains a fifth argument denoting
 % the   segment.
@@ -35,6 +39,7 @@ assert(nseg==1,'only possible with 1 segment')
 
 cs=zeros(nchan,nchan,nchan,2,nshuf);
 
+%get Fourier coefficients
 coeffs = fp_fft_coeffs(data,segleng,segshift,epleng,freqpairs);
 
 for ishuf = 1:nshuf
@@ -44,15 +49,15 @@ for ishuf = 1:nshuf
     cs1=zeros(nchan,nchan,nchan);
     cs2=zeros(nchan,nchan,nchan);
 
-    if ishuf == 1
+    if ishuf == 1 %the first shuffle contains the true order
         inds = 1:nep;
     else
-        inds = randperm(nep,nep); %indices for shuffling of epochs for f1
+        inds = randperm(nep,nep); %indices for shuffling of epochs for channel2 
     end
     
-    for j=1:nep
+    for j=1:nep %loop over epochs 
         
-        %bispec of f1, f2-f1, f2
+        %bispec of f1 (low peak), f2-f1 (left side lobe), f2 (high peak)
         csloc1(1,1,1)=transpose(coeffs(1,1,j))        *coeffs(2,1,j)      *conj(coeffs(3,1,j));
         csloc1(2,1,1)=transpose(coeffs(1,2,inds(j)))  *coeffs(2,1,j)      *conj(coeffs(3,1,j));
         csloc1(1,2,1)=transpose(coeffs(1,1,j))        *coeffs(2,2,inds(j))*conj(coeffs(3,1,j));
@@ -62,7 +67,7 @@ for ishuf = 1:nshuf
         csloc1(2,2,2)=transpose(coeffs(1,2,inds(j)))  *coeffs(2,2,inds(j))*conj(coeffs(3,2,inds(j)));
         csloc1(2,1,2)=transpose(coeffs(1,2,inds(j)))  *coeffs(2,1,j)      *conj(coeffs(3,2,inds(j)));
         
-        %bispec of f1, f2, f1+f2
+        %bispec of f1 (low peak), f2 high peak), f1+f2 (right side lobe)
         csloc2(1,1,1)=transpose(coeffs(1,1,j))          *coeffs(3,1,j)      *conj(coeffs(4,1,j));
         csloc2(2,1,1)=transpose(coeffs(1,2,inds(j)))    *coeffs(3,1,j)      *conj(coeffs(4,1,j));
         csloc2(1,2,1)=transpose(coeffs(1,1,j))          *coeffs(3,2,inds(j))*conj(coeffs(4,1,j));

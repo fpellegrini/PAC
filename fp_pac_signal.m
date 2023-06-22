@@ -1,6 +1,7 @@
 function [sig,brain_noise,sensor_noise, L_save,iroi_phase,iroi_amplt,D, fres, n_trials,filt] = fp_pac_signal...
     (params,D)
-
+%Generates ground-truth sensor-level time series with ground-truth univariate 
+%(within-region) or bivariate (across-region) interactions
 %% set parameters
 
 %total number of samples 
@@ -15,8 +16,8 @@ frqs = sfreqs(fres, fs); % freqs in Hz
 n_trials = 60;
 
 %interacting bands 
-low = [9 11];
-high = [58 62];
+low = [9 11]; %in Hz
+high = [58 62]; %in Hz
 band_inds_low = find(frqs >= low(1) & frqs <= low(2)); % indices of interacting low frequencies
 band_inds_high = find(frqs >= high(1) & frqs <= high(2)); % indices of interacting high frequencies
 
@@ -24,9 +25,7 @@ band_inds_high = find(frqs >= high(1) & frqs <= high(2)); % indices of interacti
 coupling_snr = 0.6; 
 
 
-%%
-
-% filters for band and highpass
+%% filters for band and highpass
 [bband_low, aband_low] = butter(5, low/(fs/2));
 [bband_high, aband_high] = butter(5, high/(fs/2));
 [bhigh, ahigh] = butter(5, 1/(fs/2), 'high');
@@ -42,7 +41,7 @@ filt.band_inds_high = band_inds_high;
 filt.low = low; 
 filt.high = high;
  
-%% randomly select seed and in bivariate case also target 
+%% randomly select seed, and in bivariate case also target 
 
 if params.case==1 % in univariate case
     iroi_phase = randperm(D.nroi,params.iInt)';
@@ -59,7 +58,7 @@ elseif params.case==2 % in bivariate case
         end
     end
     
-elseif params.case==3 % uni + bivariate case 
+elseif params.case==3 % uni + bivariate case (not published) 
     assert(length(params.iInt)==2,...
         'Indicate number of uni- and bivariate interactions in mixed case.')
     iroi_amplt=[];
@@ -101,7 +100,7 @@ end
 
 noise_ind = setdiff(1:params.iReg*D.nroi,sig_ind(:));
 
-%% generate signal low and high 
+%% generate low- and high-frequency signal 
 
 xl = randn(N,  sum(params.iInt)*params.iReg);
 for ii = 1:  sum(params.iInt)*params.iReg
@@ -113,17 +112,20 @@ for ii = 1: sum(params.iInt)*params.iReg
     xh(:,ii) = filtfilt(bband_high, aband_high, xh(:,ii));
 end
 
+%extract phase from low and high signal 
 xlh = hilbert(xl);
 xlphase = angle(xlh);
 
 xhh = hilbert(xh);
 xhphase = angle(xhh);
 
+%ensure that amplitude of high-frequent signal is modulated by phase of
+%slow oscillation 
 xh = real((1-cos(xlphase)).*exp(1i*xhphase));
 
 
 %% normalize low and high freq signal to 1/f shape 
-% 
+
 xh = xh./norm(xh,'fro');
 xl = xl./norm(xl,'fro');
 
@@ -147,7 +149,7 @@ elseif params.case==2 %bivariate case
     s1 = cat(2,xl,xh);
     s1 = s1./norm(s1(:),'fro');
     
-elseif params.case==3 %uni + bivariate case 
+elseif params.case==3 %uni + bivariate case (not published) 
     
     univar_inds = 1:params.iInt(1)*params.iReg;
     bivar_inds = (params.iInt(1)*params.iReg)+1 : sum(params.iInt)*params.iReg;
@@ -187,7 +189,7 @@ for is = 1:numel(D.sub_ind_cortex)
     L_mix(:,is) = squeeze(L3(:,is,:))*squeeze(normals(:,is));
 end
 
-%select signal L and noise L 
+%select signal and noise leadfield columns
 if params.case==3
     L_sig = L_mix(:,[sig_ind(univar_inds,1)' reshape(sig_ind(bivar_inds,:),[],1)']);
 else

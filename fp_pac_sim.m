@@ -10,38 +10,27 @@ addpath(genpath(DIROUT))
 if params.ip==9 % source localization is varied
     %reload data from ip1 to keep them constant and only vary the source
     %localization
-    params_save = params; 
+    params_save = params;
     load(sprintf('%s/pac_sensorsig/%d.mat',DIROUT1,params.iit));
     params = params_save;
     clear params_save
 else
     %% signal generation
     tic
-    if params.ip == 3 %snr/ noise mix is varied
-        %reload data from ip1 to keep them constant and only vary the snr
-        %or noise mix
-        params_save = params;
-        load(sprintf('%s/pac_sig/%d.mat',DIROUT1,params.iit));
-        params= params_save;
-        clear params_save
-    else
-        
-        % getting atlas, voxel and roi indices; active voxel of each region
-        % is aleady selected here
-        fprintf('Getting atlas positions... \n')
-        D = fp_get_Desikan(params.iReg);
-        
-        %signal generation
-        fprintf('Signal generation... \n')
-        [sig,brain_noise,sensor_noise,L,iroi_phase, iroi_amplt,D, fres, n_trials,filt] = ...
-            fp_pac_signal(params,D);
-        
-        if params.ip==1 %if ip1, save sig for ip3
-            dir1 =  sprintf('%s/pac_sig/',DIROUT1);
-%             if ~exist(dir1); mkdir(dir1); end
-            outname = sprintf('%s/pac_sig/%d.mat',DIROUT1,params.iit);
-            save(outname,'-v7.3')
-        end        
+    
+    % getting atlas, voxel and roi indices; active voxel of each region
+    % is aleady selected here
+    fprintf('Getting atlas positions... \n')
+    D = fp_get_Desikan(params.iReg);
+    
+    %signal generation
+    fprintf('Signal generation... \n')
+    [sig,brain_noise,sensor_noise,L,iroi_phase, iroi_amplt,D, fres, n_trials,filt] = ...
+        fp_pac_signal(params,D);
+    
+    if params.ip==1 %if ip1, save signals for ip3
+        outname = sprintf('%s/pac_sig/%d.mat',DIROUT1,params.iit);
+        save(outname,'-v7.3')
     end
     
     %combine noise sources
@@ -51,7 +40,7 @@ else
     signal_sensor1 = params.isnr*sig + (1-params.isnr)*noise;
     signal_sensor1 = signal_sensor1 ./ norm(signal_sensor1(:), 'fro');
     
-    %high-pass signal
+    %high-pass filter signal
     signal_sensor = (filtfilt(filt.bhigh, filt.ahigh, signal_sensor1'))';
     signal_sensor = signal_sensor / norm(signal_sensor, 'fro');
     
@@ -61,12 +50,10 @@ else
     
     t.signal = toc;
     
-    if params.ip==1 %if ip1, save sig for ip9
-        dir1 =  sprintf('%s/pac_sensorsig/',DIROUT1);
-%         if ~exist(dir1); mkdir(dir1); end
-        outname = sprintf('%s/pac_sensorsig/%d.mat',DIROUT1,params.iit);
-        save(outname,'-v7.3')
-    end
+    %     if params.ip==1 %if ip1, save sig for ip9
+    %         outname = sprintf('%s/pac_sensorsig/%d.mat',DIROUT1,params.iit);
+    %         save(outname,'-v7.3')
+    %     end
 end
 
 %% Leadfield
@@ -75,6 +62,7 @@ end
 L_backward = L(:, D.ind_cortex, :);
 
 %% null distribution for shabazi method
+
 if params.ip == 1 || params.ip==4 || params.ip == 5 || params.ip == 6 || params.ip == 9 || params.case == 1
     tic
     [W,~] = runica(signal_sensor(:,:));
@@ -103,7 +91,7 @@ if params.ip == 1 || params.ip==4 || params.ip == 5 || params.ip == 6 || params.
         %dimesionality reduction
         signal_roi_shuf = fp_dimred(signal_shuf,D,A,params.t);
         
-        %pac calculation
+        %pac score calculation
         pac_shuf(:,:,ishuf) = fp_pac_standard(signal_roi_shuf, filt.low, filt.high, fres);
         
         clear signal_shuf A signal_roi_shuf
@@ -137,10 +125,14 @@ if params.case == 1 %univariate case
     fprintf(['Calculating bispectra \n'])
     nshuf = params.nshuf;
     tic
+    
+    %Calculation bispectrum w/o antisymm and ASB, and their null
+    %distributions, first entry is true score.
+    %shape of bispectra: amplitude ROI x phase ROI x nshuf
     [b_orig, b_anti] = fp_pac_bispec_uni(signal_roi,fres,filt,nshuf+1);
     t.bispec = toc;
     
-    fprintf(['Calculating Tort and ortho \n'])
+    fprintf(['Calculating MI and ortho \n'])
     tic
     for ishuf = 1:nshuf+1
         clear s_shuf
@@ -155,43 +147,44 @@ if params.case == 1 %univariate case
             s_shuf(iroi,:,:) = signal_roi(iroi,:,inds);
         end
         
-        %shuffled Tort
+        %shuffled MI
         pac_standard(:,:,ishuf) = fp_pac_standard(s_shuf, filt.low, filt.high, fres);
         
         %shuffled ortho
-        [signal_ortho, ~, ~, ~] = symmetric_orthogonalise(s_shuf(:,:)', 1);
+        [signal_ortho, ~, ~, ~] = symmetric_orthogonalise(s_shuf(:,:)', 1); %orthogonalize 
         signal_ortho = reshape(signal_ortho',D.nroi,l_epoch,n_trials);
         pac_ortho(:,:,ishuf) = fp_pac_standard(signal_ortho, filt.low, filt.high, fres);
         
     end
-    t.shufTort = toc;
+    t.shufMI = toc;
     
-    for proi = 1:D.nroi
-        for aroi = 1:D.nroi
-            p_orig(proi,aroi) = sum(squeeze(b_orig(proi,aroi,1))<squeeze(b_orig(proi,aroi,2:end)))/nshuf;
-            p_anti(proi,aroi) = sum(squeeze(b_anti(proi,aroi,1))<squeeze(b_anti(proi,aroi,2:end)))/nshuf;
-            p_standard(proi,aroi) = sum(squeeze(pac_standard(proi,aroi,1))<squeeze(pac_standard(proi,aroi,2:end)))/nshuf;
-            p_ortho(proi,aroi) = sum(squeeze(pac_ortho(proi,aroi,1))<squeeze(pac_ortho(proi,aroi,2:end)))/nshuf;
-            p_shahbazi(proi,aroi) = sum(squeeze(pac_standard(proi,aroi,1))<squeeze(pac_shuf(proi,aroi,:)))/nshuf;
+    %calculate p-values for all ROI combinations 
+    for iroi = 1:D.nroi
+        for jroi = 1:D.nroi
+            p_orig(iroi,jroi) = sum(squeeze(b_orig(iroi,jroi,1))<squeeze(b_orig(iroi,jroi,2:end)))/nshuf;
+            p_anti(iroi,jroi) = sum(squeeze(b_anti(iroi,jroi,1))<squeeze(b_anti(iroi,jroi,2:end)))/nshuf;
+            p_standard(iroi,jroi) = sum(squeeze(pac_standard(iroi,jroi,1))<squeeze(pac_standard(iroi,jroi,2:end)))/nshuf;
+            p_ortho(iroi,jroi) = sum(squeeze(pac_ortho(iroi,jroi,1))<squeeze(pac_ortho(iroi,jroi,2:end)))/nshuf;
+            p_shahbazi(iroi,jroi) = sum(squeeze(pac_standard(iroi,jroi,1))<squeeze(pac_shuf(iroi,jroi,:)))/nshuf;
             
         end
     end
     
-    %save only evaluation parameters
+    %save evaluation parameters
     outname1 = sprintf('%spr_%s.mat',DIROUT,params.logname);
     save(outname1,...
         'p_standard','p_ortho','p_shahbazi','p_orig','p_anti','t','iroi_phase','iroi_amplt',...
         '-v7.3')
-        
+    
 else
     
-    %standard pac
-    fprintf(['Calculating standard pac \n'])
+    %MI
+    fprintf(['Calculating MI \n'])
     tic
     pac_standard = fp_pac_standard(signal_roi, filt.low, filt.high, fres);
     t.standard = toc;
     
-    %ortho pac
+    %ortho+MI
     tic
     fprintf(['Calculating ortho pac \n'])
     [signal_ortho, ~, ~, ~] = symmetric_orthogonalise(signal_roi(:,:)', 1);
@@ -199,7 +192,7 @@ else
     pac_ortho = fp_pac_standard(signal_ortho, filt.low, filt.high, fres);
     t.ortho = toc;
     
-    %shabazi
+    %IC shuffling: normalize MI with null distribution 
     if params.ip == 1 || params.ip==4 || params.ip == 5 || params.ip == 6 || params.ip == 9
         pac_shahbazi = (pac_standard-mean(pac_shuf,3))/std(pac_shuf,[],3);
     end
@@ -220,6 +213,7 @@ else
         iroi_phase(1:params.iInt(1))=[];
     end
     
+    %calculate percentage rank 
     pr_shahbazi=[];
     if params.ip == 1 || params.ip==4 || params.ip == 5 || params.ip == 6 || params.ip == 9
         [pr_shahbazi] = fp_pr_pac(pac_shahbazi,iroi_amplt,iroi_phase);
@@ -231,7 +225,7 @@ else
     [pr_bispec_o_norm] = fp_pr_pac(b_orig_norm,iroi_amplt,iroi_phase);
     [pr_bispec_a_norm] = fp_pr_pac(b_anti_norm,iroi_amplt,iroi_phase);
     
-    %save only evaluation parameters
+    %save evaluation parameters
     outname1 = sprintf('%spr_%s.mat',DIROUT,params.logname);
     save(outname1,...
         'pr_standard','pr_ortho','pr_shahbazi','pr_bispec_o','pr_bispec_a',...

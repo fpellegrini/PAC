@@ -1,13 +1,13 @@
 function fp_plot_pac_snr
 
 addpath(genpath('~/Dropbox/Franziska/PAC_AAC_estimation/data/'))
-DIRDATA = '~/Dropbox/Franziska/PAC_AAC_estimation/data/sim4/';
-DIRFIG = '~/Dropbox/Franziska/PAC_AAC_estimation/figures/sim4/';
+DIRDATA = '~/Dropbox/Franziska/PAC_AAC_estimation/data/sim5/';
+DIRFIG = '~/Dropbox/Franziska/PAC_AAC_estimation/figures/sim5/';
 if ~exist(DIRFIG); mkdir(DIRFIG); end
 
 %%
 clear PR
-
+a=[];
 titles = {'-7.4 dB','0 dB','7.4 dB'};
 mets = {'MI','Ortho','Borig','Banti','Borignorm','Bantinorm','Shah'};
 cols = [[0 0 0.5];[0 0 0.5];...
@@ -15,45 +15,50 @@ cols = [[0 0 0.5];[0 0 0.5];...
 
 for isnr = [1 0 2]
     
-    if isnr ==0 
-        ip = 1;  
+    if isnr ==0
+        ip = 1;
         isnr1 = 1;
-        isnr2 = 2; 
-    else 
+        isnr2 = 2;
+    else
         ip = 3;
         isnr1 = isnr;
         if isnr == 2
-            isnr2 = 3; 
-        else 
-            isnr2 = 1; 
+            isnr2 = 3;
+        else
+            isnr2 = 1;
         end
-    end 
+    end
     params = fp_get_params_pac(ip);
     
     for iit= [1:100]
         
-        %     try
-        if params.case == 1
-            inname = sprintf('pr_univar_iInt%d_iReg%d_snr0%d_iss0%d_filt%s_pip%d_iter%d'...
-                ,params.iInt,params.iReg,params.isnr(isnr1)*10,params.iss*10,params.ifilt,params.t,iit);
-        elseif params.case == 2
-            inname = sprintf('pr_bivar_iInt%d_iReg%d_snr0%d_iss0%d_filt%s_pip%d_iter%d'...
-                ,params.iInt,params.iReg,params.isnr(isnr1)*10,params.iss*10,params.ifilt,params.t,iit);
+        try
+            if params.case == 1
+                inname = sprintf('pr_univar_iInt%d_iReg%d_snr0%d_iss0%d_filt%s_pip%d_iter%d'...
+                    ,params.iInt,params.iReg,params.isnr(isnr1)*10,params.iss*10,params.ifilt,params.t,iit);
+            elseif params.case == 2
+                inname = sprintf('pr_bivar_iInt%d_iReg%d_snr0%d_iss0%d_filt%s_pip%d_iter%d'...
+                    ,params.iInt,params.iReg,params.isnr(isnr1)*10,params.iss*10,params.ifilt,params.t,iit);
+            end
+            
+            load([DIRDATA inname '.mat'])
+            
+            PR{1}(isnr2,iit) = pr_standard;
+            PR{2}(isnr2,iit) = pr_ortho;
+            PR{3}(isnr2,iit) = pr_bispec_o;
+            PR{4}(isnr2,iit) = pr_bispec_a;
+            PR{5}(isnr2,iit) = pr_bispec_o_norm;
+            PR{6}(isnr2,iit) = pr_bispec_a_norm;
+        catch
+            a=[a iit];
         end
-        
-        load([DIRDATA inname '.mat'])
-        
-        PR{1}(isnr2,iit) = pr_standard;
-        PR{2}(isnr2,iit) = pr_ortho;
-        PR{3}(isnr2,iit) = pr_bispec_o;
-        PR{4}(isnr2,iit) = pr_bispec_a;
-        PR{5}(isnr2,iit) = pr_bispec_o_norm;
-        PR{6}(isnr2,iit) = pr_bispec_a_norm;
         
         
     end
 end
-
+for ii = 1:6
+    PR{ii}(:,unique(a))=[];
+end
 
 %%
 for icon = [1:4]

@@ -10,6 +10,7 @@ ff(2:(n1)/2,:)=scal;
 
 %fft of signal
 signal_fft = fft(signal);
+
 %1/f transform of fft of signal and get back to time domain 
 signal_t=2*real(ifft(signal_fft.*ff));
 signal_t=signal_t(1:time_pnts,:);

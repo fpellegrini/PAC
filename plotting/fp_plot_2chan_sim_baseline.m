@@ -34,7 +34,7 @@ end
 %%
 nmet = length(p{1,1});
 [ncse, nsnr] = size(p);
-mets = {'MI','Ortho','ICshuf','Bispec','ASB','0.05'};
+mets = {'MI','Bispec','0.05'};
 snrs = {'0', '0.2', '0.4', '0.6', '0.8', '1'};
 % snrs1= 0.2:0.2:0.8;
 snrs1 = [0.1 0.2 0.3 0.4];
@@ -54,6 +54,7 @@ cols = [[0 0 0.5];[0 0 0.5];[0 0 0.5];...
 
 clear a
 figure
+figone(5,9)
 icse =1;
 
 

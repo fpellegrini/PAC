@@ -1,4 +1,5 @@
 function signal_shuf = fp_shuffle_shab(W,signal_unmixed)
+%shuffle independent componends and project them back to original space 
 
 [n_sensors, l_epoch, n_trials] = size(signal_unmixed);
 

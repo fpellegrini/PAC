@@ -1,4 +1,5 @@
 
+DIRFIG = '/Users/franziskapellegrini/Dropbox/Franziska/PAC_AAC_estimation/figures/supplement/';
 rng(1)
 ip= 10;
 params = fp_get_params_pac(ip);
@@ -45,22 +46,6 @@ neighbor_thresh = 10; % 10mm vicinity defines neighborhood between regions
 cnb = find(nb(:,iroi_phase)==0.5); 
 cnb1 = setdiff(1:68,[cnb; iroi_phase]);
 
-figure
-subplot(2,1,1)
-u1= b_orig(iroi_phase,cnb);
-u2= b_orig(cnb,iroi_phase)';
-bar(u1); hold on; bar(u2)
-title('PAC score between seed and 4 neighboring regions')
-legend('Seed Amplitude','Seed Phase')
-ylim([0 6*(10^-5)])
-
-subplot(2,1,2)
-u3= b_orig(iroi_phase,cnb1);
-u4= b_orig(cnb1,iroi_phase)';
-bar(u3); hold on; bar(u4)
-title('PAC score between seed and 63 non-neighboring regions')
-legend('Seed Amplitude','Seed Phase')
-ylim([0 6*(10^-5)])
 
 
 %%
@@ -70,11 +55,14 @@ low = mean(filt.low);
 
 %filter bandwidth 
 low_0= [-2 2];
-high_0 = [-(low/2)-1 (low/2)+1]; %set bandwidth according to Zandvoort 2021
+high_0 = [-(low)-1 (low)+1];
 
 [bl al] = butter(5, (low +low_0)/fres*2); 
 [bh ah] = butter(5, (high + high_0)/fres*2);
 
+seed = signal_roi(iroi_phase,:,:);
+nbs = signal_roi(cnb,:,:); 
+nnbs = signal_roi(cnb1,:,:);
 
 sl = filtfilt(bl, al, seed);
 sh = filtfilt(bh, ah, seed);
@@ -95,25 +83,67 @@ ccl = corr(sl(:,:)',nl(:,:)');
 cch = corr(sh(:,:)',nh(:,:)');
 ccln = corr(sl(:,:)',nnl(:,:)');
 cchn = corr(sh(:,:)',nnh(:,:)');
+%%
 
-figure; 
-subplot(2,1,1)
+figure
+figone(6,18)
+subplot(1,2,1)
+u1= b_orig(iroi_phase,cnb);
+u2= b_orig(cnb,iroi_phase)';
+bar(u1); hold on; bar(u2)
+% title('PAC score between seed and 4 neighboring regions')
+legend('Seed Amplitude','Seed Phase')
+ylim([0 6*(10^-5)])
+ylabel('PAC score','FontSize',15)
+xlabel('Region number','FontSize',15)
+% outname = [DIRFIG 'nb_PAC.eps'];
+% print(outname,'-depsc');
+
+% figure
+subplot(1,2,2)
+u3= b_orig(iroi_phase,cnb1);
+u4= b_orig(cnb1,iroi_phase)';
+bar(u3); hold on; bar(u4)
+% title('PAC score between seed and 63 non-neighboring regions')
+legend('Seed Amplitude','Seed Phase')
+ylim([0 6*(10^-5)])
+ylabel('PAC score','FontSize',15)
+xlabel('Region number','FontSize',15)
+outname = [DIRFIG 'nb_nnb_PAC.eps'];
+print(outname,'-depsc');
+
+%%
+figure
+figone(6,18)
+subplot(1,2,1)
 bar(ccl)
 hold on 
 bar(cch)
 legend('Low freq','High freq')
 ylim([-0.7 0.7])
-title('Correlation between seed and 4 neighbors')
+% title('Correlation between seed and 4 neighbors')
 grid on 
+ylabel('Pearson r','FontSize',15)
+xlabel('Region number','FontSize',15)
+% outname = [DIRFIG 'nb_corr.eps'];
+% print(outname,'-depsc');
 
-subplot(2,1,2)
+
+% figure
+% figone(6,10)
+subplot(1,2,2)
 bar(ccln)
 hold on 
 bar(cchn)
-title('High freq correlation between seed and 63 non-neighbors')
+% title('High freq correlation between seed and 63 non-neighbors')
 ylim([-0.7 0.7])
 grid on 
-title('Correlation between seed and 63 non-neighbors')
+legend('Low freq','High freq')
+% title('Correlation between seed and 63 non-neighbors')
+ylabel('Pearson r','FontSize',15)
+xlabel('Region number','FontSize',15)
+outname = [DIRFIG 'nb_nnb_corr.eps'];
+print(outname,'-depsc');
 
 
 %%

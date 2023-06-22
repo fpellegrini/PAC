@@ -2,6 +2,7 @@ function [pm] = fp_pr_pac(cc,iroi_amplt,iroi_phase)
 
 %number of interactions 
 nints = numel(iroi_phase);
+
 %number of regions 
 nroi = size(cc,1);
 
@@ -32,11 +33,11 @@ end
 
 pm = mean(1 - (r1 ./ numel(lab)));
 
+%normalize with perfect skill and noskill PR 
 for it = 1:nints
     perfectPm(it) = 1 - (it / numel(lab));
     noSkillPm(it) = 1 - (numel(lab)-it+1)/numel(lab);
 end
-
 perfectPm = mean(perfectPm);
 noSkillPm = mean(noSkillPm);
 

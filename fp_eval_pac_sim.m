@@ -5,13 +5,14 @@ function fp_eval_pac_sim(ip,seed,iit)
 rng('default')
 rng(seed)
 
+%define parameters for the current experiment 
 params1 = fp_get_params_pac(ip);
 params = params1;
 
-for isnr = params1.isnr
+for isnr = params1.isnr %signal-to-noise ratio
     params.isnr = isnr;
     
-    for iInt = params1.iInt
+    for iInt = params1.iInt %number of interactions 
         if params.case<3
             params.iInt = iInt;
         else
