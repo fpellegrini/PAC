@@ -26,6 +26,7 @@ coupling_snr = 0.6;
 
 
 %% filters for band and highpass
+
 [bband_low, aband_low] = butter(5, low/(fs/2));
 [bband_high, aband_high] = butter(5, high/(fs/2));
 [bhigh, ahigh] = butter(5, 1/(fs/2), 'high');

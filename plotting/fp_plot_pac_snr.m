@@ -1,20 +1,22 @@
 function fp_plot_pac_snr
+%Plot results of experiment which varies the SNR (bivariate interactions)
 
 addpath(genpath('~/Dropbox/Franziska/PAC_AAC_estimation/data/'))
 DIRDATA = '~/Dropbox/Franziska/PAC_AAC_estimation/data/sim5/';
 DIRFIG = '~/Dropbox/Franziska/PAC_AAC_estimation/figures/sim5/';
 if ~exist(DIRFIG); mkdir(DIRFIG); end
 
-%%
-clear PR
-a=[];
-titles = {'-7.4 dB','0 dB','7.4 dB'};
-mets = {'MI','Ortho','Borig','Banti','Borignorm','Bantinorm','Shah'};
+%% set some parameters 
+
+%colors for plotting 
 cols = [[0 0 0.5];[0 0 0.5];...
     [0.8 0 0.2];[0.8 0 0.2]];
 
-for isnr = [1 0 2]
-    
+titles = {'-7.4 dB','0 dB','7.4 dB'};
+mets = {'MI','Ortho','Borig','Banti','Borignorm','Bantinorm','Shah'};
+
+a=[];
+for isnr = [1 0 2]    
     if isnr ==0
         ip = 1;
         isnr1 = 1;
@@ -30,7 +32,7 @@ for isnr = [1 0 2]
     end
     params = fp_get_params_pac(ip);
     
-    for iit= [1:100]
+    for iit= 1:100
         
         try
             if params.case == 1
@@ -61,12 +63,12 @@ for ii = 1:6
 end
 
 %%
-for icon = [1:4]
+for icon = [1:4] %loop over metrics
     figure
     figone(6,10)
     o=1;
     
-    for isnr = 1:length(titles)
+    for isnr = 1:length(titles) %loop over SNRs
         
         data1 = squeeze(PR{icon}(isnr,:));
         mean_pr(isnr) = mean(data1);
@@ -75,6 +77,7 @@ for icon = [1:4]
         
         subplot(1,length(titles),o)
         
+        %raincloud plot with logarithmic y axis 
         [h, u] = fp_raincloud_plot_a(data1, cols(icon,:), 1,0.2, 'ks');
         view([-90 -90]);
         set(gca, 'Xdir', 'reverse');

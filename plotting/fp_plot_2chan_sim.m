@@ -1,131 +1,56 @@
+function fp_plot_2chan_sim 
+% Visualizes results of fp_2chan_sim 
+
 DIRIN = '~/Dropbox/Franziska/PAC_AAC_estimation/data/2chan_sim9/';
 
 nit =100;
-u=[];
 for iit = 1:nit
-    try
-        load([DIRIN 'pvals_' num2str(iit) '.mat'])
-        
-        for isnr = 1:size(p,2)
-            for cse = 1:size(p,1)
-                for imet = 1:length(p{cse,isnr})
-                    
-                    pval{isnr}(cse,imet,iit) = p{cse,isnr}(imet);
-                    if cse<3
-                        tpnr{isnr}(cse,imet,iit) =  p{cse,isnr}(imet)<0.05;
-                    else
-                        tpnr{isnr}(cse,imet,iit) =  p{cse,isnr}(imet)>0.05;
-                    end
+    load([DIRIN 'pvals_' num2str(iit) '.mat'])
+    
+    for isnr = 1:size(p,2)
+        for cse = 1:size(p,1)
+            for imet = 1:length(p{cse,isnr})
+                
+                pval{isnr}(cse,imet,iit) = p{cse,isnr}(imet);
+                if cse<3 %in case 1 and 2, we evaluate true positives
+                    tpnr{isnr}(cse,imet,iit) =  p{cse,isnr}(imet)<0.05;
+                else % in cases 3 and 4, we evaluate true negatives
+                    tpnr{isnr}(cse,imet,iit) =  p{cse,isnr}(imet)>0.05;
                 end
             end
         end
-    catch 
-        u = [u iit];
     end
-    
 end
 
-for isnr = 1:nsnr
-    pval{isnr}(:,:,u)=[];
-    tpnr{isnr}(:,:,u)=[]; 
-end
+%% Plotting 
 
-%%
-nmet = length(p{1,1}); 
-[ncse, nsnr] = size(p); 
-mets = {'MI','Ortho','ICshuf','Bispec','ASB','0.05'};
-snrs = {'0', '0.2', '0.4', '0.6', '0.8', '1'};
+%set some plotting parameters 
+legend_ = {'MI','Ortho','ICshuf','Bispec','ASB','0.05'};
+nmet = length(legend_); 
+
+%xticks
+[~, nsnr] = size(p); 
 snrs1= 0.2:0.2:0.8;
 snrs_dB = 20*log10(snrs1./(1-snrs1));
 for ii = 1:numel(snrs_dB)
     SNR_dB{ii} = num2str(round(snrs_dB(ii)));
 end
+
+%cases
 cses = {'Bivariate','Bivariate mixed','Univariate','Univariate mixed'};
-% 
-% for isnr = 1:nsnr
-%     
-%     figure
-%     ii=1;
-%     for icse = 1:ncse
-%         for imet = 1:nmet
-%             
-%             subplot(size(p,1),length(p{1,1}),ii)
-%             hist(squeeze(pval{isnr}(icse,imet,:)))
-%             xlim([0 1])
-%             xlabel('pvalues')
-%             title([mets{imet} ' ' cses{icse} ' snr ' snrs{isnr}])
-%             
-%             ii=ii+1;
-%             
-%         end
-%     end
-%     
-% end
 
-%%
-
-% figure
-% ii=1;
-% for icse = 1:ncse
-%     for imet = 1:nmet
-%         
-%         subplot(size(p,1),length(p{1,1}),ii)
-%         for isnr = 1:nsnr
-%             a(isnr) = mean(squeeze(pval{isnr}(icse,imet,:)));
-%         end
-%         plot(a)
-%         ylabel('pval')
-%         xlabel('snr')
-%         title([cses{icse} ' ' mets{imet} ])
-%         ylim([0 1])
-%         
-%         ii=ii+1;
-%         
-%     end
-% end
-
-%%
-% clear a
-% figure
-% ii=1;
-% for icse = 1:ncse
-%     subplot(3,2,ii)
-%     
-%     for imet = 1:nmet
-%         for isnr = 1:nsnr-1
-%             a(isnr) = mean(squeeze(pval{isnr}(icse,imet,:)));
-%         end
-%         plot(a,'LineWidth',1)
-%         
-%         hold on
-%     end
-%     yline(0.05,'--')
-%     
-%     legend(mets)
-%     ylabel('pval')
-%     xlabel('snr')
-%     xticks = 1:nsnr-1; 
-%     xTickLabels = snrs(1:end-1);
-%     set(gca,'xtick',xticks,'xticklabels',xTickLabels);
-%     ylim([0 1])
-%     title([cses{icse} ])
-%     ii=ii+1;
-%     
-%     
-% end
-
-%% TPR and TNR
-cols = [[0 0 0.5];[0 0.8 0.7];[0.3 1 0.3];...
-    [0.8 0.6 0.7];[0.8 0 0.2]];
+%colors
 cols = [[0 0 0.5];[0 0 0.5];[0 0 0.5];...
     [0.8 0 0.2];[0.8 0 0.2]];
 
 
-clear a
+%% TPR and TNR
+
 figure
 figone(9,18)
+
 ii=1;
-for icse = [1 2 5 6]
+for icse = 1:4
     
     subplot(2,2,ii)
     
@@ -144,12 +69,11 @@ for icse = [1 2 5 6]
                 plot(a,'LineWidth',1.5,'Color',cols(imet,:)')
             case 5
                 plot(a,'--','LineWidth',1.5,'Color',cols(imet,:)')
-        end
-        
+        end       
         hold on
     end
     if ii ==2
-        legend(mets,'Location','southeast')
+        legend_(legend_,'Location','southeast')
     end
     if icse<3
         ylabel('TPR')

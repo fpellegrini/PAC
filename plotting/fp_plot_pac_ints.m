@@ -1,29 +1,29 @@
 function fp_plot_pac_ints
+%Plot results of experiment which varies the number of bivariate interactions
 
 addpath(genpath('~/Dropbox/Franziska/PAC_AAC_estimation/data/'))
 DIRDATA = '~/Dropbox/Franziska/PAC_AAC_estimation/data/sim5/';
 DIRFIG = '~/Dropbox/Franziska/PAC_AAC_estimation/figures/sim5/';
 if ~exist(DIRFIG); mkdir(DIRFIG); end
 
-%%
-clear PR
-ip = 2;
-params = fp_get_params_pac(ip);
-a=[];
+%% set some parameters 
 
-titles = {'1 interaction','3 interactions','5 interactions'};
-mets = {'MI','Ortho','Borig','Banti','Borignorm','Bantinorm','Shah'};
+%colors for plotting 
 cols = [[0 0 0.5];[0 0 0.5];...
     [0.8 0 0.2];[0.8 0 0.2]];
 
-for iInt = [1 0 2]
+titles = {'1 interaction','3 interactions','5 interactions'};
+mets = {'MI','Ortho','Borig','Banti','Borignorm','Bantinorm','Shah'};
+
+a=[];
+for iInt = [1 0 2] % 1, 3, and 5 interactions 
     if iInt ==0
-        ip = 1; %iInt = 3
-        iInt1 = 1;
-        iInt2 = 2;
+        ip = 1; %default number of interactions 
+        iInt1 = 1; %parameter for loading data 
+        iInt2 = 2; % PR index 
     else
         ip = 2;
-        iInt1 = iInt;
+        iInt1 = iInt;%parameter for loading data 
         if iInt == 2
             iInt2 = 3;
         else
@@ -61,19 +61,19 @@ for ii = 1:6
 end
 %%
 
-for icon = [1:4]
+for icon = [1:4] %loop over metrics 
+    
     figure
     figone(6,10)
     o=1;
-    for iInt = 1:3
+    for iInt = 1:3 %loop over interactions 
         
         data1 = squeeze(PR{icon}(iInt,:));
         mean_pr(o) = mean(data1);
         
-        %         cl = [0.7 0.75 0.75];
-        
         subplot(1,3,o)
         
+        %raincloud plot with logarithmic y axis 
         [h, u] = fp_raincloud_plot_a(data1, cols(icon,:), 1,0.2, 'ks');
         view([-90 -90]);
         set(gca, 'Xdir', 'reverse');
@@ -119,6 +119,5 @@ for icon = [1:4]
     
     outname = [DIRFIG 'Ints_' mets{icon} '.eps'];
     print(outname,'-depsc');
-    
-    %     close all
+
 end

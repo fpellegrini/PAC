@@ -1,4 +1,5 @@
 function signal_t = fp_pinknorm(signal)
+% Normalize signal to 1/f shape 
 
 time_pnts = size(signal,1);
 

@@ -18,7 +18,7 @@ else
     %% signal generation
     tic
     
-    % getting atlas, voxel and roi indices; active voxel of each region
+    % get atlas, voxel and roi indices; active voxel of each region
     % is aleady selected here
     fprintf('Getting atlas positions... \n')
     D = fp_get_Desikan(params.iReg);
@@ -65,6 +65,8 @@ L_backward = L(:, D.ind_cortex, :);
 
 if params.ip == 1 || params.ip==4 || params.ip == 5 || params.ip == 6 || params.ip == 9 || params.case == 1
     tic
+    
+    %ICA
     [W,~] = runica(signal_sensor(:,:));
     
     signal_unmixed = W*signal_sensor(:,:);

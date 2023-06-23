@@ -1,6 +1,7 @@
 function [b_orig, b_anti] = fp_pac_bispec_uni(data,fs,filt, nshuf)
 %Calculates uncorrected and antisymmetrized bispectra and their null
-%distributions using a shuffling approach. 
+%distributions using a shuffling approach. First shuffle contains true
+%values. 
 
 nroi = size(data,1);%number of regions 
 segleng = 2*fs; %2 sec
@@ -17,7 +18,7 @@ for iroi = 1:nroi
         
         X = data([iroi jroi],:,:); 
         [bs,~] = fp_data2bs_event_uni(X(:,:)', segleng, segshift, epleng, freqinds,nshuf);
-        xx = bs - permute(bs, [2 1 3 4 5]); %Bkmm - Bmkm
+        xx = bs - permute(bs, [2 1 3 4 5]); % Anti-symmetrization: Bkmm - Bmkm
         
         %upper freqs (low, left side lobe, high)
         biv_orig_up = squeeze(([abs(bs(1, 2, 2, 2,:)) abs(bs(2, 1, 1, 2,:))]));
