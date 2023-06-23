@@ -1,9 +1,11 @@
 function signal_roi = fp_dimred(signal_sensor,D,A,t)
-%dimensionality reduction within regions of the Desikan-Killiany atlas 
-%D is structure resulting from fp_get_Desikan 
-%A is inverse filter 
-%t is flag that should be set to 1 to select the TRUEVOX pipeline
-%Note that here, the number of PCs is fixed to 1. 
+% Dimensionality reduction within regions of the Desikan-Killiany atlas 
+% D is structure resulting from fp_get_Desikan 
+% A is inverse filter 
+% t is flag that should be set to 1 to select the TRUEVOX pipeline
+% Note that here, the number of PCs is fixed to 1. 
+%
+% Copyright (c) 2023 Franziska Pellegrini and Stefan Haufe
 
 [n_sensors, l_epoch, n_trials] = size(signal_sensor);
 ndim = size(A,2);

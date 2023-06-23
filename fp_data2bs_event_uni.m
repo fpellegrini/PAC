@@ -1,7 +1,9 @@
 function [cs,nave]=fp_data2bs_event_uni(data,segleng,segshift,epleng,freqpairs,nshuf)
 % Calculates bispectral-tensors  from data for event-related measurement
-% and their null distributions using a shuffling approach. Based on the
-% data2bs_event function of the METH toolbox by Guido Nolte. 
+% and their null distributions using a shuffling approach. 
+%
+% Based on the data2bs_event function of the METH toolbox by Guido Nolte. 
+% Modified by (c) 2023 Franziska Pellegrini and Stefan Haufe
 % 
 % usage: [cs,nave]=data2bs_event(data,segleng,segshift,epleng,freqpairs,para);
 %

@@ -2,6 +2,8 @@ function [b_orig, b_anti] = fp_pac_bispec_uni(data,fs,filt, nshuf)
 %Calculates uncorrected and antisymmetrized bispectra and their null
 %distributions using a shuffling approach. First shuffle contains true
 %values. 
+%
+% Copyright (c) 2023 Franziska Pellegrini and Stefan Haufe
 
 nroi = size(data,1);%number of regions 
 segleng = 2*fs; %2 sec

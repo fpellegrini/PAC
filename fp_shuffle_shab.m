@@ -1,5 +1,7 @@
 function signal_shuf = fp_shuffle_shab(W,signal_unmixed)
-%shuffle independent componends and project them back to original space 
+% shuffle independent componends and project them back to original space 
+%
+% Copyright (c) 2023 Franziska Pellegrini and Stefan Haufe
 
 [n_sensors, l_epoch, n_trials] = size(signal_unmixed);
 

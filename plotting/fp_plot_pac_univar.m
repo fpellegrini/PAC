@@ -1,5 +1,7 @@
 function fp_plot_pac_univar
 % Function that plots results of univariate whole-brain simulation
+%
+% Copyright (c) 2023 Franziska Pellegrini and Stefan Haufe
 
 addpath(genpath('~/Dropbox/Franziska/PAC_AAC_estimation/data/'))
 addpath('/Users/franziskapellegrini/Dropbox/Franziska/MEG_Project/matlab/libs/emd_for_icoh/roi_connectivity_emd/');

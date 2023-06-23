@@ -27,6 +27,8 @@ function [norms,nave]=data2bs_threenorm(data,segleng,segshift,epleng,freqpairs,p
 
 % nave: number of averages
 
+% Copyright (c) Guido Nolte
+
 [ndat,nchan]=size(data);
 maxfreqbin=sum(freqpairs)-1;
 f1=freqpairs(1);f2=freqpairs(2);

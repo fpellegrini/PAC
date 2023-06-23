@@ -1,6 +1,8 @@
 function fp_submit_2chan_sim_nsg
-%Function that submits the two-channel PAC simulation to several cores. Designed for
-%running on the NSG cluster of the UCSD. 
+% Function that submits the two-channel PAC simulation to several cores. Designed for
+% running on the NSG cluster of the UCSD. 
+%
+% Copyright (c) 2023 Franziska Pellegrini and Stefan Haufe
 
 nit = 100; %number of iterations
 seeds = (1:nit)*17;  %select seeds for random processes for every iteration

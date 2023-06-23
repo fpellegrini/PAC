@@ -7,6 +7,8 @@ function  pac = fp_pac_standard(signal, low, high, fs )
 % in Zandvoort 2021. I.e., PAC is estimated once between the low peak and
 % the high peak and the left side lobe, and once between the low peak and
 % the high peak and the right side lobe. Both estimates are averaged in the end. 
+%
+% Copyright (c) 2023 Franziska Pellegrini and Stefan Haufe
 
 [nroi, ~, ~] = size(signal); 
 

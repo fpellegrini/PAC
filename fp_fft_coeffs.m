@@ -3,6 +3,9 @@ function coeffs = fp_fft_coeffs(data,segleng,segshift,epleng,freqpairs)
 % The output coeffs is peaks x nchan x ntrials. 
 % The 4 peaks correspond to 1) the low-frequeny peak, 2) the left side
 % lobe, 3) the high-frequency peak, 4) the right side lobe.
+%
+% Copyright (c) 2023 Franziska Pellegrini and Stefan Haufe
+
 [ndat,nchan]=size(data);
 
 mywindow=repmat(hanning(segleng),1,nchan);

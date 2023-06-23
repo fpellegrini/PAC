@@ -1,6 +1,8 @@
 function fp_submit_pacsim_nsg
-%Function that submits main PAC simulation to several cores. Designed for
-%running on the NSG cluster of the UCSD. 
+% Function that submits main PAC simulation to several cores. Designed for
+% running on the NSG cluster of the UCSD. 
+%
+% Copyright (c) 2023 Franziska Pellegrini and Stefan Haufe
 
 nit = 100; %number of iterations
 seeds = (1:nit)*17; %select seeds for random processes for every iteration

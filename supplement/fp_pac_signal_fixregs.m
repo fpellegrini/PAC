@@ -1,8 +1,10 @@
 function [sig,brain_noise,sensor_noise, L_save,iroi_phase,iroi_amplt,D, fres, n_trials,filt] = fp_pac_signal_fixregs...
     (params,D)
-%Generates ground-truth sensor-level time series with ground-truth univariate 
-%(within-region) or bivariate (across-region) interactions. Here with fixed
-%regions for illustration purposes for Supplementary Figures S2 and S3
+% Generates ground-truth sensor-level time series with ground-truth univariate 
+% (within-region) or bivariate (across-region) interactions. Here with fixed
+% regions for illustration purposes for Supplementary Figures S2 and S3
+%
+% Copyright (c) 2023 Franziska Pellegrini and Stefan Haufe
 
 %% set parameters
 

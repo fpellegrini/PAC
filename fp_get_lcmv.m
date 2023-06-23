@@ -1,5 +1,7 @@
 function A = fp_get_lcmv(signal_sensor,L)
-%construct LCMV filter based on sensor signal and leadfield L 
+% Construct LCMV filter based on sensor signal and leadfield L.
+%
+% Copyright (c) 2023 Franziska Pellegrini and Stefan Haufe
 
 cCS = cov(signal_sensor(:,:)');
 reg = 0.05*trace(cCS)/length(cCS);

@@ -1,6 +1,8 @@
 function fp_plot_pac_bivar_default
 % Function that plots results of bivariate whole-brain simulation with
 % default parameters
+%
+% Copyright (c) 2023 Franziska Pellegrini and Stefan Haufe
 
 addpath(genpath('~/Dropbox/Franziska/PAC_AAC_estimation/data/'))
 DIRDATA = '~/Dropbox/Franziska/PAC_AAC_estimation/data/sim5/';

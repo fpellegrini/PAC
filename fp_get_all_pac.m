@@ -1,7 +1,9 @@
 function [pac, p] = fp_get_all_pac(X, fs, filt, n_shuffles)
-%Estimates PAC scores and its null distributions with the following metrics:
-%modulation index (MI),MI+orthogonalization, MI+ICshuffling, bispectrum, 
-%anti-symmetrized bispectrum 
+% Estimates PAC scores and its null distributions with the following metrics:
+% modulation index (MI),MI+orthogonalization, MI+ICshuffling, bispectrum, 
+% anti-symmetrized bispectrum 
+%
+% Copyright (c) 2023 Franziska Pellegrini and Stefan Haufe
 
 [nchan, ~, n_trials_s] = size(X);
 

@@ -1,6 +1,7 @@
 function fp_eval_pac_sim(ip,seed,iit)
-
-%%
+% Calls fpp_pac_sim in structured way 
+%
+% Copyright (c) 2023 Franziska Pellegrini and Stefan Haufe
 
 rng('default')
 rng(seed)

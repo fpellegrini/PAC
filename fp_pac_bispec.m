@@ -5,6 +5,8 @@ function [b_orig, b_anti, b_orig_norm,b_anti_norm] = fp_pac_bispec(data,fs,filt)
 % b_orig_norm: uncorrected bicoherence
 % b_anti_norm: anti-symmetrized bicoherence
 % data is nchan x timepoints x ntrials 
+%
+% Copyright (c) 2023 Franziska Pellegrini and Stefan Haufe
 
 nroi = size(data,1); %number of regions
 segleng = 2*fs; %2 sec

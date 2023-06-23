@@ -1,4 +1,5 @@
 function [pm] = fp_pr_pac(cc,iroi_amplt,iroi_phase)
+% Copyright (c) 2023 Franziska Pellegrini and Stefan Haufe
 
 %number of interactions 
 nints = numel(iroi_phase);

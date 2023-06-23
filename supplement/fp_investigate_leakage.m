@@ -2,6 +2,8 @@ function fp_investigate_leakage
 % Function that plots correlation between source-reconstructed time series 
 % at seed region containing univariate PAC and other regions (for
 % Supplementary Figure S3)
+%
+% Copyright (c) 2023 Franziska Pellegrini and Stefan Haufe
 
 DIRFIG = './';
 

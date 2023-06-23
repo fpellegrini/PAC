@@ -1,5 +1,7 @@
 function fp_2chan_sim_baseline(seed,iit)
 % Two-channel baseline simulation (for Supplementary Figure S1 in Pellegrini 2023) 
+%
+% Copyright (c) 2023 Franziska Pellegrini and Stefan Haufe
 
 rng('default')
 rng(seed)

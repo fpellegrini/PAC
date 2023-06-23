@@ -1,5 +1,7 @@
  function [xh, xl]= preproc_filt_sim(sim_sig,fs, low, high)
-%Filters signal in low and high frequency bands. 
+% Filters signal in low and high frequency bands. 
+%
+% Copyright (c) 2023 Franziska Pellegrini and Stefan Haufe
 
 %shift high center frequency according to Zandvoort 2021
 high = high + (low/2);
@@ -7,7 +9,6 @@ high = high + (low/2);
 %filter bandwidth 
 low_0= [-2 2];
 high_0 = [-(low/2)-1 (low/2)+1]; %set bandwidth according to Zandvoort 2021
-
 
 [bl al] = butter(5, (low +low_0)/fs*2); %low freq filter 
 [bh ah] = butter(5, (high + high_0)/fs*2); %high freq filter 

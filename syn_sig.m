@@ -4,6 +4,8 @@ function [xh, xl, pac] = syn_sig(N,fs,low,high)
 % fs -> sampling rate 
 % low -> low freq band 
 % high -> high freq band
+%
+% Copyright (c) 2023 Franziska Pellegrini and Stefan Haufe
 
 %% Generate slow and fast oscillations 
 

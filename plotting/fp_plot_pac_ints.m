@@ -1,5 +1,7 @@
 function fp_plot_pac_ints
-%Plot results of experiment which varies the number of bivariate interactions
+% Plot results of experiment which varies the number of bivariate interactions
+%
+% Copyright (c) 2023 Franziska Pellegrini and Stefan Haufe
 
 addpath(genpath('~/Dropbox/Franziska/PAC_AAC_estimation/data/'))
 DIRDATA = '~/Dropbox/Franziska/PAC_AAC_estimation/data/sim5/';

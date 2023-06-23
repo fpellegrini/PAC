@@ -1,4 +1,7 @@
 function fp_pac_sim(params)
+% Whole-brain PAC simulation 
+%
+% Copyright (c) 2023 Franziska Pellegrini and Stefan Haufe
 
 % define folders for saving results
 DIROUT = './';
@@ -116,7 +119,7 @@ else
     error('wrong filter parameter')
 end
 
-%Dimensionality reduction
+%dimensionality reduction
 signal_roi = fp_dimred(signal_sensor,D,A,params.t);
 
 %%

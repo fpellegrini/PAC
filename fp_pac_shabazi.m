@@ -1,4 +1,5 @@
 function pac = fp_pac_shabazi(unmixed_low, unmixed_high,Amix)
+% Copyright (c) 2023 Franziska Pellegrini and Stefan Haufe
 
 %back to original space
 mixed_high = Amix*unmixed_high;

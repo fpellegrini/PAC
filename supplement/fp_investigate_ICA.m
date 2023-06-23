@@ -2,6 +2,8 @@ function fp_investigate_ICA
 % Function that plots sensor-level power spectra and power spectra of
 % corresponding independent components (Supplementary Figure S2 in
 % Pellegrini 2023) 
+%
+% Copyright (c) 2023 Franziska Pellegrini and Stefan Haufe
 
 rng(1) %fix rng seed
 ip= 10; %univariate PAC case 

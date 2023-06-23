@@ -1,4 +1,5 @@
 function  [canolty, tort, ozkurt] = fp_get_pac_values(amplt, phase)        
+% Copyright (c) 2023 Franziska Pellegrini and Stefan Haufe
 
 n_trials = size(phase,2);
 

@@ -1,5 +1,7 @@
 function fp_plot_2chan_sim 
 % Visualizes results of fp_2chan_sim 
+%
+% Copyright (c) 2023 Franziska Pellegrini and Stefan Haufe
 
 DIRIN = '~/Dropbox/Franziska/PAC_AAC_estimation/data/2chan_sim9/';
 

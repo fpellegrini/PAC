@@ -1,4 +1,6 @@
 function fp_2chan_sim(seed,iit)
+% Two-channel simulation published in Pellegrini (2023) 
+% Copyright (c) 2023 Franziska Pellegrini and Stefan Haufe
 
 rng('default')
 rng(seed)

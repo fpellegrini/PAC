@@ -1,6 +1,8 @@
 function params = fp_get_params_pac(ip)
-%Output is the params structure with several fields defining the
-%experimental setup. 
+% Output is the params structure with several fields defining the
+% experimental setup. 
+%
+% Copyright (c) 2023 Franziska Pellegrini and Stefan Haufe
 
 if ip == 1
     %default bivariate case
