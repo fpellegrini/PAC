@@ -5,7 +5,7 @@ function fp_plot_pac_bivar_default
 % Copyright (c) 2023 Franziska Pellegrini and Stefan Haufe
 
 addpath(genpath('~/Dropbox/Franziska/PAC_AAC_estimation/data/'))
-DIRDATA = '~/Dropbox/Franziska/PAC_AAC_estimation/data/sim5/';
+DIRDATA = '~/Dropbox/Franziska/PAC_AAC_estimation/data/pacsim5/';
 DIRFIG = '~/Dropbox/Franziska/PAC_AAC_estimation/figures/sim5/';
 if ~exist(DIRFIG); mkdir(DIRFIG); end
 
@@ -20,7 +20,7 @@ params = fp_get_params_pac(ip);
 cols = [[0 0 0.5];[0 0 0.5];...
     [0.8 0 0.2];[0.8 0 0.2];[0 0 0.5]];
 
-titles = {'MI','Ortho','Bispec','ASB','ICshuf'};
+titles = {'MI','ORTH','BISPEC','ASB','ICSURR'};
 
 %% load data 
 a=[];
@@ -100,7 +100,10 @@ for icon = [1 2 5 3 4] %loop over metrics
     o=o+1;
 end
 
+%%
+export_fig(['~/Desktop/EEG-BI'], ['-r300'], '-a2', '-transparent'); 
 
+%%
 outname = [DIRFIG inname(1:end-8) '.png'];
 print(outname,'-dpng');
 

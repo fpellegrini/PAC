@@ -23,7 +23,7 @@ filt.low = low;
 filt.high = high;
 
 %SNR
-snr_v = [0 0.2 0.4 0.6 0.8 1]; 
+snr_v = [0 0.2 0.4 0.6 0.8]; 
 
 %% Signal generation
 

@@ -6,7 +6,7 @@ function fp_submit_pacsim_nsg
 
 nit = 100; %number of iterations
 seeds = (1:nit)*17; %select seeds for random processes for every iteration
-ip=[1 2 3 10]; %experimental setups defined in fp_get_params_pac
+ip=16; % [1 2 3 10 14 15 16 17]; %experimental setups defined in fp_get_params_pac
 
 for iit = 1:nit
     fprintf(['starting job ' num2str(iit) '\n'])

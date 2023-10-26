@@ -32,7 +32,8 @@ snr_v = [0 0.1 0.2 0.3 0.4];
 [~, ~, pac_0] = syn_sig(N,fs, low, high);
 
 %white noise 
-channels_noise = randn(N,2);
+channels_noise1 = randn(N,1);
+channels_noise = [channels_noise1 channels_noise1];
 channels_noise = channels_noise./ norm(channels_noise(:),'fro');
 
 for isnr = 1:length(snr_v)
@@ -44,8 +45,9 @@ for isnr = 1:length(snr_v)
     X_3 = reshape(X_3',nchan,[],n_trials_s);
     
     %estimate within-channel PAC 
-    [pac{1,isnr}, p{1,isnr}] = fp_get_all_pac(X_3, fs, filt, n_shuffles);
+    [pac{1,isnr}, p{1,isnr}] = fp_get_all_pac_baseline(X_3, fs, filt, n_shuffles);
 end
+
 
 %% Save
 

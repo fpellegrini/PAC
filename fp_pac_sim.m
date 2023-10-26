@@ -66,7 +66,7 @@ L_backward = L(:, D.ind_cortex, :);
 
 %% null distribution for shabazi method
 
-if params.ip == 1 || params.ip==4 || params.ip == 5 || params.ip == 6 || params.ip == 9 || params.case == 1
+if params.ip == 1 || params.ip==4 || params.ip == 5 || params.ip == 6 || params.ip == 9 || params.ip==10
     tic
     
     %ICA
@@ -170,8 +170,11 @@ if params.case == 1 %univariate case
             p_anti(iroi,jroi) = sum(squeeze(b_anti(iroi,jroi,1))<squeeze(b_anti(iroi,jroi,2:end)))/nshuf;
             p_standard(iroi,jroi) = sum(squeeze(pac_standard(iroi,jroi,1))<squeeze(pac_standard(iroi,jroi,2:end)))/nshuf;
             p_ortho(iroi,jroi) = sum(squeeze(pac_ortho(iroi,jroi,1))<squeeze(pac_ortho(iroi,jroi,2:end)))/nshuf;
-            p_shahbazi(iroi,jroi) = sum(squeeze(pac_standard(iroi,jroi,1))<squeeze(pac_shuf(iroi,jroi,:)))/nshuf;
-            
+            if params.ip==10
+                p_shahbazi(iroi,jroi) = sum(squeeze(pac_standard(iroi,jroi,1))<squeeze(pac_shuf(iroi,jroi,:)))/nshuf;
+            else
+                p_shahbazi=[];
+            end
         end
     end
     

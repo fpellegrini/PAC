@@ -4,7 +4,7 @@ function fp_plot_pac_snr
 % Copyright (c) 2023 Franziska Pellegrini and Stefan Haufe
 
 addpath(genpath('~/Dropbox/Franziska/PAC_AAC_estimation/data/'))
-DIRDATA = '~/Dropbox/Franziska/PAC_AAC_estimation/data/sim5/';
+DIRDATA = '~/Dropbox/Franziska/PAC_AAC_estimation/data/pacsim5/';
 DIRFIG = '~/Dropbox/Franziska/PAC_AAC_estimation/figures/sim5/';
 if ~exist(DIRFIG); mkdir(DIRFIG); end
 
@@ -15,7 +15,7 @@ cols = [[0 0 0.5];[0 0 0.5];...
     [0.8 0 0.2];[0.8 0 0.2]];
 
 titles = {'-7.4 dB','0 dB','7.4 dB'};
-mets = {'MI','Ortho','Borig','Banti','Borignorm','Bantinorm','Shah'};
+mets = {'MI','ORTHO','BISPEC','ASB-PAC','Borignorm','Bantinorm','ICSURR'};
 
 a=[];
 for isnr = [1 0 2]    
@@ -117,11 +117,12 @@ for icon = [1:4] %loop over metrics
         
         o=o+1;
     end
-    
+    hp = suptitle(mets{icon});
+    hp.Position = [0.5 -0.16 0];
     
     %%
-    outname = [DIRFIG 'SNR_' mets{icon} '.png'];
-    print(outname,'-dpng');
+%     outname = [DIRFIG 'SNR_' mets{icon} '.png'];
+%     print(outname,'-dpng');
     
     outname = [DIRFIG 'SNR_' mets{icon} '.eps'];
     print(outname,'-depsc');

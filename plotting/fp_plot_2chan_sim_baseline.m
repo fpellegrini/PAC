@@ -3,7 +3,7 @@ function fp_plot_2chan_sim_baseline
 %
 % Copyright (c) 2023 Franziska Pellegrini and Stefan Haufe
 
-DIRIN = '~/Dropbox/Franziska/PAC_AAC_estimation/data/2chan_sim9_baseline/';
+DIRIN = '~/Dropbox/Franziska/PAC_AAC_estimation/data/baseline/';
 
 nit =100;
 
@@ -25,7 +25,7 @@ end
 %% Plot TPR 
 
 %set some plotting parameters 
-legend_ = {'MI','Bispec','0.05'};
+legend_ = {'Canolty MI','Tort','Özkurt','Bispec','0.05'};
 
 %xticks
 [~, nsnr] = size(p);
@@ -44,7 +44,7 @@ cols = [[0 0 0.5];[0 0 0.5];[0 0 0.5];...
 figure
 figone(5,9)
 
-for imet = [1 4]
+for imet = [1:4]
     for isnr = 1:nsnr
         a(isnr) = mean(squeeze(tpr{isnr}(1,imet,:)));
     end
@@ -67,7 +67,8 @@ ylabel('TPR')
 xlabel('SNR (dB)')
 set(gca,'xtick',xticks,'xticklabels',xTickLabels);
 ylim([0 1])
-title('Within-channel univariate')
+title('1CHAN-UNI experiment')
+grid on 
 
 
 
