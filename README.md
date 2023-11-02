@@ -12,4 +12,4 @@ The whole-brain simulation is started by [fp_submit_pacsim_nsg.m](fp_submit_pacs
 The recommended methods and pipelines introduced in this project have been implemented in the ROIconn plugin to the free and open source [EEGlab toolbox](https://github.com/sccn/roiconnect).
 
 The authors would be grateful if published reports of research using this code (or a modified version, maintaining a significant portion of the original code) would cite the following article: 
-tbp
+> Pellegrini, F., Nguyen, T.D., Herrera,T., Nikulin, V., Nolte, G., & Haufe, S. (2023). Distinguishing between- from within-site phase-amplitude coupling using antisymmetrized bispectra. bioRxiv 2023.10.26.564193. https://doi.org/10.1101/2023.10.26.564193
